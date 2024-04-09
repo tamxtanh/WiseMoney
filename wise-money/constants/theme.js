@@ -1,5 +1,9 @@
+import { Dimensions } from "react-native";
+
+const { width, height } = Dimensions.get("screen");
+
 const COLORS = {
-  primary: "#312651",
+  primary: "#2EB84B",
   secondary: "#444262",
   tertiary: "#FF7754",
 
@@ -17,12 +21,14 @@ const FONT = {
 };
 
 const SIZES = {
-  xSmall: 10,
-  small: 12,
-  medium: 16,
-  large: 20,
-  xLarge: 24,
-  xxLarge: 32,
+  h1: 22,
+  h2: 20,
+  h3: 18,
+  h4: 16,
+  h5: 14,
+  h6: 12,
+  width,
+  height,
 };
 
 const SHADOWS = {
