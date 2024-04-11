@@ -7,10 +7,10 @@ export default function Page() {
       <Stack.Screen
         options={{
           headerTitleAlign: "center",
-          headerTitle: "Widgets",
+          headerTitle: "Report",
         }}
       />
-      <Text>Index page of Widgets Tab</Text>
+      <Text>Index page of Report Tab</Text>
     </View>
   );
 }

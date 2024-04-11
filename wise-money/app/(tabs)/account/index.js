@@ -21,7 +21,7 @@ export default function Page() {
     <View style={styles.container}>
       <Stack.Screen
         options={{
-          headerTitle: "More",
+          headerTitle: "Account",
         }}
       />
       <Button title="Sign Out" onPress={signOut} />

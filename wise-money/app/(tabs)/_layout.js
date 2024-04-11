@@ -1,5 +1,5 @@
 import { Tabs } from "expo-router";
-import { View, TouchableNativeFeedback, Platform } from "react-native"; // Import TouchableNativeFeedback
+import { View, TouchableNativeFeedback, Platform, Image } from "react-native"; // Import TouchableNativeFeedback
 import { icons, COLORS } from "../../constants";
 
 export default function TabsLayout() {
@@ -13,15 +13,19 @@ export default function TabsLayout() {
         tabBarActiveTintColor: COLORS.primary,
         tabBarInactiveTintColor: "#ABABAB",
         tabBarStyle: {
-          height: 55,
-          paddingTop: 4,
-          paddingBottom: 7,
+          height: 62,
+          paddingTop: 5,
+          paddingBottom: 9,
           position: "absolute",
           bottom: 0,
           right: 0,
           left: 0,
           elevation: 0,
           backgroundColor: "white",
+        },
+        tabBarLabelStyle: {
+          fontSize: 12,
+          marginTop: -8,
         },
       }}
     >
@@ -38,10 +42,10 @@ export default function TabsLayout() {
       />
 
       <Tabs.Screen
-        name="watch-later"
+        name="transaction"
         options={{
-          tabBarLabel: "Watch Later",
-          title: "Watch Later",
+          tabBarLabel: "Transactions",
+          title: "Transactions",
           tabBarIcon: ({ color }) => <icons.wallet fill={color} />,
           tabBarButton: (props) => (
             <TabBarButton {...props} TouchableComponent={TouchableComponent} />
@@ -50,22 +54,38 @@ export default function TabsLayout() {
       />
 
       <Tabs.Screen
-        name="following"
+        name="watch-later"
         options={{
-          tabBarLabel: "Following",
-          title: "Following",
-          tabBarIcon: ({ color }) => <icons.category fill={color} />,
-          tabBarButton: (props) => (
-            <TabBarButton {...props} TouchableComponent={TouchableComponent} />
-          ), // Pass TouchableComponent to TabBarButton
+          tabBarLabel: "",
+          title: "",
+          tabBarIcon: ({ color }) => {
+            return (
+              <View
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: COLORS.primary,
+                  width: Platform.OS == "ios" ? 40 : 50,
+                  height: Platform.OS == "ios" ? 40 : 50,
+                  borderRadius: Platform.OS == "ios" ? 25 : 30,
+                  top: Platform.OS == "ios" ? 2 : 5,
+                }}
+              >
+                <icons.plus />
+              </View>
+            );
+          },
+          // tabBarButton: (props) => (
+          //   <TabBarButton {...props} TouchableComponent={TouchableComponent} />
+          // ), // Pass TouchableComponent to TabBarButton
         }}
       />
 
       <Tabs.Screen
-        name="widgets"
+        name="report"
         options={{
-          tabBarLabel: "Widgets",
-          title: "Widgets",
+          tabBarLabel: "Report",
+          title: "Report",
           tabBarIcon: ({ color }) => <icons.chart fill={color} />,
           tabBarButton: (props) => (
             <TabBarButton {...props} TouchableComponent={TouchableComponent} />
@@ -74,10 +94,10 @@ export default function TabsLayout() {
       />
 
       <Tabs.Screen
-        name="more-page"
+        name="account"
         options={{
-          tabBarLabel: "More",
-          title: "More",
+          tabBarLabel: "Account",
+          title: "Account",
           tabBarIcon: ({ color }) => <icons.profile fill={color} />,
           tabBarButton: (props) => (
             <TabBarButton {...props} TouchableComponent={TouchableComponent} />
@@ -93,7 +113,7 @@ const TabBarButton = ({ children, onPress, TouchableComponent }) => {
   return (
     <TouchableComponent
       onPress={onPress}
-      background={TouchableNativeFeedback.Ripple("#F1DBE2", true)}
+      background={TouchableNativeFeedback.Ripple("#DEF4E2", true)}
     >
       <View
         style={{

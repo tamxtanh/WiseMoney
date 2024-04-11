@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
-import PagerView from "react-native-pager-view";
 import AppIntroSlider from "react-native-app-intro-slider";
 import { COLORS, SIZES } from "../constants/theme";
 
