@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import TransactionWithDate from '../../../components/transaction/TransactionWithDate'
 import TransactionWithName from '../../../components/transaction/TransactionWithName'
 import ListTransactionWithName from '../../../components/transaction/ListTransactionWithName'
+import UpdateProfile from '../../../components/profile/UpdateProfile'
 
 export default function Page() {
   const transaction = {
@@ -81,7 +82,9 @@ export default function Page() {
       />
       {/* <TransactionWithDate transaction={transaction} />
       <TransactionWithName transaction={transaction2} /> */}
-      <ListTransactionWithName listTransactions={listTransactions} style={{ flex: 1 }} />
+      {/* <ListTransactionWithName listTransactions={listTransactions} style={{ flex: 1 }} /> */}
+
+      <UpdateProfile></UpdateProfile>
       <Text>Index page of Widgets Tab</Text>
     </View>
   );

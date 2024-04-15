@@ -61,18 +61,11 @@ export default function SignUp({ switchToSignIn }) {
     }
 
     const formatPhoneNumber = (phone: string) => {
-        let newPhone = "+84";
         // Remove leading "0" if present
         if (phone.startsWith('0')) {
             phone = phone.slice(1);
         }
 
-        // // Validation (assuming 10 digits after removing leading "0")
-        // if (!phone.match(/^\d{10}$/)) {
-        //     throw new Error("Invalid phone number format. Please provide a 10-digit number.");
-        // }
-
-        // Formatting
         return `+84${phone}`;
     }
 

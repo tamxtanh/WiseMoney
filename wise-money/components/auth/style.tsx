@@ -41,6 +41,26 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         width: 328,
         height: 56
+    },
+    imageContainer: {
+        alignSelf: 'center',
+        marginBottom: 10,
+    },
+    avatar: {
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+        borderWidth: 2,
+        borderColor: COLORS.gray,
+        marginBottom: 10,
+    },
+    changeAvatar: {
+        position: 'absolute',
+        bottom: -10,
+        right: -10,
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        padding: 3,
+        borderRadius: 30,
     }
 })
 
