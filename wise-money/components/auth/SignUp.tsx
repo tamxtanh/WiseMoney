@@ -124,7 +124,7 @@ export default function SignUp({ switchToSignIn }) {
                 <View style={styles.formCenter}>
                     <Text style={styles.mt20}>Already have an Account?
                         <TouchableOpacity onPress={switchToSignIn}>
-                            <Text style={[{ color: COLORS.darkRed }, { fontFamily: FONT.bold }]}>  Sign In now!</Text>
+                            <Text style={[{ color: COLORS.primary }, { fontFamily: FONT.bold }]}>  Sign In now!</Text>
                         </TouchableOpacity>
                     </Text>
                     <Button buttonStyle={[styles.button, styles.mt20]} title="SIGN UP" onPress={() => signUpWithEmail()} />

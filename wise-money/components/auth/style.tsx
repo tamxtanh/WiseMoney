@@ -1,9 +1,12 @@
-import { COLORS } from "../../constants/theme";
+import { COLORS, FONT } from "../../constants/theme";
 import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
     scrollContainer: {
-        flexGrow: 1,
+        // marginBottom: 50,
+        // flexGrow: 1,
+        height: "94%",
+        width: "100%",
         justifyContent: 'center',
     },
     container: {
@@ -61,6 +64,12 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.7)',
         padding: 3,
         borderRadius: 30,
+    },
+    changePassword: {
+        color: COLORS.primary,
+        fontFamily: FONT.bold,
+        alignSelf: "center",
+        marginTop: 20
     }
 })
 

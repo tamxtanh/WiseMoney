@@ -123,7 +123,11 @@ export default function UpdateProfile() {
                     autoCapitalize={'none'}
                 />
                 <Button buttonStyle={[styles.button, styles.mt20]} title="UPDATE PROFILE" onPress={() => updateProfile()} />
-                <Button buttonStyle={[styles.button, styles.mt20]} title="CHANGE PASSWORD" onPress={() => {/* Navigate to change password page */ }} />
+
+                <TouchableOpacity
+                    onPress={() => {/* Navigate to change password page */ }}>
+                    <Text style={styles.changePassword}>Change Password</Text>
+                </TouchableOpacity>
             </View>
         </ScrollView>
     )

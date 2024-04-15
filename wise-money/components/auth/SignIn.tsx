@@ -92,7 +92,7 @@ export default function SignIn({ switchToSignUp }) {
                     <Button buttonStyle={[styles.button, styles.mt20]} title="SIGN IN" disabled={loading} onPress={() => signInWithEmail()} />
                     <Text style={styles.mt20}>Don't have an Account?
                         <TouchableOpacity disabled={loading} onPress={switchToSignUp}>
-                            <Text style={[{ color: COLORS.darkRed }, { fontFamily: FONT.bold }]}>  Sign Up now!</Text>
+                            <Text style={[{ color: COLORS.primary }, { fontFamily: FONT.bold }]}>  Sign Up now!</Text>
                         </TouchableOpacity>
                     </Text>
                     <TouchableOpacity onPress={() => console.log('Forgot Password')}>
