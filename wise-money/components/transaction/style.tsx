@@ -31,11 +31,11 @@ const styles = StyleSheet.create({
         borderRadius: 25,
     },
     title: {
-        fontSize: SIZES.h2
+        fontSize: SIZES.h5
     },
     subtitle: {
         color: COLORS.gray,
-        fontSize: SIZES.h4
+        fontSize: SIZES.h8
     },
     red: {
         color: COLORS.red,
