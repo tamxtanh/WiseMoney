@@ -4,6 +4,7 @@ import { supabase } from '../../lib/supabase'
 import { Button, Icon } from 'react-native-elements'
 import { COLORS, FONT, SIZES } from '../../constants/theme'
 import { useRouter } from 'expo-router'
+import { validateForm } from '../../lib/UserDataValidation';
 import styles from './style'
 
 export default function SignUp({ switchToSignIn }) {
@@ -18,31 +19,45 @@ export default function SignUp({ switchToSignIn }) {
     const router = useRouter();
 
     async function signUpWithEmail() {
-        const {
-            data: { session },
-            error,
-        } = await supabase.auth.signUp({
+        const formData = {
+            phone: phone,
             email: email,
-            password: password,
-        })
-
-        if (error) Alert.alert(error.message)
-        else {
-            let { data, error } = await supabase
-                .rpc('register_user', {
-                    p_email: email,
-                    p_name: name,
-                    p_password: password,
-                    p_phone: formatPhoneNumber(phone),
-                    p_username: username
-                })
-            if (error) console.error(error)
-            else {
-                router.push(`/home`);
-            }
-
+            name: name,
+            username: username
         }
-        if (!session) Alert.alert('Please check your inbox for email verification!')
+
+        const validationResult = validateForm(formData);
+
+        if (validationResult.isValid) {
+            const {
+                data: { session },
+                error,
+            } = await supabase.auth.signUp({
+                email: email,
+                password: password,
+            })
+
+            if (error) Alert.alert(error.message)
+            else {
+                let { data, error } = await supabase
+                    .rpc('register_user', {
+                        p_email: email,
+                        p_name: name,
+                        p_password: password,
+                        p_phone: formatPhoneNumber(phone),
+                        p_username: username
+                    })
+                if (error) console.error(error)
+                else {
+                    router.push(`/home`);
+                }
+
+            }
+            if (!session) Alert.alert('Please check your inbox for email verification!')
+        } else {
+            // Form is invalid, display error message
+            Alert.alert('Invalid Form', validationResult.message);
+        }
     }
 
     const formatPhoneNumber = (phone: string) => {
