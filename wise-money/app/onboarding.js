@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text, Image } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import AppIntroSlider from "react-native-app-intro-slider";
 import { COLORS, SIZES } from "../constants/theme";
 
@@ -89,6 +89,14 @@ const Onboarding = () => {
               >
                 {item.description}
               </Text>
+              <TouchableOpacity style={styles.button}>
+                <Text style={styles.buttonText}>SIGN UP FOR FREE</Text>
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Text style={{ color: COLORS.primary, marginTop: 10 }}>
+                  SIGN IN
+                </Text>
+              </TouchableOpacity>
             </View>
           );
         }}
@@ -129,5 +137,18 @@ const styles = StyleSheet.create({
   page: {
     justifyContent: "center",
     alignItems: "center",
+  },
+  button: {
+    marginTop: 30,
+    backgroundColor: COLORS.primary,
+    borderRadius: 20,
+    width: 328,
+    height: 56,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonText: {
+    fontSize: 15,
+    color: COLORS.whitee,
   },
 });
