@@ -4,6 +4,7 @@ import { supabase } from '../../lib/supabase'
 import { Button, Icon } from 'react-native-elements'
 import { COLORS, SIZES, FONT } from '../../constants/theme'
 import { useRouter } from 'expo-router'
+import { validateForm } from '../../lib/UserDataValidation';
 import styles from './style'
 
 // Tells Supabase Auth to continuously refresh the session automatically if
@@ -28,23 +29,35 @@ export default function SignIn({ switchToSignUp }) {
 
     async function signInWithEmail() {
         setLoading(true)
-        const { error } = await supabase.auth.signInWithPassword({
+        const formData = {
             email: email,
-            password: password,
-        })
-
-        if (error) Alert.alert(error.message)
-        else {
-            // router.push(`/(tabs)/home`);
-            router.back()
-            // try {
-            //     router.back()
-            // }
-            // catch (error) {
-            //     router.push(`/(tabs)/home`);
-            // }
         }
-        setLoading(false)
+
+        const validationResult = validateForm(formData);
+
+        if (validationResult.isValid) {
+
+            const { error } = await supabase.auth.signInWithPassword({
+                email: email,
+                password: password,
+            })
+
+            if (error) Alert.alert(error.message)
+            else {
+                // router.push(`/(tabs)/home`);
+                router.back()
+                // try {
+                //     router.back()
+                // }
+                // catch (error) {
+                //     router.push(`/(tabs)/home`);
+                // }
+            }
+            setLoading(false)
+        } else {
+            // Form is invalid, display error message
+            Alert.alert('Invalid Form', validationResult.message);
+        }
     }
 
     return (
@@ -79,7 +92,7 @@ export default function SignIn({ switchToSignUp }) {
                     <Button buttonStyle={[styles.button, styles.mt20]} title="SIGN IN" disabled={loading} onPress={() => signInWithEmail()} />
                     <Text style={styles.mt20}>Don't have an Account?
                         <TouchableOpacity disabled={loading} onPress={switchToSignUp}>
-                            <Text style={[{ color: COLORS.darkRed }, { fontFamily: FONT.bold }]}>  Sign Up now!</Text>
+                            <Text style={[{ color: COLORS.primary }, { fontFamily: FONT.bold }]}>  Sign Up now!</Text>
                         </TouchableOpacity>
                     </Text>
                     <TouchableOpacity onPress={() => console.log('Forgot Password')}>
