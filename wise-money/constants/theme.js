@@ -12,7 +12,8 @@ const COLORS = {
 
   white: "#F3F4F8",
   lightWhite: "#FAFAFC",
-  background: "white"
+  background: "white",
+  red: "red",
 };
 
 const FONT = {
@@ -22,12 +23,16 @@ const FONT = {
 };
 
 const SIZES = {
-  h1: 22,
-  h2: 20,
-  h3: 18,
-  h4: 16,
-  h5: 14,
-  h6: 12,
+  h1: 28,
+  h2: 26,
+  h3: 24,
+  h4: 22,
+  h5: 20,
+  h6: 18,
+  h7: 16,
+  h8: 14,
+  h9: 12,
+  h10: 10,
   width,
   height,
 };

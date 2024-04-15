@@ -4,6 +4,7 @@ import { supabase } from '../../lib/supabase'
 import { Button, Icon } from 'react-native-elements'
 import { COLORS, FONT, SIZES } from '../../constants/theme'
 import { useRouter } from 'expo-router'
+import { validateForm } from '../../lib/UserDataValidation';
 import styles from './style'
 
 export default function SignUp({ switchToSignIn }) {
@@ -18,46 +19,53 @@ export default function SignUp({ switchToSignIn }) {
     const router = useRouter();
 
     async function signUpWithEmail() {
-        const {
-            data: { session },
-            error,
-        } = await supabase.auth.signUp({
+        const formData = {
+            phone: phone,
             email: email,
-            password: password,
-        })
-
-        if (error) Alert.alert(error.message)
-        else {
-            let { data, error } = await supabase
-                .rpc('register_user', {
-                    p_email: email,
-                    p_name: name,
-                    p_password: password,
-                    p_phone: formatPhoneNumber(phone),
-                    p_username: username
-                })
-            if (error) console.error(error)
-            else {
-                router.push(`/home`);
-            }
-
+            name: name,
+            username: username
         }
-        if (!session) Alert.alert('Please check your inbox for email verification!')
+
+        const validationResult = validateForm(formData);
+
+        if (validationResult.isValid) {
+            const {
+                data: { session },
+                error,
+            } = await supabase.auth.signUp({
+                email: email,
+                password: password,
+            })
+
+            if (error) Alert.alert(error.message)
+            else {
+                let { data, error } = await supabase
+                    .rpc('register_user', {
+                        p_email: email,
+                        p_name: name,
+                        p_password: password,
+                        p_phone: formatPhoneNumber(phone),
+                        p_username: username
+                    })
+                if (error) console.error(error)
+                else {
+                    router.push(`/home`);
+                }
+
+            }
+            if (!session) Alert.alert('Please check your inbox for email verification!')
+        } else {
+            // Form is invalid, display error message
+            Alert.alert('Invalid Form', validationResult.message);
+        }
     }
 
     const formatPhoneNumber = (phone: string) => {
-        let newPhone = "+84";
         // Remove leading "0" if present
         if (phone.startsWith('0')) {
             phone = phone.slice(1);
         }
 
-        // // Validation (assuming 10 digits after removing leading "0")
-        // if (!phone.match(/^\d{10}$/)) {
-        //     throw new Error("Invalid phone number format. Please provide a 10-digit number.");
-        // }
-
-        // Formatting
         return `+84${phone}`;
     }
 
@@ -116,7 +124,7 @@ export default function SignUp({ switchToSignIn }) {
                 <View style={styles.formCenter}>
                     <Text style={styles.mt20}>Already have an Account?
                         <TouchableOpacity onPress={switchToSignIn}>
-                            <Text style={[{ color: COLORS.darkRed }, { fontFamily: FONT.bold }]}>  Sign In now!</Text>
+                            <Text style={[{ color: COLORS.primary }, { fontFamily: FONT.bold }]}>  Sign In now!</Text>
                         </TouchableOpacity>
                     </Text>
                     <Button buttonStyle={[styles.button, styles.mt20]} title="SIGN UP" onPress={() => signUpWithEmail()} />
