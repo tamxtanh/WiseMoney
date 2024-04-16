@@ -44,8 +44,8 @@ export default function SignIn({ switchToSignUp }) {
 
             if (error) Alert.alert(error.message)
             else {
-                // router.push(`/(tabs)/home`);
-                router.back()
+                router.push(`/(tabs)/home`);
+                // router.back()
                 // try {
                 //     router.back()
                 // }

@@ -1,4 +1,4 @@
-import { COLORS, FONT } from "../../constants/theme";
+import { COLORS, FONT, SIZES } from "../../constants/theme";
 import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
@@ -42,8 +42,8 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: COLORS.primary,
         borderRadius: 20,
-        width: 328,
-        height: 56
+        width: '100%',
+        height: 60
     },
     imageContainer: {
         alignSelf: 'center',

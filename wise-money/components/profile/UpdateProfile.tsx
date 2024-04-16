@@ -8,6 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { validateForm } from '../../lib/UserDataValidation';
 import styles from '../auth/style';
 import uploadImage from '../../lib/UploadImage';
+import ChangePasswordModal from './ChangePasswordModal';
 
 export default function UpdateProfile() {
     const [email, setEmail] = useState('');
@@ -15,6 +16,7 @@ export default function UpdateProfile() {
     const [phone, setPhone] = useState('');
     const [username, setUsername] = useState('');
     const [avatarUrl, setAvatarUrl] = useState('https://eianmciufswbutirdbka.supabase.co/storage/v1/object/public/my%20files/images/icons/dollar.png?t=2024-03-03T11%3A57%3A19.836Z');
+    const [modalVisible, setModalVisible] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
@@ -25,6 +27,7 @@ export default function UpdateProfile() {
                 .rpc('get_user_data', {
                     user_email: user.email
                 })
+
             if (error) console.error(error)
             else {
                 setEmail(data[0].email)
@@ -50,7 +53,7 @@ export default function UpdateProfile() {
                         user_email: email
                     })
                 if (error) console.error(error)
-                else console.log(data)
+                // else console.log(data)
 
             }
 
@@ -76,25 +79,26 @@ export default function UpdateProfile() {
                     new_name: name,
                     new_email: email,
                     old_email: user.email,
-                    new_phone: phone,
+                    new_phone: formatPhoneNumber(phone),
                     new_username: username
                 })
 
-            if (error) console.error(error)
+            if (error) {
+                console.error(error)
+            } else {
+                try {
 
-            try {
+                    const { error } = await supabase.auth.updateUser({ email: email })
 
-                const { error } = await supabase.auth.updateUser({ email: email })
-
-                if (error) {
-                    console.error('Error updating user email:', error);
-                } else {
-                    console.log('User email updated successfully');
+                    if (error) {
+                        console.error('Error updating user email:', error);
+                    } else {
+                        console.log('User email updated successfully');
+                    }
+                } catch (error) {
+                    console.error('Unexpected error:', error);
                 }
-            } catch (error) {
-                console.error('Unexpected error:', error);
             }
-
         } else {
             // Form is invalid, display error message
             Alert.alert('Invalid Form', validationResult.message);
@@ -161,10 +165,10 @@ export default function UpdateProfile() {
                 />
                 <Button buttonStyle={[styles.button, styles.mt20]} title="UPDATE PROFILE" onPress={() => updateProfile()} />
 
-                <TouchableOpacity
-                    onPress={() => {/* Navigate to change password page */ }}>
+                <TouchableOpacity onPress={() => setModalVisible(true)}>
                     <Text style={styles.changePassword}>Change Password</Text>
                 </TouchableOpacity>
+                <ChangePasswordModal modalVisible={modalVisible} setModalVisible={setModalVisible} />
             </View>
         </ScrollView>
     )
