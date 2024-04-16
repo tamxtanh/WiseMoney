@@ -4,7 +4,7 @@ import TransactionWithDate from '../../../components/transaction/TransactionWith
 import TransactionWithName from '../../../components/transaction/TransactionWithName'
 import ListTransactionWithName from '../../../components/transaction/ListTransactionWithName'
 import UpdateProfile from '../../../components/profile/UpdateProfile'
-
+import MyBarChart from '../../../components/chart/MyBarChart'
 export default function Page() {
   const transaction = {
     id: 1,
@@ -72,6 +72,23 @@ export default function Page() {
       ]
   }
 
+  const barChartData = {
+    title: 'Monthly Sales',
+    height: 200,
+    list: [
+      { name: 'January', value: 1000000 },
+      { name: 'February', value: 10898000 },
+      { name: 'Jan', value: 898000 },
+      // { name: 'Feb', value: 1898000 },
+      // { name: 'Jan', value: 2898000 },
+      // { name: 'Feb', value: 5898000 },
+
+
+      // more data...
+    ],
+  };
+
+
   return (
     <View style={styles.container}>
       <Stack.Screen
@@ -84,7 +101,9 @@ export default function Page() {
       <TransactionWithName transaction={transaction2} /> */}
       {/* <ListTransactionWithName listTransactions={listTransactions} style={{ flex: 1 }} /> */}
 
-      <UpdateProfile></UpdateProfile>
+      {/* <UpdateProfile></UpdateProfile> */}
+      {/* <BarChartVerticalWithLabels /> */}
+      <MyBarChart data={barChartData} />
       <Text>Index page of Widgets Tab</Text>
     </View>
   );

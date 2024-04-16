@@ -3,6 +3,7 @@ import { Alert, StyleSheet, Text, View } from "react-native";
 import { useRouter } from "expo-router";
 import { Button } from "react-native-elements";
 import { supabase } from "../../../lib/supabase";
+import UpdateProfile from '../../../components/profile/UpdateProfile'
 
 export default function Page() {
   const router = useRouter();
@@ -24,6 +25,7 @@ export default function Page() {
           headerTitle: "Account",
         }}
       />
+      <UpdateProfile></UpdateProfile>
       <Button title="Sign Out" onPress={signOut} />
     </View>
   );
