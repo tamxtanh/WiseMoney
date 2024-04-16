@@ -25,8 +25,10 @@ export default function UpdateProfile() {
                 .rpc('get_user_data', {
                     user_email: user.email
                 })
+
             if (error) console.error(error)
             else {
+
                 setEmail(data[0].email)
                 setName(data[0].name)
                 setPhone(deformatPhoneNumber(data[0].phone))
@@ -50,7 +52,7 @@ export default function UpdateProfile() {
                         user_email: email
                     })
                 if (error) console.error(error)
-                else console.log(data)
+                // else console.log(data)
 
             }
 
@@ -76,7 +78,7 @@ export default function UpdateProfile() {
                     new_name: name,
                     new_email: email,
                     old_email: user.email,
-                    new_phone: phone,
+                    new_phone: formatPhoneNumber(phone),
                     new_username: username
                 })
 
