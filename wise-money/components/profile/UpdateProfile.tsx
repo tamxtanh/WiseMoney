@@ -7,13 +7,14 @@ import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { validateForm } from '../../lib/UserDataValidation';
 import styles from '../auth/style';
+import uploadImage from '../../lib/UploadImage';
 
 export default function UpdateProfile() {
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
     const [username, setUsername] = useState('');
-    const [avatarUrl, setAvatarUrl] = useState('');
+    const [avatarUrl, setAvatarUrl] = useState('https://eianmciufswbutirdbka.supabase.co/storage/v1/object/public/my%20files/images/icons/dollar.png?t=2024-03-03T11%3A57%3A19.836Z');
     const router = useRouter();
 
     useEffect(() => {
@@ -35,6 +36,27 @@ export default function UpdateProfile() {
         }
         fetchUserData()
     }, [])
+
+    async function uploadAvatar() {
+        const newUrl = await uploadImage("avatar")
+        if (newUrl) {
+            setAvatarUrl(newUrl)
+
+            const upload = async () => {
+
+                let { data, error } = await supabase
+                    .rpc('update_avatar', {
+                        avatar_url: newUrl,
+                        user_email: email
+                    })
+                if (error) console.error(error)
+                else console.log(data)
+
+            }
+
+            upload();
+        }
+    }
 
     async function updateProfile() {
         const formData = {
@@ -87,9 +109,9 @@ export default function UpdateProfile() {
                         style={styles.avatar}
                         source={{ uri: avatarUrl }}
                     />
-                    <TouchableOpacity style={styles.changeAvatar} onPress={() => { }}>
+                    <TouchableOpacity style={styles.changeAvatar} onPress={uploadAvatar}>
                         <Text> {/* Wrap the Ionicons component with Text */}
-                            <Ionicons name="pencil" size={20} color="white" /> {/* Change "pencil" to the appropriate icon */}
+                            <Ionicons name="pencil" size={20} color="white" />
                         </Text>
                     </TouchableOpacity>
                 </View>
