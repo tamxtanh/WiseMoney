@@ -13,15 +13,17 @@ const COLORS = {
   white: "#F3F4F8",
   lightWhite: "#FAFAFC",
   background: "white",
-<<<<<<< HEAD
+
+  lightMainColor: "#F0F9F1",
+
   white1: "#FCFCFC",
   red: "red",
   textColor1: "#91919F",
   textColor2: "#212325",
-=======
+  textColor3: "#8A8A8C",
+
   whitee: "#ffffff",
   red: "red",
->>>>>>> f32b31fe76c528be2c5479562ff57267ff4e4fce
 };
 
 const FONT = {
