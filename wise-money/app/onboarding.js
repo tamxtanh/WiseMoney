@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text, Image } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import AppIntroSlider from "react-native-app-intro-slider";
 import { COLORS, SIZES } from "../constants/theme";
 
@@ -7,20 +7,20 @@ const slides = [
   {
     id: 1,
     title: "Gain total control of your money",
-    description: "Become your own money manager and make every cent count",
+    description: "Become your own money manager \n and make every cent count",
     image: require("../assets/images/intro-pic-1.png"),
   },
   {
     id: 2,
     title: "Know where your money goes",
     description:
-      "Track your transaction easily, with categories and financial report",
+      "Track your transaction easily,\n with categories and financial report",
     image: require("../assets/images/intro-pic-2.png"),
   },
   {
     id: 3,
     title: "Planning ahead",
-    description: "Setup your budget for each category so you in control",
+    description: "Setup your budget for each category \n so you in control",
     image: require("../assets/images/intro-pic-3.png"),
   },
 ];
@@ -38,7 +38,7 @@ const Onboarding = () => {
         <Text
           style={{
             color: COLORS.title,
-            fontWeight: "600",
+            fontFamily: "600",
             fontSize: SIZES.h4,
           }}
         >
@@ -50,60 +50,82 @@ const Onboarding = () => {
 
   if (!showHomePage) {
     return (
-      <AppIntroSlider
-        data={slides}
-        renderItem={({ item }) => {
-          return (
-            <View
+      <View style={{ flex: 1, backgroundColor: "#ffffff" }}>
+        <AppIntroSlider
+          data={slides}
+          renderItem={({ item }) => {
+            return (
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: "center",
+                  padding: 15,
+                  paddingTop: 70,
+                  backgroundColor: "#ffffff",
+                }}
+              >
+                <Image
+                  source={item.image}
+                  style={{
+                    width: SIZES.width - 80,
+                    height: 300,
+                    marginBottom: 30,
+                  }}
+                  resizeMode="contain"
+                />
+                <Text
+                  style={{
+                    fontFamily: "InterBold",
+                    textAlign: "center",
+                    color: COLORS.textColor2,
+                    fontSize: SIZES.title,
+                    marginLeft: 20,
+                    marginRight: 20,
+                  }}
+                >
+                  {item.title}
+                </Text>
+                <Text
+                  style={{
+                    fontFamily: "InterRegular",
+                    textAlign: "center",
+                    color: COLORS.textColor1,
+                    fontSize: SIZES.h7,
+                    marginTop: 12,
+                    marginLeft: 20,
+                    marginRight: 20,
+                  }}
+                >
+                  {item.description}
+                </Text>
+              </View>
+            );
+          }}
+          activeDotStyle={{
+            backgroundColor: COLORS.primary,
+          }}
+          dotStyle={{
+            backgroundColor: "#EEE5FF",
+          }}
+        />
+        <View style={{ alignItems: "center", marginTop: 30, marginBottom: 80 }}>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>SIGN UP FOR FREE</Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text
               style={{
-                flex: 1,
-                alignItems: "center",
-                padding: 15,
-                paddingTop: 100,
-                backgroundColor: "#ffffff",
+                color: COLORS.primary,
+                marginTop: 30,
+                fontFamily: "InterSemiBold",
+                fontSize: 15,
               }}
             >
-              <Image
-                source={item.image}
-                style={{
-                  width: SIZES.width - 80,
-                  height: 400,
-                }}
-                resizeMode="contain"
-              />
-              <Text
-                style={{
-                  fontWeight: "bold",
-                  color: COLORS.title,
-                  fontSize: SIZES.h1,
-                }}
-              >
-                {item.title}
-              </Text>
-              <Text
-                style={{
-                  textAlign: "center",
-                  paddingTop: 5,
-                  color: COLORS.title,
-                }}
-              >
-                {item.description}
-              </Text>
-            </View>
-          );
-        }}
-        activeDotStyle={{
-          backgroundColor: COLORS.primary,
-          width: 30,
-        }}
-        showSkipButton
-        renderNextButton={() => buttonLabel("Next")}
-        renderSkipButton={() => buttonLabel("Skip")}
-        renderDoneButton={() => buttonLabel("Done")}
-        onDone={() => {
-          setShowHomePage(true);
-        }}
-      />
+              SIGN IN
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     );
   }
 
@@ -129,5 +151,18 @@ const styles = StyleSheet.create({
   page: {
     justifyContent: "center",
     alignItems: "center",
+  },
+  button: {
+    backgroundColor: COLORS.primary,
+    borderRadius: 20,
+    width: 328,
+    height: 56,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonText: {
+    fontSize: 15,
+    color: COLORS.white1,
+    fontFamily: "InterSemiBold",
   },
 });
