@@ -1,9 +1,9 @@
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import { Platform } from 'react-native';
-import { supabase } from '../lib/supabase';
+import { supabase } from './supabase';
 import { decode } from 'base64-arraybuffer';
-
+import resizeImage from "./ResizeImage"
 
 async function uploadImage(type: string) {
     // Request permission to access the user's photos
@@ -24,7 +24,11 @@ async function uploadImage(type: string) {
     if (!result.canceled) {
         // Read the image file as binary data
         const imageUri = Platform.OS === 'android' ? result.assets[0].uri : result.assets[0].uri.replace('file://', '');
-        const base64 = await FileSystem.readAsStringAsync(imageUri, { encoding: 'base64' });
+        // const base64 = await FileSystem.readAsStringAsync(imageUri, { encoding: 'base64' });
+        // Resize the image
+        const resizedUri = await resizeImage(imageUri, 200);
+
+        const base64 = await FileSystem.readAsStringAsync(resizedUri, { encoding: 'base64' });
 
         // Generate a unique filename based on the current timestamp
         const filename = `avatar_${Date.now()}.jpg`;
