@@ -13,6 +13,15 @@ const COLORS = {
   white: "#F3F4F8",
   lightWhite: "#FAFAFC",
   background: "white",
+
+  lightMainColor: "#F0F9F1",
+
+  white1: "#FCFCFC",
+  red: "red",
+  textColor1: "#91919F",
+  textColor2: "#212325",
+  textColor3: "#8A8A8C",
+
   whitee: "#ffffff",
   red: "red",
 };

@@ -21,9 +21,13 @@ const Layout = () => {
   }
 
   return (
-    <Stack>
+    <Stack initialRouteName="create-wallet/index">
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="onboarding" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="create-wallet/index"
+        options={{ headerShown: false }}
+      />
     </Stack>
   );
 };
