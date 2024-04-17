@@ -1,9 +1,32 @@
 import React, { useState, useEffect } from "react";
+<<<<<<< HEAD
+<<<<<<< HEAD
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  Modal,
+  TextInput,
+} from "react-native";
+=======
+import { View, StyleSheet, TouchableOpacity, Text, Modal } from "react-native";
+>>>>>>> parent of b0fbf65 (update currency picker)
+import { Styles } from "../../components/Currency/styles";
+import dataCurrency from "../../components/Currency/CommonCurrency.json";
+import { DialogCurrency } from "../../components/Currency/components";
+import { CurrencyFlag } from "../../components/Currency/components";
+<<<<<<< HEAD
+import { COLORS } from "../../constants";
+=======
 import { View, StyleSheet, TouchableOpacity, Text, Modal } from "react-native";
 import { Styles } from "../../components/currency/styles";
 import dataCurrency from "../../components/currency/CommonCurrency.json";
 import { DialogCurrency } from "../../components/currency/components";
 import { CurrencyFlag } from "../../components/currency/components";
+>>>>>>> 8e7575072380b6335eae7870f44164a00b4c1b0c
+=======
+>>>>>>> parent of b0fbf65 (update currency picker)
 
 export default CurrencyPicker = (props) => {
   const currencies = Object.values(dataCurrency);
