@@ -25,6 +25,7 @@ class MyBarChart extends React.PureComponent<{ data: FullChartData }> {
                 >
                     {value.toLocaleString('en-US', { style: 'currency', currency: 'VND' })}
                 </Text>
+                // <>Nothing here</>
             ))
         )
 
