@@ -2,7 +2,9 @@ import { Stack } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
 import TransactionWithDate from '../../../components/transaction/TransactionWithDate'
 import TransactionWithName from '../../../components/transaction/TransactionWithName'
+import GroupTotal from '../../../components/transaction/GroupTotal'
 import ListTransactionWithName from '../../../components/transaction/ListTransactionWithName'
+import ListGroupTotal from '../../../components/transaction/ListGroupTotal'
 import UpdateProfile from '../../../components/profile/UpdateProfile'
 import MyBarChart from '../../../components/chart/MyBarChart'
 import MyPieChart from '../../../components/chart/MyPieChart'
@@ -109,7 +111,9 @@ export default function Page() {
       {/* <UpdateProfile></UpdateProfile> */}
       {/* <BarChartVerticalWithLabels /> */}
       {/* <MyBarChart data={barChartData} /> */}
-      <MyPieChart data={barChartData} />
+      {/* <MyPieChart data={barChartData} /> */}
+      {/* <GroupTotal transaction={transaction2} /> */}
+      <ListGroupTotal groups={listTransactions.transactions} />
       <Text>Index page of Widgets Tab</Text>
     </View>
   );

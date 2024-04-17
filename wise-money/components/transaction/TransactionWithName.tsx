@@ -1,17 +1,9 @@
 import React, { useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import styles from './style'
+import { CategoryTransaction } from './interface';
 
-interface Transaction {
-    id: number;
-    image: string;
-    type: string;
-    category_name: string;
-    name: string;
-    value: number;
-}
-
-const TransactionWithName: React.FC<{ transaction: Transaction }> = ({ transaction }) => {
+const TransactionWithName: React.FC<{ transaction: CategoryTransaction }> = ({ transaction }) => {
     const handleClick = () => {
         // Handle click event here
         // Navigate to other page depending on type
