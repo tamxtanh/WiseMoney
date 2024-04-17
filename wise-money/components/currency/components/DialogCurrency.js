@@ -10,7 +10,7 @@ import {
 import Fuse from "fuse.js";
 import { Colors } from "../styles";
 import data from "../CommonCurrency.json";
-import { getStyles } from "./styles";
+import { getStyles } from "../styles";
 import { CurrencyFlag } from "./CurrencyFlag";
 
 export const DialogCurrency = (props) => {

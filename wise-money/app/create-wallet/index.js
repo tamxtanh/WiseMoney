@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import React from "react";
 import { COLORS, SIZES, icons } from "../../constants";
-import CurrencyPicker from "./currencyPicker";
 
 const createWallet = () => {
   return (
@@ -101,7 +100,7 @@ const createWallet = () => {
             Currency
           </Text>
 
-          {/* <View
+          <View
             style={{
               position: "relative",
             }}
@@ -140,8 +139,7 @@ const createWallet = () => {
                 EDIT
               </Text>
             </TouchableOpacity>
-          </View> */}
-          <CurrencyPicker />
+          </View>
         </View>
 
         <View style={styles.input}>
@@ -202,7 +200,6 @@ const styles = StyleSheet.create({
   },
   input: {
     padding: 10,
-    marginBottom: 10,
   },
   button: {
     position: "absolute", // Position the button absolutely within the container
@@ -211,12 +208,12 @@ const styles = StyleSheet.create({
     right: 40,
     backgroundColor: COLORS.lightMainColor,
     borderRadius: 20,
-    height: 46,
+    height: 56,
     justifyContent: "center",
     alignItems: "center",
   },
   buttonText: {
-    fontSize: 15,
+    fontSize: 17,
     color: COLORS.primary,
     fontFamily: "InterMedium",
   },

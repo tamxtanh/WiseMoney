@@ -1,13 +1,12 @@
 import React from "react";
-import { View, Image } from "react-native";
+import { View } from "react-native";
+import { Image } from "react-native";
 
 export const CurrencyFlag = (props) => {
   const { currency, width } = props;
   const img = data[currency];
   if (!img) return <View style={{ width: width }} />;
-  return (
-    <Image source={{ uri: img }} style={{ width: width, height: width }} />
-  );
+  return <Image source={{ uri: img }} width={width} />;
 };
 
 const data = {
