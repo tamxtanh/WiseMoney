@@ -4,7 +4,7 @@ import { supabase } from '../../lib/supabase'
 import { Button, Icon } from 'react-native-elements'
 import { COLORS, SIZES, FONT } from '../../constants/theme'
 import { useRouter } from 'expo-router'
-import { validateForm } from '../../lib/UserDataValidation';
+import { validateForm } from '../../function/UserDataValidation';
 import styles from './style'
 
 // Tells Supabase Auth to continuously refresh the session automatically if

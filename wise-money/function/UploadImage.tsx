@@ -1,7 +1,7 @@
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import { Platform } from 'react-native';
-import { supabase } from './supabase';
+import { supabase } from '../lib/supabase';
 import { decode } from 'base64-arraybuffer';
 import resizeImage from "./ResizeImage"
 
