@@ -1,0 +1,10 @@
+﻿name,icon,type,wallet,group
+ăn nhà,7,expense,1,2
+ăn ngoài,7,expense,1,2
+điện nước wifi,9,expense,1,1
+học,11,expense,2,3
+tặng,24,expense,3,
+lương,6,income,1,
+tiền bán bánh,9,income,2,
+mượn tiền,23,debt,1,
+cho vay,35,loan,2,

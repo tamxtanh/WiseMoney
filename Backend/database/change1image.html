@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        .img-container {
+            width: 200px;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .img-container img {
+            min-width: 200px;
+            min-height: 200px;
+            width: auto;
+            height: auto;
+            max-width: none;
+            position: relative;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+
+<body>
+
+    <input type="file" id="imgUpload" accept="image/*">
+    <div class="img-container">
+        <img id="preview" alt="Image Preview">
+    </div>
+    <button id="download">Download</button>
+
+    <script>
+        var fileName; // Declare a variable to store the file name
+
+        document.getElementById('imgUpload').addEventListener('change', function (e) {
+            var reader = new FileReader();
+            fileName = e.target.files[0].name; // Store the file name when a file is uploaded
+
+            reader.onload = function (e) {
+                var img = new Image();
+                img.onload = function () {
+                    // Check image ratio and resize if needed
+                    var originalWidth = img.width;
+                    var originalHeight = img.height;
+
+                    var newWidth, newHeight;
+                    if (originalWidth > originalHeight) {
+                        newWidth = 200;
+                        newHeight = Math.floor((200 * originalHeight) / originalWidth);
+                    } else if (originalWidth < originalHeight) {
+                        newHeight = 200;
+                        newWidth = Math.floor((200 * originalWidth) / originalHeight);
+                    } else {
+                        // Ratio is already 1:1, no need to resize
+                        newWidth = newHeight = 200;
+                    }
+
+                    // Create a canvas to draw the resized image
+                    var canvas = document.createElement('canvas');
+                    canvas.width = newWidth;
+                    canvas.height = newHeight;
+                    var ctx = canvas.getContext('2d');
+
+                    // Draw the resized image onto the canvas
+                    ctx.drawImage(img, 0, 0, originalWidth, originalHeight, 0, 0, newWidth, newHeight);
+
+                    // Update preview image and download link
+                    document.getElementById('preview').src = canvas.toDataURL('image/png');
+                    // document.getElementById('download').setAttribute('download', fileName);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(e.target.files[0]);
+        });
+
+
+        document.getElementById('download').addEventListener('click', function () {
+            var link = document.createElement('a');
+            link.download = fileName;
+            link.href = document.getElementById('preview').src;
+            link.click();
+        });
+    </script>
+
+</body>
+
+</html>

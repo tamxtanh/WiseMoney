@@ -1,0 +1,23 @@
+category,name,amount,date,note,contact,exception,type,event,remind,image
+2,ăn tiệc,600000,2/26/2024,trả tiền chung với anh 9,1,FALSE,1,,1,19
+1,đi chợ,400000,2/27/2024,,,FALSE,2,,,
+1,nước ngọt chuẩn bị tiệc,800000,2/27/2024,,,FALSE,2,,,
+3,tiền điện tháng 2,423000,2/3/2024,,,FALSE,2,,,
+3,tiền mạng tháng 2,231000,2/3/2024,,,FALSE,3,,,
+2,sinh nhật Linh,362000,3/3/2024,,,FALSE,1,1,,
+1,đi chợ,426000,5/3/2024,,,FALSE,1,,,
+1,đi chợ bù,69000,6/3/2024,mua mấy gia vị bị thiếu hôm qua,,FALSE,1,,,
+4,mua giáo trình ls,99000,7/3/2024,,,FALSE,3,,,
+5,tặng quà cho Kim,360000,8/3/2024,tặng hoa hồng và socola,,FALSE,1,,,36
+2,ăn tiệc với Kim,293000,8/3/2024,đi chơi 8-3 với Kim,,FALSE,2,,,
+1,đi chợ,195000,9/3/2024,được anh 9 trả,1,TRUE,1,,,
+1,đi chợ cho Kim,481000,9/3/2024,,,TRUE,1,,,
+2,ăn nhà hàng,320000,10/3/2024,đi ăn với Khoa,3,FALSE,2,,,
+1,đi chợ,295000,10/3/2024,,,FALSE,2,,,
+4,mua sách tiếng Anh,693000,11/3/2024,sách học trung tâm thi IELTS,,FALSE,3,,,
+4,mua khóa học PREP,1200000,3/15/2024,,,FALSE,3,,,
+2,ăn nhà hàng,292000,3/17/2024,,,FALSE,2,2,,
+2,ăn nhà hàng,620000,3/18/2024,,,FALSE,2,2,,
+5,tặng quà cho Ngọc,251000,3/18/2024,,,FALSE,2,2,,
+2,ăn uống,362000,3/19/2024,,,FALSE,2,2,,
+2,ăn uống,195000,3/20/2024,,,FALSE,3,2,,
