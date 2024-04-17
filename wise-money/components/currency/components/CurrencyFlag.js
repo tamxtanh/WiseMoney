@@ -6,7 +6,9 @@ export const CurrencyFlag = (props) => {
   const { currency, width } = props;
   const img = data[currency];
   if (!img) return <View style={{ width: width }} />;
-  return <Image source={{ uri: img }} width={width} />;
+  return (
+    <Image source={{ uri: img }} style={{ width: width, height: width }} />
+  );
 };
 
 const data = {
