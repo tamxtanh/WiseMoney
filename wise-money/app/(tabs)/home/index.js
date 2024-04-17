@@ -2,9 +2,13 @@ import { Stack } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
 import TransactionWithDate from '../../../components/transaction/TransactionWithDate'
 import TransactionWithName from '../../../components/transaction/TransactionWithName'
+import GroupTotal from '../../../components/transaction/GroupTotal'
 import ListTransactionWithName from '../../../components/transaction/ListTransactionWithName'
+import ListGroupTotal from '../../../components/transaction/ListGroupTotal'
 import UpdateProfile from '../../../components/profile/UpdateProfile'
 import MyBarChart from '../../../components/chart/MyBarChart'
+import MyPieChart from '../../../components/chart/MyPieChart'
+
 export default function Page() {
   const transaction = {
     id: 1,
@@ -74,14 +78,17 @@ export default function Page() {
 
   const barChartData = {
     title: 'Monthly Sales',
-    height: 200,
+    height: 300,
     list: [
       { name: 'January', value: 1000000 },
       { name: 'February', value: 10898000 },
       { name: 'Jan', value: 898000 },
-      // { name: 'Feb', value: 1898000 },
-      // { name: 'Jan', value: 2898000 },
-      // { name: 'Feb', value: 5898000 },
+      { name: 'Feb', value: 1898000 },
+      { name: 'Jan', value: 2898000 },
+      { name: 'Feb', value: 5898000 },
+      { name: 'Feb', value: 1898000 },
+      { name: 'Jan', value: 2898000 },
+      { name: 'Feb', value: 5898000 },
 
 
       // more data...
@@ -103,7 +110,10 @@ export default function Page() {
 
       {/* <UpdateProfile></UpdateProfile> */}
       {/* <BarChartVerticalWithLabels /> */}
-      <MyBarChart data={barChartData} />
+      {/* <MyBarChart data={barChartData} /> */}
+      {/* <MyPieChart data={barChartData} /> */}
+      {/* <GroupTotal transaction={transaction2} /> */}
+      <ListGroupTotal groups={listTransactions.transactions} />
       <Text>Index page of Widgets Tab</Text>
     </View>
   );
