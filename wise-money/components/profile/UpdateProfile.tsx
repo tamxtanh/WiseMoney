@@ -5,9 +5,9 @@ import { Button, Icon } from 'react-native-elements';
 import { COLORS, FONT, SIZES } from '../../constants/theme';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { validateForm } from '../../lib/UserDataValidation';
+import { validateForm } from '../../function/UserDataValidation';
 import styles from '../auth/style';
-import uploadImage from '../../lib/UploadImage';
+import uploadImage from '../../function/UploadImage';
 import ChangePasswordModal from './ChangePasswordModal';
 
 export default function UpdateProfile() {

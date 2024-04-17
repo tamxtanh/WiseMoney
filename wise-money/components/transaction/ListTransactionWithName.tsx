@@ -2,21 +2,8 @@ import React, { useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import TransactionWithName from './TransactionWithName';
 import { COLORS, FONT, SIZES } from '../../constants';
+import { ListTransactionADay } from './interface'
 
-interface Transaction {
-    id: number;
-    image: string;
-    type: string;
-    category_name: string;
-    name: string;
-    value: number;
-}
-
-interface ListTransactionADay {
-    date: Date;
-    total: number;
-    transactions: Transaction[];
-}
 
 const ListTransactionWithName: React.FC<{ listTransactions: ListTransactionADay }> = ({ listTransactions }) => {
     const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];

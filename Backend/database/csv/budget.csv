@@ -1,0 +1,3 @@
+﻿name,category,amount,start_date,end_date,current,is_done
+hạn chế ăn ngoài,2,1000000,23-02-24,23-03-24,0,FALSE
+ăn ít lại,1,3000000,24-02-24,29-03-24,0,FALSE

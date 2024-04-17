@@ -1,4 +1,5 @@
-import { COLORS, SIZES } from "../../constants/theme";
+import { fonts } from "react-native-elements/dist/config";
+import { COLORS, FONT, SIZES } from "../../constants/theme";
 import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
@@ -31,7 +32,8 @@ const styles = StyleSheet.create({
         borderRadius: 25,
     },
     title: {
-        fontSize: SIZES.h5
+        fontSize: SIZES.h5,
+        fontFamily: FONT.medium
     },
     subtitle: {
         color: COLORS.gray,

@@ -1,0 +1,271 @@
+<!-- <!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        .img-container {
+            width: 200px;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .img-container img {
+            min-width: 200px;
+            min-height: 200px;
+            width: auto;
+            height: auto;
+            max-width: none;
+            position: relative;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .drop-area {
+            width: 300px;
+            height: 200px;
+            border: 2px dashed #ccc;
+            text-align: center;
+            padding: 20px;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="drop-area">
+        Drag and drop your images here
+    </div>
+    <button id="download">Download Converted Images</button>
+
+    <script>
+        var processedFiles;
+        var dropArea = document.querySelector('.drop-area');
+
+        dropArea.addEventListener('dragover', function (e) {
+            e.preventDefault();
+            this.classList.add('dragging');
+        });
+
+        dropArea.addEventListener('dragleave', function () {
+            this.classList.remove('dragging');
+        });
+
+        dropArea.addEventListener('drop', function (e) {
+            e.preventDefault();
+            this.classList.remove('dragging');
+
+            var files = e.dataTransfer.files;
+            processedFiles = []; // Array to store processed files
+
+            for (var i = 0; i < files.length; i++) {
+                (function (file) { // Use IIFE to create a new scope for each iteration
+                    // Check if file is a PNG image
+                    if (file.type.match('image/')) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            var img = new Image();
+                            img.onload = function () {
+                                // Check image ratio and resize if needed
+                                var originalWidth = img.width;
+                                var originalHeight = img.height;
+
+                                var newWidth, newHeight;
+                                if (originalWidth > originalHeight) {
+                                    newWidth = 200;
+                                    newHeight = Math.floor((200 * originalHeight) / originalWidth);
+                                } else if (originalWidth < originalHeight) {
+                                    newHeight = 200;
+                                    newWidth = Math.floor((200 * originalWidth) / originalHeight);
+                                } else {
+                                    // Ratio is already 1:1, no need to resize
+                                    newWidth = newHeight = 200;
+                                }
+
+                                // Create a canvas to draw the resized image
+                                var canvas = document.createElement('canvas');
+                                canvas.width = newWidth;
+                                canvas.height = newHeight;
+                                var ctx = canvas.getContext('2d');
+
+                                // Draw the resized image onto the canvas
+                                ctx.drawImage(img, 0, 0, originalWidth, originalHeight, 0, 0, newWidth, newHeight);
+
+                                // Add the processed image data to the array
+                                processedFiles.push({
+                                    name: file.name,
+                                    dataURL: canvas.toDataURL('image/png')
+                                });
+
+                                // Check if all files have been processed
+                                if (processedFiles.length === files.length) {
+                                    // Enable the download button
+                                    document.getElementById('download').disabled = false;
+                                }
+                            };
+                            img.src = e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        alert('Please upload only PNG images!');
+                    }
+                })(files[i]); // Pass file object to IIFE
+            }
+        });
+
+        document.getElementById('download').addEventListener('click', function () {
+            // Create and trigger download links for each processed image
+            processedFiles.forEach(function (file) {
+                var link = document.createElement('a');
+                link.download = file.name;
+                link.href = file.dataURL;
+                link.click();
+            });
+        });
+    </script>
+
+</body>
+
+</html> -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        .img-container {
+            width: 200px;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .img-container img {
+            min-width: 200px;
+            min-height: 200px;
+            width: auto;
+            height: auto;
+            max-width: none;
+            position: relative;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .drop-area {
+            width: 300px;
+            height: 200px;
+            border: 2px dashed #ccc;
+            text-align: center;
+            padding: 20px;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="drop-area">
+        Drag and drop your images here
+    </div>
+    <button id="download" disabled>Download Converted Images</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script>
+        var dropArea = document.querySelector('.drop-area');
+        var processedFiles = [];
+
+        dropArea.addEventListener('dragover', function (e) {
+            e.preventDefault();
+            this.classList.add('dragging');
+        });
+
+        dropArea.addEventListener('dragleave', function () {
+            this.classList.remove('dragging');
+        });
+
+        dropArea.addEventListener('drop', function (e) {
+            e.preventDefault();
+            this.classList.remove('dragging');
+
+            var files = e.dataTransfer.files;
+            processedFiles = []; // Array to store processed files
+
+            for (var i = 0; i < files.length; i++) {
+                (function (file) { // Use IIFE to create a new scope for each iteration
+                    // Check if file is a PNG image
+                    if (file.type.match('image/')) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            var img = new Image();
+                            img.onload = function () {
+                                // Check image ratio and resize if needed
+                                var originalWidth = img.width;
+                                var originalHeight = img.height;
+
+                                var newWidth, newHeight;
+                                if (originalWidth > originalHeight) {
+                                    newWidth = 500;
+                                    newHeight = Math.floor((500 * originalHeight) / originalWidth);
+                                } else if (originalWidth < originalHeight) {
+                                    newHeight = 500;
+                                    newWidth = Math.floor((500 * originalWidth) / originalHeight);
+                                } else {
+                                    // Ratio is already 1:1, no need to resize
+                                    newWidth = newHeight = 500;
+                                }
+
+                                // Create a canvas to draw the resized image
+                                var canvas = document.createElement('canvas');
+                                canvas.width = newWidth;
+                                canvas.height = newHeight;
+                                var ctx = canvas.getContext('2d');
+
+                                // Draw the resized image onto the canvas
+                                ctx.drawImage(img, 0, 0, originalWidth, originalHeight, 0, 0, newWidth, newHeight);
+
+                                // Add the processed image data to the array
+                                processedFiles.push({
+                                    name: file.name,
+                                    dataURL: canvas.toDataURL('image/png')
+                                });
+
+                                // Check if all files have been processed
+                                if (processedFiles.length === files.length) {
+                                    // Enable the download button
+                                    document.getElementById('download').disabled = false;
+                                }
+                            };
+                            img.src = e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        alert('Please upload only PNG images!');
+                    }
+                })(files[i]); // Pass file object to IIFE
+            }
+        });
+
+        document.getElementById('download').addEventListener('click', function () {
+            if (processedFiles.length === 0) {
+                alert('No images to download!');
+                return;
+            }
+
+            var zip = new JSZip();
+            var folder = zip.folder("images");
+
+            processedFiles.forEach(function (file) {
+                folder.file(file.name, file.dataURL.split(",")[1], { base64: true });
+            });
+
+            zip.generateAsync({ type: "blob" }).then(function (blob) {
+                saveAs(blob, "images.zip");
+            });
+        });
+    </script>
+
+</body>
+
+</html>

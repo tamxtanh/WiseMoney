@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, TouchableOpacity, Text, Modal } from "react-native";
-import { Styles } from "../../components/Currency/styles";
-import dataCurrency from "../../components/Currency/CommonCurrency.json";
-import { DialogCurrency } from "../../components/Currency/components";
-import { CurrencyFlag } from "../../components/Currency/components";
+import { Styles } from "../../components/currency/styles";
+import dataCurrency from "../../components/currency/CommonCurrency.json";
+import { DialogCurrency } from "../../components/currency/components";
+import { CurrencyFlag } from "../../components/currency/components";
 
 export default CurrencyPicker = (props) => {
   const currencies = Object.values(dataCurrency);

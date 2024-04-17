@@ -1,26 +1,14 @@
 import React, { useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import styles from './style'
+import { DateTransaction } from './interface';
 
-interface Transaction {
-    id: number;
-    image: string;
-    type: string;
-    category_name: string;
-    date: Date;
-    value: number;
-}
 
-const TransactionWithDate: React.FC<{ transaction: Transaction }> = ({ transaction }) => {
+const TransactionWithDate: React.FC<{ transaction: DateTransaction }> = ({ transaction }) => {
     const handleClick = () => {
         // Handle click event here
         // Navigate to other page depending on type
     };
-
-    // useEffect(() => {
-    //     console.log("transaction: ", transaction)
-
-    // }, [])
 
     return (
         <TouchableOpacity style={styles.container} onPress={handleClick}>

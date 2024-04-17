@@ -3,19 +3,10 @@ import { View, Text as RNText } from 'react-native';
 import { BarChart, Grid, XAxis, YAxis } from 'react-native-svg-charts';
 import { Text } from 'react-native-svg';
 import { COLORS, SIZES } from '../../constants';
+import FullChartData from './interface'
 
-interface ChartData {
-    value: number;
-    name: string;
-}
 
-interface BarChartData {
-    title: string;
-    height: number,
-    list: ChartData[];
-}
-
-class MyBarChart extends React.PureComponent<{ data: BarChartData }> {
+class MyBarChart extends React.PureComponent<{ data: FullChartData }> {
 
     render() {
         const { data } = this.props;
