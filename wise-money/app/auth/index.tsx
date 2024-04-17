@@ -30,7 +30,7 @@ export default function Auth() {
     useEffect(() => {
         supabase.auth.getSession().then(({ data: { session } }) => {
             if (session) {
-                router.replace("/onboarding");
+                router.replace("/(tabs)/home");
                 // router.back()
                 // try {
                 //     router.back()
@@ -45,7 +45,7 @@ export default function Auth() {
 
         supabase.auth.onAuthStateChange((_event, session) => {
             if (session) {
-                router.replace("/onboarding");
+                router.replace("/(tabs)/home");
                 // try {
                 //     router.back()
                 // }

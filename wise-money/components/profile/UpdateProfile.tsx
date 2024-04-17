@@ -7,13 +7,16 @@ import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { validateForm } from '../../lib/UserDataValidation';
 import styles from '../auth/style';
+import uploadImage from '../../lib/UploadImage';
+import ChangePasswordModal from './ChangePasswordModal';
 
 export default function UpdateProfile() {
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
     const [username, setUsername] = useState('');
-    const [avatarUrl, setAvatarUrl] = useState('');
+    const [avatarUrl, setAvatarUrl] = useState('https://eianmciufswbutirdbka.supabase.co/storage/v1/object/public/my%20files/images/icons/dollar.png?t=2024-03-03T11%3A57%3A19.836Z');
+    const [modalVisible, setModalVisible] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
@@ -24,6 +27,7 @@ export default function UpdateProfile() {
                 .rpc('get_user_data', {
                     user_email: user.email
                 })
+
             if (error) console.error(error)
             else {
                 setEmail(data[0].email)
@@ -36,6 +40,27 @@ export default function UpdateProfile() {
         fetchUserData()
     }, [])
 
+    async function uploadAvatar() {
+        const newUrl = await uploadImage("avatar")
+        if (newUrl) {
+            setAvatarUrl(newUrl)
+
+            const upload = async () => {
+
+                let { data, error } = await supabase
+                    .rpc('update_avatar', {
+                        avatar_url: newUrl,
+                        user_email: email
+                    })
+                if (error) console.error(error)
+                // else console.log(data)
+
+            }
+
+            upload();
+        }
+    }
+
     async function updateProfile() {
         const formData = {
             phone: phone,
@@ -47,16 +72,32 @@ export default function UpdateProfile() {
         const validationResult = validateForm(formData);
 
         if (validationResult.isValid) {
-            let { data, error } = await supabase.rpc('update_user', {
-                p_email: email,
-                p_name: name,
-                p_phone: formatPhoneNumber(phone),
-                p_username: username
-            })
+            const { data: { user } } = await supabase.auth.getUser()
 
-            if (error) console.error(error)
-            else {
-                router.push(`/home`);
+            let { data, error } = await supabase
+                .rpc('update_user', {
+                    new_name: name,
+                    new_email: email,
+                    old_email: user.email,
+                    new_phone: formatPhoneNumber(phone),
+                    new_username: username
+                })
+
+            if (error) {
+                console.error(error)
+            } else {
+                try {
+
+                    const { error } = await supabase.auth.updateUser({ email: email })
+
+                    if (error) {
+                        console.error('Error updating user email:', error);
+                    } else {
+                        console.log('User email updated successfully');
+                    }
+                } catch (error) {
+                    console.error('Unexpected error:', error);
+                }
             }
         } else {
             // Form is invalid, display error message
@@ -87,9 +128,9 @@ export default function UpdateProfile() {
                         style={styles.avatar}
                         source={{ uri: avatarUrl }}
                     />
-                    <TouchableOpacity style={styles.changeAvatar} onPress={() => { }}>
+                    <TouchableOpacity style={styles.changeAvatar} onPress={uploadAvatar}>
                         <Text> {/* Wrap the Ionicons component with Text */}
-                            <Ionicons name="pencil" size={20} color="white" /> {/* Change "pencil" to the appropriate icon */}
+                            <Ionicons name="pencil" size={20} color="white" />
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -124,10 +165,10 @@ export default function UpdateProfile() {
                 />
                 <Button buttonStyle={[styles.button, styles.mt20]} title="UPDATE PROFILE" onPress={() => updateProfile()} />
 
-                <TouchableOpacity
-                    onPress={() => {/* Navigate to change password page */ }}>
+                <TouchableOpacity onPress={() => setModalVisible(true)}>
                     <Text style={styles.changePassword}>Change Password</Text>
                 </TouchableOpacity>
+                <ChangePasswordModal modalVisible={modalVisible} setModalVisible={setModalVisible} />
             </View>
         </ScrollView>
     )
