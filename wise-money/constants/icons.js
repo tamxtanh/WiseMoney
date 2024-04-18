@@ -72,6 +72,22 @@ const plus = ({ fill }) => {
   return <SvgXml xml={svgXml} />;
 };
 
+const arrowBack = ({ fill }) => {
+  const svgXml = `
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <mask id="mask0_164_1498" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+  <rect width="24" height="24" fill="#D9D9D9"/>
+  </mask>
+  <g mask="url(#mask0_164_1498)">
+  <path d="M7.825 13L13.425 18.6L12 20L4 12L12 4L13.425 5.4L7.825 11H20V13H7.825Z" fill="${fill}"/>
+  </g>
+  </svg>
+
+    `;
+
+  return <SvgXml xml={svgXml} />;
+};
+
 export default {
   heart,
   menu,
@@ -88,4 +104,5 @@ export default {
   wallet,
   chart,
   plus,
+  arrowBack,
 };
