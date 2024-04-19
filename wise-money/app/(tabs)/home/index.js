@@ -24,191 +24,10 @@ import UtilityItem from "../../../components/home/utilityItem";
 import UtilityItemList from "../../../components/utility/utilityItemList";
 import Contact from '../../../components/contact/Contact'
 import ContactList from '../../../components/contact/ContactList'
+import BudetComponent from '../../../components/budget/BudetComponent'
+
 
 export default function Page() {
-  const transaction = {
-    id: 1,
-    image:
-      "https://eianmciufswbutirdbka.supabase.co/storage/v1/object/public/my%20files/images/icons/bank.jpg?t=2024-03-03T11%3A56%3A20.199Z",
-    type: "INCOME",
-    category_name: "Học tập",
-    date: new Date(2024, 6, 3),
-    value: 15300000,
-  };
-
-  const transaction2 = {
-    id: 1,
-    image:
-      "https://eianmciufswbutirdbka.supabase.co/storage/v1/object/public/my%20files/images/icons/bank.jpg?t=2024-03-03T11%3A56%3A20.199Z",
-    type: "INCOME",
-    category_name: "Học tập",
-    name: "Mua sách tiếng Anh",
-    value: 15300000,
-  };
-
-  const listTransactions = {
-    date: new Date("2024-08-08"),
-    total: -222000000,
-    transactions: [
-      {
-        id: 1,
-        image:
-          "https://eianmciufswbutirdbka.supabase.co/storage/v1/object/public/my%20files/images/icons/bank.jpg?t=2024-03-03T11%3A56%3A20.199Z",
-        type: "INCOME",
-        category_name: "Học tập",
-        name: "Mua sách tiếng Anh",
-        value: 15300000,
-      },
-      {
-        id: 2,
-        image:
-          "https://eianmciufswbutirdbka.supabase.co/storage/v1/object/public/my%20files/images/icons/bank.jpg?t=2024-03-03T11%3A56%3A20.199Z",
-        type: "INCOME",
-        category_name: "Họasfdasfdsc tập",
-        name: "Mua sáasfdafch tiếng Anh",
-        value: 32300000,
-      },
-      {
-        id: 3,
-        image:
-          "https://eianmciufswbutirdbka.supabase.co/storage/v1/object/public/my%20files/images/icons/bank.jpg?t=2024-03-03T11%3A56%3A20.199Z",
-        type: "INCOME",
-        category_name: "Họasfdafập",
-        name: "qwrqwewqr qwreAnh",
-        value: 9500000,
-      },
-      {
-        id: 4,
-        image:
-          "https://eianmciufswbutirdbka.supabase.co/storage/v1/object/public/my%20files/images/icons/birthdate.png?t=2024-03-03T11%3A56%3A32.582Z",
-        type: "INCOME",
-        category_name: "Hqwerweqr tập",
-        name: "Mqwererwqếng Anh",
-        value: 333500000,
-      },
-      {
-        id: 5,
-        image:
-          "https://eianmciufswbutirdbka.supabase.co/storage/v1/object/public/my%20files/images/icons/bank.jpg?t=2024-03-03T11%3A56%3A20.199Z",
-        type: "INCOME",
-        category_name: "qwreqwerqerwq qwerqwer",
-        name: "Mwqerwqrng Anh",
-        value: 166300000,
-      },
-    ],
-  };
-
-  const barChartData = {
-    title: "Monthly Sales",
-    height: 300,
-    list: [
-      { name: "January", value: 1000000 },
-      { name: "February", value: 10898000 },
-      { name: "Jan", value: 898000 },
-      { name: "Feb", value: 1898000 },
-      { name: "Jan", value: 2898000 },
-      { name: "Feb", value: 5898000 },
-      { name: "Feb", value: 1898000 },
-      { name: "Jan", value: 2898000 },
-      { name: "Feb", value: 5898000 },
-
-      // more data...
-    ],
-  };
-
-  const notifications = [
-    {
-      id: 1,
-      name: 'Your expense exceeds your budget',
-      description: 'You have spent over VND 1,000,000 over your budget in Eat and Drink April Budget',
-      time: new Date(), // Current date and time
-      is_read: false,
-      type: 'warning',
-      source: 1,
-      image_url: 'https://actufinance.fr/wp-content/uploads/2020/08/binance.png'
-    },
-    {
-      id: 2,
-      name: 'New message received',
-      description: 'You have a new message from John Doe',
-      time: new Date('2024-04-19T08:00:00'), // Specific date and time
-      is_read: false,
-      type: 'info',
-      source: 2,
-      image_url: 'https://actufinance.fr/wp-content/uploads/2020/08/binance.png'
-    },
-    {
-      id: 3,
-      name: 'Event reminder',
-      description: 'Don\'t forget about the meeting today!',
-      time: new Date('2024-04-20T15:30:00'), // Another specific date and time
-      is_read: false,
-      type: 'reminder',
-      source: 3,
-      image_url: 'https://actufinance.fr/wp-content/uploads/2020/08/binance.png'
-    },
-    {
-      id: 4,
-      name: 'New message received',
-      description: 'You have a new message from John Doe',
-      time: new Date('2024-04-19T08:00:00'), // Specific date and time
-      is_read: false,
-      type: 'info',
-      source: 2,
-      image_url: 'https://actufinance.fr/wp-content/uploads/2020/08/binance.png'
-    },
-    {
-      id: 5,
-      name: 'Event reminder',
-      description: 'Don\'t forget about the meeting today!',
-      time: new Date('2024-04-20T15:30:00'), // Another specific date and time
-      is_read: false,
-      type: 'reminder',
-      source: 3,
-      image_url: 'https://actufinance.fr/wp-content/uploads/2020/08/binance.png'
-    },
-    {
-      id: 6,
-      name: 'New message received',
-      description: 'You have a new message from John Doe',
-      time: new Date('2024-04-19T08:00:00'), // Specific date and time
-      is_read: false,
-      type: 'info',
-      source: 2,
-      image_url: 'https://actufinance.fr/wp-content/uploads/2020/08/binance.png'
-    },
-    {
-      id: 7,
-      name: 'Event reminder',
-      description: 'Don\'t forget about the meeting today!',
-      time: new Date('2024-04-20T15:30:00'), // Another specific date and time
-      is_read: false,
-      type: 'reminder',
-      source: 3,
-      image_url: 'https://actufinance.fr/wp-content/uploads/2020/08/binance.png'
-    },
-    {
-      id: 8,
-      name: 'New message received',
-      description: 'You have a new message from John Doe',
-      time: new Date('2024-04-19T08:00:00'), // Specific date and time
-      is_read: false,
-      type: 'info',
-      source: 2,
-      image_url: 'https://actufinance.fr/wp-content/uploads/2020/08/binance.png'
-    },
-    {
-      id: 9,
-      name: 'Event reminder',
-      description: 'Don\'t forget about the meeting today!',
-      time: new Date('2024-04-20T15:30:00'), // Another specific date and time
-      is_read: false,
-      type: 'reminder',
-      source: 3,
-      image_url: 'https://actufinance.fr/wp-content/uploads/2020/08/binance.png'
-    }
-  ];
-
   const contacts = [
     {
       id: 1,
@@ -256,6 +75,110 @@ export default function Page() {
     }
 
   ]
+
+  const budgets = [
+    {
+      id: 1,
+      name: "Monthly Expenses",
+      image_url: "https://th.bing.com/th/id/R.de95dac0133853f128bcffbfebcdbbc1?rik=%2bnFw9jo31aDcag&pid=ImgRaw&r=0",
+      amount: 28000000,
+      start_date: new Date("2024-04-01"),
+      end_date: new Date("2024-04-30"),
+      current: 15000000,
+      is_done: new Date("2024-04-30") < new Date() // true
+    },
+    {
+      id: 2,
+      name: "Vacation Fund",
+      image_url: "https://th.bing.com/th/id/R.de95dac0133853f128bcffbfebcdbbc1?rik=%2bnFw9jo31aDcag&pid=ImgRaw&r=0",
+      amount: 5000,
+      start_date: new Date("2024-06-01"),
+      end_date: new Date("2024-06-30"),
+      current: 6000,
+      is_done: new Date("2024-06-30") < new Date() // false
+    },
+    {
+      id: 3,
+      name: "Emergency Savings",
+      image_url: "https://th.bing.com/th/id/R.de95dac0133853f128bcffbfebcdbbc1?rik=%2bnFw9jo31aDcag&pid=ImgRaw&r=0",
+      amount: 10000,
+      start_date: new Date("2024-01-01"),
+      end_date: new Date("2024-12-31"),
+      current: 7500,
+      is_done: new Date("2024-12-31") < new Date() // false
+    },
+    {
+      id: 4,
+      name: "Home Renovation",
+      image_url: "https://th.bing.com/th/id/R.de95dac0133853f128bcffbfebcdbbc1?rik=%2bnFw9jo31aDcag&pid=ImgRaw&r=0",
+      amount: 15000,
+      start_date: new Date("2024-03-01"),
+      end_date: new Date("2024-09-30"),
+      current: 20000,
+      is_done: new Date("2024-09-30") < new Date() // true
+    },
+    {
+      id: 5,
+      name: "College Fund",
+      image_url: "https://th.bing.com/th/id/R.de95dac0133853f128bcffbfebcdbbc1?rik=%2bnFw9jo31aDcag&pid=ImgRaw&r=0",
+      amount: 20000,
+      start_date: new Date("2024-01-01"),
+      end_date: new Date("2028-12-31"),
+      current: 15000,
+      is_done: new Date("2028-12-31") < new Date() // false
+    },
+    {
+      id: 6,
+      name: "New Car Fund",
+      image_url: "https://th.bing.com/th/id/R.de95dac0133853f128bcffbfebcdbbc1?rik=%2bnFw9jo31aDcag&pid=ImgRaw&r=0",
+      amount: 25000,
+      start_date: new Date("2024-05-01"),
+      end_date: new Date("2025-05-01"),
+      current: 20000,
+      is_done: new Date("2025-05-01") < new Date() // false
+    },
+    {
+      id: 7,
+      name: "Retirement Savings",
+      image_url: "https://th.bing.com/th/id/R.de95dac0133853f128bcffbfebcdbbc1?rik=%2bnFw9jo31aDcag&pid=ImgRaw&r=0",
+      amount: 50000,
+      start_date: new Date("2024-01-01"),
+      end_date: new Date("2044-01-01"),
+      current: 40000,
+      is_done: new Date("2044-01-01") < new Date() // false
+    },
+    {
+      id: 8,
+      name: "Healthcare Fund",
+      image_url: "https://th.bing.com/th/id/R.de95dac0133853f128bcffbfebcdbbc1?rik=%2bnFw9jo31aDcag&pid=ImgRaw&r=0",
+      amount: 10000,
+      start_date: new Date("2024-01-01"),
+      end_date: new Date("2024-12-31"),
+      current: 12000,
+      is_done: new Date("2024-12-31") < new Date() // false
+    },
+    {
+      id: 9,
+      name: "Wedding Savings",
+      image_url: "https://th.bing.com/th/id/R.de95dac0133853f128bcffbfebcdbbc1?rik=%2bnFw9jo31aDcag&pid=ImgRaw&r=0",
+      amount: 20000,
+      start_date: new Date("2024-01-01"),
+      end_date: new Date("2025-12-31"),
+      current: 15000,
+      is_done: new Date("2025-12-31") < new Date() // false
+    },
+    {
+      id: 10,
+      name: "Investment Portfolio",
+      image_url: "https://th.bing.com/th/id/R.de95dac0133853f128bcffbfebcdbbc1?rik=%2bnFw9jo31aDcag&pid=ImgRaw&r=0",
+      amount: 500000,
+      start_date: new Date("2024-01-01"),
+      end_date: new Date("2044-01-01"),
+      current: 200000,
+      is_done: new Date("2044-01-01") < new Date() // false
+    }
+  ];
+
 
   const utilityList = [
     {
@@ -349,24 +272,15 @@ export default function Page() {
         </View>
         <View style={styles.listReTrans}></View>
       </View>
-      <View style={styles.otherUtilities}>
+      {/* <View style={styles.otherUtilities}>
         <Text style={styles.lTitleBox}> Other utilities</Text>
         <View style={styles.listOtherUti}>
           <UtilityItemList itemData={utilityList} qualityPerRow={4} />
         </View>
-      </View>
-      {/* <TransactionWithDate transaction={transaction} />
-      <TransactionWithName transaction={transaction2} /> */}
-      {/* <ListTransactionWithName listTransactions={listTransactions} style={{ flex: 1 }} /> */}
+      </View> */}
 
-      {/* <UpdateProfile></UpdateProfile> */}
-      {/* <BarChartVerticalWithLabels /> */}
-      {/* <MyBarChart data={barChartData} />
-      <MyPieChart data={barChartData} /> */}
-      {/* <GroupTotal transaction={transaction2} /> */}
-      {/* <ListGroupTotal groups={listTransactions.transactions} /> */}
-      {/* <NotificationComponentList notifications={notifications} /> */}
-      <ContactList contacts={contacts} />
+      {/* <ContactList contacts={contacts} /> */}
+      <BudetComponent budget={budgets[0]} />
       <Text>Index page of Widgets Tab</Text>
     </View>
   );
