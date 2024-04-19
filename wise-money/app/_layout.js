@@ -1,5 +1,7 @@
 import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
+import { icons } from "../constants";
+import { TouchableOpacity, View, Text } from "react-native";
 // import * as SplashScreen from "expo-splash-screen";
 
 // SplashScreen.preventAutoHideAsync();
@@ -14,6 +16,7 @@ const Layout = () => {
     InterMedium: require("../assets/fonts/Inter-Medium.otf"),
     InterRegular: require("../assets/fonts/Inter-Regular.otf"),
     InterLight: require("../assets/fonts/Inter-Light.otf"),
+    InterExtraBold: require("../assets/fonts/Inter-ExtraBold.otf"),
   });
 
   if (!fontsLoaded) {
@@ -21,12 +24,29 @@ const Layout = () => {
   }
 
   return (
-    <Stack initialRouteName="create-wallet/index">
+    <Stack initialRouteName="(tabs)">
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="onboarding" options={{ headerShown: false }} />
       <Stack.Screen
         name="create-wallet/index"
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="iconList"
+        options={{
+          headerTitle: () => (
+            <View style={{ marginLeft: 0 }}>
+              <Text style={{ fontSize: 20, fontFamily: "InterSemiBold" }}>
+                Select icon
+              </Text>
+            </View>
+          ),
+          // headerLeft: () => (
+          //   <TouchableOpacity onPress={() => navigation.goBack()}>
+          //     <icons.arrowBack fill="black" />
+          //   </TouchableOpacity>
+          // ),
+        }}
       />
     </Stack>
   );
