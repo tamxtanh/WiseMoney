@@ -11,13 +11,20 @@ import React from "react";
 import { COLORS, SIZES, icons } from "../../constants";
 import CurrencyPicker from "./currencyPicker";
 import { useLocalSearchParams } from "expo-router";
+import { useState, useEffect } from "react";
 
 const createWallet = () => {
   const localParams = useLocalSearchParams();
 
-  const imageSource = localParams?.source
-    ? localParams.source
-    : require("../../assets/images/icon-image.png");
+  const [imageSource, setImageSource] = useState(
+    require("../../assets/category/barbell.png")
+  );
+
+  useEffect(() => {
+    if (typeof localParams?.source === "string") {
+      setImageSource(Number(localParams.source));
+    }
+  }, [localParams.source]);
 
   return (
     <View style={styles.container}>

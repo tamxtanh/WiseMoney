@@ -16,6 +16,7 @@ const Layout = () => {
     InterMedium: require("../assets/fonts/Inter-Medium.otf"),
     InterRegular: require("../assets/fonts/Inter-Regular.otf"),
     InterLight: require("../assets/fonts/Inter-Light.otf"),
+    InterExtraBold: require("../assets/fonts/Inter-ExtraBold.otf"),
   });
 
   if (!fontsLoaded) {
@@ -23,7 +24,7 @@ const Layout = () => {
   }
 
   return (
-    <Stack initialRouteName="create-wallet/index">
+    <Stack initialRouteName="(tabs)">
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="onboarding" options={{ headerShown: false }} />
       <Stack.Screen
