@@ -1,6 +1,6 @@
 export interface Group {
     id: number;
-    image: string;
+    image_url: string;
     type: string;
     name: string;
     value: number;
@@ -8,7 +8,7 @@ export interface Group {
 
 export interface CategoryTransaction {
     id: number;
-    image: string;
+    image_url: string;
     type: string;
     category_name: string;
     name: string;
@@ -23,9 +23,17 @@ export interface ListTransactionADay {
 
 export interface DateTransaction {
     id: number;
-    image: string;
+    image_url: string;
     type: string;
-    category_name: string;
+    name: string;
+    date: Date;
+    value: number;
+}
+
+export interface DateTransactionWithoutImage {
+    id: number;
+    type: string;
+    name: string;
     date: Date;
     value: number;
 }

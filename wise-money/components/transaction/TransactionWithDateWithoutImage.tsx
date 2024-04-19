@@ -1,27 +1,20 @@
 import React, { useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import styles from './style'
-import { CategoryTransaction } from './interface';
+import { DateTransactionWithoutImage } from './interface';
 
-const TransactionWithName: React.FC<{ transaction: CategoryTransaction }> = ({ transaction }) => {
+
+const TransactionWithDateWithoutImage: React.FC<{ transaction: DateTransactionWithoutImage }> = ({ transaction }) => {
     const handleClick = () => {
         // Handle click event here
         // Navigate to other page depending on type
     };
 
-    // useEffect(() => {
-    //     console.log("transaction: ", transaction)
-
-    // }, [])
-
     return (
         <TouchableOpacity style={styles.container} onPress={handleClick}>
-            <View style={styles.left}>
-                <Image source={{ uri: transaction.image_url }} style={styles.icon} />
-            </View>
             <View style={styles.center}>
-                <Text style={styles.title}>{transaction.category_name}</Text>
-                <Text style={styles.subtitle}>{transaction.name}</Text>
+                <Text style={styles.title}>{transaction.name}</Text>
+                <Text style={styles.subtitle}>{transaction.date.toLocaleDateString()}</Text>
             </View>
             <View style={styles.right}>
                 <Text style={transaction.type === 'DEBT' || transaction.type === 'EXPENSE' ? styles.red : styles.green}>{transaction.value.toLocaleString('en-US', {
@@ -35,6 +28,4 @@ const TransactionWithName: React.FC<{ transaction: CategoryTransaction }> = ({ t
     );
 };
 
-
-
-export default TransactionWithName;
+export default TransactionWithDateWithoutImage;

@@ -26,6 +26,7 @@ import Contact from '../../../components/contact/Contact'
 import ContactList from '../../../components/contact/ContactList'
 import BudgetComponent from '../../../components/budget/BudgetComponent'
 import BudgetComponentList from '../../../components/budget/BudgetComponentList'
+import TransactionWithDateWithoutImage from '../../../components/transaction/TransactionWithDateWithoutImage'
 
 export default function Page() {
   const contacts = [
@@ -179,6 +180,13 @@ export default function Page() {
     }
   ];
 
+  const transaction = {
+    "id": 10,
+    "type": "Expense",
+    "name": "Entertainment",
+    "date": new Date(2023, 2, 20),
+    "value": 15200000,
+  }
 
   const utilityList = [
     {
@@ -279,8 +287,10 @@ export default function Page() {
         </View>
       </View> */}
 
-      <ContactList contacts={contacts} />
-      <BudgetComponentList budgets={budgets} />
+      {/* <ContactList contacts={contacts} />
+      <BudgetComponentList budgets={budgets} /> */}
+
+      <TransactionWithDateWithoutImage transaction={transaction} />
       <Text>Index page of Widgets Tab</Text>
     </View>
   );
