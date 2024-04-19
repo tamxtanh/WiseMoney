@@ -6,11 +6,19 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
+import { Link } from "expo-router";
 import React from "react";
 import { COLORS, SIZES, icons } from "../../constants";
 import CurrencyPicker from "./currencyPicker";
+import { useLocalSearchParams } from "expo-router";
 
 const createWallet = () => {
+  const localParams = useLocalSearchParams();
+
+  const imageSource = localParams?.source
+    ? localParams.source
+    : require("../../assets/images/icon-image.png");
+
   return (
     <View style={styles.container}>
       <View style={styles.title}>
@@ -41,14 +49,14 @@ const createWallet = () => {
       </View>
       <View style={styles.changeIcon}>
         <Image
-          source={require("../../assets/images/icon-image.png")}
+          source={imageSource}
           style={{
-            width: 50,
-            height: 50,
+            width: 55,
+            height: 55,
           }}
           resizeMode="contain"
         />
-        <Text
+        {/* <Text
           style={{
             marginTop: 15,
             fontFamily: "InterMedium",
@@ -58,7 +66,22 @@ const createWallet = () => {
           }}
         >
           CHANGE ICON
-        </Text>
+        </Text> */}
+        <Link
+          style={{
+            marginTop: 15,
+            fontFamily: "InterMedium",
+            textAlign: "center",
+            color: COLORS.primary,
+            fontSize: 13,
+          }}
+          href={{
+            pathname: "/iconList",
+            params: { previousPage: "create-wallet" },
+          }}
+        >
+          CHANGE ICON
+        </Link>
       </View>
       <View style={styles.inputList}>
         <View style={styles.input}>

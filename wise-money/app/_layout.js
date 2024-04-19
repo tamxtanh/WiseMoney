@@ -1,5 +1,7 @@
 import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
+import { icons } from "../constants";
+import { TouchableOpacity, View, Text } from "react-native";
 // import * as SplashScreen from "expo-splash-screen";
 
 // SplashScreen.preventAutoHideAsync();
@@ -27,6 +29,23 @@ const Layout = () => {
       <Stack.Screen
         name="create-wallet/index"
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="iconList"
+        options={{
+          headerTitle: () => (
+            <View style={{ marginLeft: 0 }}>
+              <Text style={{ fontSize: 20, fontFamily: "InterSemiBold" }}>
+                Select icon
+              </Text>
+            </View>
+          ),
+          // headerLeft: () => (
+          //   <TouchableOpacity onPress={() => navigation.goBack()}>
+          //     <icons.arrowBack fill="black" />
+          //   </TouchableOpacity>
+          // ),
+        }}
       />
     </Stack>
   );
