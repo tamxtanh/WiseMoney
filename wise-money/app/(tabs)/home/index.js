@@ -8,6 +8,8 @@ import ListGroupTotal from '../../../components/transaction/ListGroupTotal'
 import UpdateProfile from '../../../components/profile/UpdateProfile'
 import MyBarChart from '../../../components/chart/MyBarChart'
 import MyPieChart from '../../../components/chart/MyPieChart'
+import NotificationComponent from '../../../components/notification/NotificationComponent'
+import NotificationComponentList from '../../../components/notification/NotificationComponentList'
 
 export default function Page() {
   const transaction = {
@@ -95,6 +97,99 @@ export default function Page() {
     ],
   };
 
+  const notifications = [
+    {
+      id: 1,
+      name: 'Your expense exceeds your budget',
+      description: 'You have spent over VND 1,000,000 over your budget in Eat and Drink April Budget',
+      time: new Date(), // Current date and time
+      is_read: false,
+      type: 'warning',
+      source: 1,
+      image_url: 'https://actufinance.fr/wp-content/uploads/2020/08/binance.png'
+    },
+    {
+      id: 2,
+      name: 'New message received',
+      description: 'You have a new message from John Doe',
+      time: new Date('2024-04-19T08:00:00'), // Specific date and time
+      is_read: false,
+      type: 'info',
+      source: 2,
+      image_url: 'https://actufinance.fr/wp-content/uploads/2020/08/binance.png'
+    },
+    {
+      id: 3,
+      name: 'Event reminder',
+      description: 'Don\'t forget about the meeting today!',
+      time: new Date('2024-04-20T15:30:00'), // Another specific date and time
+      is_read: false,
+      type: 'reminder',
+      source: 3,
+      image_url: 'https://actufinance.fr/wp-content/uploads/2020/08/binance.png'
+    },
+    {
+      id: 4,
+      name: 'New message received',
+      description: 'You have a new message from John Doe',
+      time: new Date('2024-04-19T08:00:00'), // Specific date and time
+      is_read: false,
+      type: 'info',
+      source: 2,
+      image_url: 'https://actufinance.fr/wp-content/uploads/2020/08/binance.png'
+    },
+    {
+      id: 5,
+      name: 'Event reminder',
+      description: 'Don\'t forget about the meeting today!',
+      time: new Date('2024-04-20T15:30:00'), // Another specific date and time
+      is_read: false,
+      type: 'reminder',
+      source: 3,
+      image_url: 'https://actufinance.fr/wp-content/uploads/2020/08/binance.png'
+    },
+    {
+      id: 6,
+      name: 'New message received',
+      description: 'You have a new message from John Doe',
+      time: new Date('2024-04-19T08:00:00'), // Specific date and time
+      is_read: false,
+      type: 'info',
+      source: 2,
+      image_url: 'https://actufinance.fr/wp-content/uploads/2020/08/binance.png'
+    },
+    {
+      id: 7,
+      name: 'Event reminder',
+      description: 'Don\'t forget about the meeting today!',
+      time: new Date('2024-04-20T15:30:00'), // Another specific date and time
+      is_read: false,
+      type: 'reminder',
+      source: 3,
+      image_url: 'https://actufinance.fr/wp-content/uploads/2020/08/binance.png'
+    },
+    {
+      id: 8,
+      name: 'New message received',
+      description: 'You have a new message from John Doe',
+      time: new Date('2024-04-19T08:00:00'), // Specific date and time
+      is_read: false,
+      type: 'info',
+      source: 2,
+      image_url: 'https://actufinance.fr/wp-content/uploads/2020/08/binance.png'
+    },
+    {
+      id: 9,
+      name: 'Event reminder',
+      description: 'Don\'t forget about the meeting today!',
+      time: new Date('2024-04-20T15:30:00'), // Another specific date and time
+      is_read: false,
+      type: 'reminder',
+      source: 3,
+      image_url: 'https://actufinance.fr/wp-content/uploads/2020/08/binance.png'
+    }
+  ];
+
 
   return (
     <View style={styles.container}>
@@ -113,7 +208,8 @@ export default function Page() {
       {/* <MyBarChart data={barChartData} /> */}
       {/* <MyPieChart data={barChartData} /> */}
       {/* <GroupTotal transaction={transaction2} /> */}
-      <ListGroupTotal groups={listTransactions.transactions} />
+      {/* <ListGroupTotal groups={listTransactions.transactions} /> */}
+      <NotificationComponentList notifications={notifications} />
       <Text>Index page of Widgets Tab</Text>
     </View>
   );
