@@ -23,6 +23,7 @@ import { icons, COLORS, SIZES } from "../../../constants";
 import UtilityItem from "../../../components/home/utilityItem";
 import UtilityItemList from "../../../components/utility/utilityItemList";
 import Contact from '../../../components/contact/Contact'
+import ContactList from '../../../components/contact/ContactList'
 
 export default function Page() {
   const transaction = {
@@ -365,7 +366,7 @@ export default function Page() {
       {/* <GroupTotal transaction={transaction2} /> */}
       {/* <ListGroupTotal groups={listTransactions.transactions} /> */}
       {/* <NotificationComponentList notifications={notifications} /> */}
-      <Contact contact={contacts[0]} />
+      <ContactList contacts={contacts} />
       <Text>Index page of Widgets Tab</Text>
     </View>
   );

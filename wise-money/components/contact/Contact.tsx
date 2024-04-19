@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { COLORS, FONT, SIZES } from '../../constants';
-import { Contact } from './interface';
+import { ContactData } from './interface';
 
-const ContactComponent: React.FC<{ contact: Contact }> = ({ contact }) => {
+const ContactComponent: React.FC<{ contact: ContactData }> = ({ contact }) => {
     return (
         <TouchableOpacity style={styles.container}>
             <View style={styles.left}>
