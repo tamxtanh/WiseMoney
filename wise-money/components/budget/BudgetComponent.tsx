@@ -6,8 +6,8 @@ import { BudgetData } from './interface';
 
 const BudgetComponent: React.FC<{ budget: BudgetData }> = ({ budget }) => {
     const today = new Date();
-    const totalDays = Math.floor((budget.end_date.getTime() - budget.start_date.getTime()) / (1000 * 60 * 60 * 24));
-    let passedDays = Math.floor((today.getTime() - budget.start_date.getTime()) / (1000 * 60 * 60 * 24));
+    const totalDays = Math.floor((budget.end_date.getTime() - budget.start_date.getTime()) / (1000 * 60 * 60 * 24) + 1);
+    let passedDays = Math.floor((today.getTime() - budget.start_date.getTime()) / (1000 * 60 * 60 * 24) + 1);
 
     if (today < budget.start_date) {
         passedDays = 0;

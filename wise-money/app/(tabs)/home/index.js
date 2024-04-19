@@ -24,8 +24,8 @@ import UtilityItem from "../../../components/home/utilityItem";
 import UtilityItemList from "../../../components/utility/utilityItemList";
 import Contact from '../../../components/contact/Contact'
 import ContactList from '../../../components/contact/ContactList'
-import BudetComponent from '../../../components/budget/BudetComponent'
-
+import BudgetComponent from '../../../components/budget/BudgetComponent'
+import BudgetComponentList from '../../../components/budget/BudgetComponentList'
 
 export default function Page() {
   const contacts = [
@@ -272,15 +272,15 @@ export default function Page() {
         </View>
         <View style={styles.listReTrans}></View>
       </View>
-      <View style={styles.otherUtilities}>
+      {/* <View style={styles.otherUtilities}>
         <Text style={styles.lTitleBox}> Other utilities</Text>
         <View style={styles.listOtherUti}>
           <UtilityItemList itemData={utilityList} qualityPerRow={4} />
         </View>
-      </View>
+      </View> */}
 
       <ContactList contacts={contacts} />
-      <BudetComponent budget={budgets[0]} />
+      <BudgetComponentList budgets={budgets} />
       <Text>Index page of Widgets Tab</Text>
     </View>
   );
