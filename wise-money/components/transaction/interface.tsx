@@ -37,3 +37,12 @@ export interface DateTransactionWithoutImage {
     date: Date;
     value: number;
 }
+
+export interface TransactionListByCategory {
+    id: number;
+    title: string;
+    subtitle: string;
+    image_url: string;
+    total: number;
+    transactions: DateTransactionWithoutImage[];
+}

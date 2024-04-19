@@ -14,7 +14,7 @@ import {
 import TransactionWithDate from "../../../components/transaction/TransactionWithDate";
 import TransactionWithName from "../../../components/transaction/TransactionWithName";
 import GroupTotal from "../../../components/transaction/GroupTotal";
-import ListTransactionWithName from "../../../components/transaction/TransactionWithNameList";
+import ListTransactionWithName from "../../../components/transaction/TransactionListWithName";
 import ListGroupTotal from "../../../components/transaction/GroupTotalList";
 import UpdateProfile from "../../../components/profile/UpdateProfile";
 import MyBarChart from "../../../components/chart/MyBarChart";
@@ -27,6 +27,7 @@ import ContactList from '../../../components/contact/ContactList'
 import BudgetComponent from '../../../components/budget/BudgetComponent'
 import BudgetComponentList from '../../../components/budget/BudgetComponentList'
 import TransactionWithDateWithoutImage from '../../../components/transaction/TransactionWithDateWithoutImage'
+import TransactionListWithDateWithoutImage from '../../../components/transaction/TransactionListWithDateWithoutImage'
 
 export default function Page() {
   const contacts = [
@@ -188,6 +189,88 @@ export default function Page() {
     "value": 15200000,
   }
 
+
+  const transactionList = {
+    id: 1,
+    title: "Category Title",
+    subtitle: "10",
+    image_url: "https://th.bing.com/th/id/R.9cdacb09e37604f78a22d5d1b4e9c67c?rik=KOAVX5xNHfygFg&riu=http%3a%2f%2fmedia.doisongphapluat.com%2f693%2f2019%2f7%2f3%2ftruong+my+lan.jpg&ehk=CK0Dg158I1tHQFpaxExZBcMb0LaQ3ODkDfHj6%2fGpPcY%3d&risl=&pid=ImgRaw&r=0",
+    total: 110000, // Total of 10 transactions with value over 10000 and divisible by 1000
+    transactions: [
+      {
+        id: 1,
+        type: "Type 1",
+        name: "Transaction 1",
+        date: new Date(),
+        value: 15000 // Over 10000 and divisible by 1000
+      },
+      {
+        id: 2,
+        type: "Type 2",
+        name: "Transaction 2",
+        date: new Date(),
+        value: 20000 // Over 10000 and divisible by 1000
+      },
+      {
+        id: 3,
+        type: "Type 3",
+        name: "Transaction 3",
+        date: new Date(),
+        value: 13000 // Over 10000 and divisible by 1000
+      },
+      // Repeat this pattern for the remaining transactions
+      {
+        id: 4,
+        type: "Type 4",
+        name: "Transaction 4",
+        date: new Date(),
+        value: 11000 // Over 10000 and divisible by 1000
+      },
+      {
+        id: 5,
+        type: "Type 5",
+        name: "Transaction 5",
+        date: new Date(),
+        value: 14000 // Over 10000 and divisible by 1000
+      },
+      {
+        id: 6,
+        type: "Type 6",
+        name: "Transaction 6",
+        date: new Date(),
+        value: 18000 // Over 10000 and divisible by 1000
+      },
+      {
+        id: 7,
+        type: "Type 7",
+        name: "Transaction 7",
+        date: new Date(),
+        value: 12000 // Over 10000 and divisible by 1000
+      },
+      {
+        id: 8,
+        type: "Type 8",
+        name: "Transaction 8",
+        date: new Date(),
+        value: 16000 // Over 10000 and divisible by 1000
+      },
+      {
+        id: 9,
+        type: "Type 9",
+        name: "Transaction 9",
+        date: new Date(),
+        value: 17000 // Over 10000 and divisible by 1000
+      },
+      {
+        id: 10,
+        type: "Type 10",
+        name: "Transaction 10",
+        date: new Date(),
+        value: 19000 // Over 10000 and divisible by 1000
+      }
+    ]
+  };
+
   const utilityList = [
     {
       title: "Exchange Rates",
@@ -290,7 +373,8 @@ export default function Page() {
       {/* <ContactList contacts={contacts} />
       <BudgetComponentList budgets={budgets} /> */}
 
-      <TransactionWithDateWithoutImage transaction={transaction} />
+      {/* <TransactionWithDateWithoutImage transaction={transaction} /> */}
+      <TransactionListWithDateWithoutImage data={transactionList} />
       <Text>Index page of Widgets Tab</Text>
     </View>
   );
