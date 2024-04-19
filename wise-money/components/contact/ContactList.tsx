@@ -10,7 +10,6 @@ const ContactList: React.FC<{ contacts: ContactData[] }> = ({ contacts }) => {
 
     return (
         <FlatList
-            style={{ marginBottom: '11%' }}
             data={contacts}
             renderItem={renderItem}
             keyExtractor={(item) => item.id.toString()}

@@ -272,14 +272,14 @@ export default function Page() {
         </View>
         <View style={styles.listReTrans}></View>
       </View>
-      {/* <View style={styles.otherUtilities}>
+      <View style={styles.otherUtilities}>
         <Text style={styles.lTitleBox}> Other utilities</Text>
         <View style={styles.listOtherUti}>
           <UtilityItemList itemData={utilityList} qualityPerRow={4} />
         </View>
-      </View> */}
+      </View>
 
-      {/* <ContactList contacts={contacts} /> */}
+      <ContactList contacts={contacts} />
       <BudetComponent budget={budgets[0]} />
       <Text>Index page of Widgets Tab</Text>
     </View>
@@ -290,8 +290,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "E9E9E9",
-    // alignItems: "center",
-    // justifyContent: "center",
+    marginBottom: '11%'
   },
   totalBalance: {
     backgroundColor: COLORS.primary,
