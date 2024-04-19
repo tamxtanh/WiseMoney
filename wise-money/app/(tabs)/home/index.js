@@ -14,8 +14,8 @@ import {
 import TransactionWithDate from "../../../components/transaction/TransactionWithDate";
 import TransactionWithName from "../../../components/transaction/TransactionWithName";
 import GroupTotal from "../../../components/transaction/GroupTotal";
-import ListTransactionWithName from "../../../components/transaction/ListTransactionWithName";
-import ListGroupTotal from "../../../components/transaction/ListGroupTotal";
+import ListTransactionWithName from "../../../components/transaction/TransactionWithNameList";
+import ListGroupTotal from "../../../components/transaction/GroupTotalList";
 import UpdateProfile from "../../../components/profile/UpdateProfile";
 import MyBarChart from "../../../components/chart/MyBarChart";
 import MyPieChart from "../../../components/chart/MyPieChart";
