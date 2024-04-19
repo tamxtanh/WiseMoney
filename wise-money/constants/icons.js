@@ -263,6 +263,7 @@ export default {
   chart,
   plus,
   arrowBack,
+
   notification,
   arrowForward,
   visibility,
