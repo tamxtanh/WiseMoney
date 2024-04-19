@@ -5,6 +5,7 @@ import { Button, Icon } from 'react-native-elements'
 import { COLORS, FONT, SIZES } from '../../constants/theme'
 import { useRouter } from 'expo-router'
 import { validateForm } from '../../function/UserDataValidation';
+import { formatPhoneNumber } from '../../function/PhoneFormatDeformat'
 import styles from './style'
 
 export default function SignUp({ switchToSignIn }) {
@@ -58,15 +59,6 @@ export default function SignUp({ switchToSignIn }) {
             // Form is invalid, display error message
             Alert.alert('Invalid Form', validationResult.message);
         }
-    }
-
-    const formatPhoneNumber = (phone: string) => {
-        // Remove leading "0" if present
-        if (phone.startsWith('0')) {
-            phone = phone.slice(1);
-        }
-
-        return `+84${phone}`;
     }
 
     return (
