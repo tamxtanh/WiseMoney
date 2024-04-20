@@ -13,10 +13,10 @@ const TransactionWithDate: React.FC<{ transaction: DateTransaction }> = ({ trans
     return (
         <TouchableOpacity style={styles.container} onPress={handleClick}>
             <View style={styles.left}>
-                <Image source={{ uri: transaction.image }} style={styles.icon} />
+                <Image source={{ uri: transaction.image_url }} style={styles.icon} />
             </View>
             <View style={styles.center}>
-                <Text style={styles.title}>{transaction.category_name}</Text>
+                <Text style={styles.title}>{transaction.name}</Text>
                 <Text style={styles.subtitle}>{transaction.date.toLocaleDateString()}</Text>
             </View>
             <View style={styles.right}>
