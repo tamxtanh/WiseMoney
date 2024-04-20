@@ -14,8 +14,8 @@ import {
 import TransactionWithDate from "../../../components/transaction/TransactionWithDate";
 import TransactionWithName from "../../../components/transaction/TransactionWithName";
 import GroupTotal from "../../../components/transaction/GroupTotal";
-import ListTransactionWithName from "../../../components/transaction/ListTransactionWithName";
-import ListGroupTotal from "../../../components/transaction/ListGroupTotal";
+import ListTransactionWithName from "../../../components/transaction/TransactionListWithName";
+import ListGroupTotal from "../../../components/transaction/GroupTotalList";
 import UpdateProfile from "../../../components/profile/UpdateProfile";
 import MyBarChart from "../../../components/chart/MyBarChart";
 import MyPieChart from "../../../components/chart/MyPieChart";
@@ -24,199 +24,265 @@ import UtilityItem from "../../../components/home/utilityItem";
 import UtilityItemList from "../../../components/utility/utilityItemList";
 import { useState } from "react";
 import RadioTabList from "../../../components/home/radioTabList";
+import Contact from "../../../components/contact/Contact";
+import ContactList from "../../../components/contact/ContactList";
+import BudgetComponent from "../../../components/budget/BudgetComponent";
+import BudgetComponentList from "../../../components/budget/BudgetComponentList";
+import TransactionWithDateWithoutImage from "../../../components/transaction/TransactionWithDateWithoutImage";
+import TransactionListWithDateWithoutImage from "../../../components/transaction/TransactionListWithDateWithoutImage";
 
 export default function Page() {
-  const transaction = {
-    id: 1,
-    image: require("../../../assets/category/car.png"),
-    type: "INCOME",
-    category_name: "Học tập",
-    date: new Date(2024, 6, 3),
-    value: 15300000,
-  };
-
-  const transaction2 = {
-    id: 1,
-    image:
-      "https://eianmciufswbutirdbka.supabase.co/storage/v1/object/public/my%20files/images/icons/bank.jpg?t=2024-03-03T11%3A56%3A20.199Z",
-    type: "INCOME",
-    category_name: "Học tập",
-    name: "Mua sách tiếng Anh",
-    value: 15300000,
-  };
-
-  const listTransactions = {
-    date: new Date("2024-08-08"),
-    total: -222000000,
-    transactions: [
-      {
-        id: 1,
-        image:
-          "https://eianmciufswbutirdbka.supabase.co/storage/v1/object/public/my%20files/images/icons/bank.jpg?t=2024-03-03T11%3A56%3A20.199Z",
-        type: "INCOME",
-        category_name: "Học tập",
-        name: "Mua sách tiếng Anh",
-        value: 15300000,
-      },
-      {
-        id: 2,
-        image:
-          "https://eianmciufswbutirdbka.supabase.co/storage/v1/object/public/my%20files/images/icons/bank.jpg?t=2024-03-03T11%3A56%3A20.199Z",
-        type: "INCOME",
-        category_name: "Họasfdasfdsc tập",
-        name: "Mua sáasfdafch tiếng Anh",
-        value: 32300000,
-      },
-      {
-        id: 3,
-        image:
-          "https://eianmciufswbutirdbka.supabase.co/storage/v1/object/public/my%20files/images/icons/bank.jpg?t=2024-03-03T11%3A56%3A20.199Z",
-        type: "INCOME",
-        category_name: "Họasfdafập",
-        name: "qwrqwewqr qwreAnh",
-        value: 9500000,
-      },
-      {
-        id: 4,
-        image:
-          "https://eianmciufswbutirdbka.supabase.co/storage/v1/object/public/my%20files/images/icons/birthdate.png?t=2024-03-03T11%3A56%3A32.582Z",
-        type: "INCOME",
-        category_name: "Hqwerweqr tập",
-        name: "Mqwererwqếng Anh",
-        value: 333500000,
-      },
-      {
-        id: 5,
-        image:
-          "https://eianmciufswbutirdbka.supabase.co/storage/v1/object/public/my%20files/images/icons/bank.jpg?t=2024-03-03T11%3A56%3A20.199Z",
-        type: "INCOME",
-        category_name: "qwreqwerqerwq qwerqwer",
-        name: "Mwqerwqrng Anh",
-        value: 166300000,
-      },
-    ],
-  };
-
-  const barChartData = {
-    title: "Monthly Sales",
-    height: 300,
-    list: [
-      { name: "January", value: 1000000 },
-      { name: "February", value: 10898000 },
-      { name: "Jan", value: 898000 },
-      { name: "Feb", value: 1898000 },
-      { name: "Jan", value: 2898000 },
-      { name: "Feb", value: 5898000 },
-      { name: "Feb", value: 1898000 },
-      { name: "Jan", value: 2898000 },
-      { name: "Feb", value: 5898000 },
-
-      // more data...
-    ],
-  };
-
-  const notifications = [
+  const contacts = [
     {
       id: 1,
-      name: "Your expense exceeds your budget",
-      description:
-        "You have spent over VND 1,000,000 over your budget in Eat and Drink April Budget",
-      time: new Date(), // Current date and time
-      is_read: false,
-      type: "warning",
-      source: 1,
+      name: "John Doe",
+      phone: "123-456-7890",
+      email: "john@example.com",
+      address: "123 Main St, Anytown, USA",
       image_url:
-        "https://actufinance.fr/wp-content/uploads/2020/08/binance.png",
+        "https://th.bing.com/th/id/R.9cdacb09e37604f78a22d5d1b4e9c67c?rik=KOAVX5xNHfygFg&riu=http%3a%2f%2fmedia.doisongphapluat.com%2f693%2f2019%2f7%2f3%2ftruong+my+lan.jpg&ehk=CK0Dg158I1tHQFpaxExZBcMb0LaQ3ODkDfHj6%2fGpPcY%3d&risl=&pid=ImgRaw&r=0",
     },
     {
       id: 2,
-      name: "New message received",
-      description: "You have a new message from John Doe",
-      time: new Date("2024-04-19T08:00:00"), // Specific date and time
-      is_read: false,
-      type: "info",
-      source: 2,
+      name: "Jane Smith",
+      phone: "456-789-0123",
+      email: "jane@example.com",
+      address: "456 Elm St, Sometown, USA",
       image_url:
-        "https://actufinance.fr/wp-content/uploads/2020/08/binance.png",
+        "https://th.bing.com/th/id/R.9cdacb09e37604f78a22d5d1b4e9c67c?rik=KOAVX5xNHfygFg&riu=http%3a%2f%2fmedia.doisongphapluat.com%2f693%2f2019%2f7%2f3%2ftruong+my+lan.jpg&ehk=CK0Dg158I1tHQFpaxExZBcMb0LaQ3ODkDfHj6%2fGpPcY%3d&risl=&pid=ImgRaw&r=0",
     },
     {
       id: 3,
-      name: "Event reminder",
-      description: "Don't forget about the meeting today!",
-      time: new Date("2024-04-20T15:30:00"), // Another specific date and time
-      is_read: false,
-      type: "reminder",
-      source: 3,
+      name: "Alice Johnson",
+      phone: "789-012-3456",
+      email: "alice@example.com",
+      address: "789 Oak St, Othertown, USA",
       image_url:
-        "https://actufinance.fr/wp-content/uploads/2020/08/binance.png",
+        "https://th.bing.com/th/id/R.9cdacb09e37604f78a22d5d1b4e9c67c?rik=KOAVX5xNHfygFg&riu=http%3a%2f%2fmedia.doisongphapluat.com%2f693%2f2019%2f7%2f3%2ftruong+my+lan.jpg&ehk=CK0Dg158I1tHQFpaxExZBcMb0LaQ3ODkDfHj6%2fGpPcY%3d&risl=&pid=ImgRaw&r=0",
     },
     {
       id: 4,
-      name: "New message received",
-      description: "You have a new message from John Doe",
-      time: new Date("2024-04-19T08:00:00"), // Specific date and time
-      is_read: false,
-      type: "info",
-      source: 2,
+      name: "Bob Williams",
+      phone: "012-345-6789",
+      email: "bob@example.com",
+      address: "012 Pine St, Anothertown, USA",
       image_url:
-        "https://actufinance.fr/wp-content/uploads/2020/08/binance.png",
+        "https://th.bing.com/th/id/R.9cdacb09e37604f78a22d5d1b4e9c67c?rik=KOAVX5xNHfygFg&riu=http%3a%2f%2fmedia.doisongphapluat.com%2f693%2f2019%2f7%2f3%2ftruong+my+lan.jpg&ehk=CK0Dg158I1tHQFpaxExZBcMb0LaQ3ODkDfHj6%2fGpPcY%3d&risl=&pid=ImgRaw&r=0",
     },
     {
       id: 5,
-      name: "Event reminder",
-      description: "Don't forget about the meeting today!",
-      time: new Date("2024-04-20T15:30:00"), // Another specific date and time
-      is_read: false,
-      type: "reminder",
-      source: 3,
+      name: "Eva Garcia",
+      phone: "345-678-9012",
+      email: "eva@example.com",
+      address: "345 Cedar St, Lasttown, USA",
       image_url:
-        "https://actufinance.fr/wp-content/uploads/2020/08/binance.png",
+        "https://th.bing.com/th/id/R.9cdacb09e37604f78a22d5d1b4e9c67c?rik=KOAVX5xNHfygFg&riu=http%3a%2f%2fmedia.doisongphapluat.com%2f693%2f2019%2f7%2f3%2ftruong+my+lan.jpg&ehk=CK0Dg158I1tHQFpaxExZBcMb0LaQ3ODkDfHj6%2fGpPcY%3d&risl=&pid=ImgRaw&r=0",
+    },
+  ];
+
+  const budgets = [
+    {
+      id: 1,
+      name: "Monthly Expenses",
+      image_url:
+        "https://th.bing.com/th/id/R.de95dac0133853f128bcffbfebcdbbc1?rik=%2bnFw9jo31aDcag&pid=ImgRaw&r=0",
+      amount: 28000000,
+      start_date: new Date("2024-04-01"),
+      end_date: new Date("2024-04-30"),
+      current: 15000000,
+      is_done: new Date("2024-04-30") < new Date(), // true
+    },
+    {
+      id: 2,
+      name: "Vacation Fund",
+      image_url:
+        "https://th.bing.com/th/id/R.de95dac0133853f128bcffbfebcdbbc1?rik=%2bnFw9jo31aDcag&pid=ImgRaw&r=0",
+      amount: 5000,
+      start_date: new Date("2024-06-01"),
+      end_date: new Date("2024-06-30"),
+      current: 6000,
+      is_done: new Date("2024-06-30") < new Date(), // false
+    },
+    {
+      id: 3,
+      name: "Emergency Savings",
+      image_url:
+        "https://th.bing.com/th/id/R.de95dac0133853f128bcffbfebcdbbc1?rik=%2bnFw9jo31aDcag&pid=ImgRaw&r=0",
+      amount: 10000,
+      start_date: new Date("2024-01-01"),
+      end_date: new Date("2024-12-31"),
+      current: 7500,
+      is_done: new Date("2024-12-31") < new Date(), // false
+    },
+    {
+      id: 4,
+      name: "Home Renovation",
+      image_url:
+        "https://th.bing.com/th/id/R.de95dac0133853f128bcffbfebcdbbc1?rik=%2bnFw9jo31aDcag&pid=ImgRaw&r=0",
+      amount: 15000,
+      start_date: new Date("2024-03-01"),
+      end_date: new Date("2024-09-30"),
+      current: 20000,
+      is_done: new Date("2024-09-30") < new Date(), // true
+    },
+    {
+      id: 5,
+      name: "College Fund",
+      image_url:
+        "https://th.bing.com/th/id/R.de95dac0133853f128bcffbfebcdbbc1?rik=%2bnFw9jo31aDcag&pid=ImgRaw&r=0",
+      amount: 20000,
+      start_date: new Date("2024-01-01"),
+      end_date: new Date("2028-12-31"),
+      current: 15000,
+      is_done: new Date("2028-12-31") < new Date(), // false
     },
     {
       id: 6,
-      name: "New message received",
-      description: "You have a new message from John Doe",
-      time: new Date("2024-04-19T08:00:00"), // Specific date and time
-      is_read: false,
-      type: "info",
-      source: 2,
+      name: "New Car Fund",
       image_url:
-        "https://actufinance.fr/wp-content/uploads/2020/08/binance.png",
+        "https://th.bing.com/th/id/R.de95dac0133853f128bcffbfebcdbbc1?rik=%2bnFw9jo31aDcag&pid=ImgRaw&r=0",
+      amount: 25000,
+      start_date: new Date("2024-05-01"),
+      end_date: new Date("2025-05-01"),
+      current: 20000,
+      is_done: new Date("2025-05-01") < new Date(), // false
     },
     {
       id: 7,
-      name: "Event reminder",
-      description: "Don't forget about the meeting today!",
-      time: new Date("2024-04-20T15:30:00"), // Another specific date and time
-      is_read: false,
-      type: "reminder",
-      source: 3,
+      name: "Retirement Savings",
       image_url:
-        "https://actufinance.fr/wp-content/uploads/2020/08/binance.png",
+        "https://th.bing.com/th/id/R.de95dac0133853f128bcffbfebcdbbc1?rik=%2bnFw9jo31aDcag&pid=ImgRaw&r=0",
+      amount: 50000,
+      start_date: new Date("2024-01-01"),
+      end_date: new Date("2044-01-01"),
+      current: 40000,
+      is_done: new Date("2044-01-01") < new Date(), // false
     },
     {
       id: 8,
-      name: "New message received",
-      description: "You have a new message from John Doe",
-      time: new Date("2024-04-19T08:00:00"), // Specific date and time
-      is_read: false,
-      type: "info",
-      source: 2,
+      name: "Healthcare Fund",
       image_url:
-        "https://actufinance.fr/wp-content/uploads/2020/08/binance.png",
+        "https://th.bing.com/th/id/R.de95dac0133853f128bcffbfebcdbbc1?rik=%2bnFw9jo31aDcag&pid=ImgRaw&r=0",
+      amount: 10000,
+      start_date: new Date("2024-01-01"),
+      end_date: new Date("2024-12-31"),
+      current: 12000,
+      is_done: new Date("2024-12-31") < new Date(), // false
     },
     {
       id: 9,
-      name: "Event reminder",
-      description: "Don't forget about the meeting today!",
-      time: new Date("2024-04-20T15:30:00"), // Another specific date and time
-      is_read: false,
-      type: "reminder",
-      source: 3,
+      name: "Wedding Savings",
       image_url:
-        "https://actufinance.fr/wp-content/uploads/2020/08/binance.png",
+        "https://th.bing.com/th/id/R.de95dac0133853f128bcffbfebcdbbc1?rik=%2bnFw9jo31aDcag&pid=ImgRaw&r=0",
+      amount: 20000,
+      start_date: new Date("2024-01-01"),
+      end_date: new Date("2025-12-31"),
+      current: 15000,
+      is_done: new Date("2025-12-31") < new Date(), // false
+    },
+    {
+      id: 10,
+      name: "Investment Portfolio",
+      image_url:
+        "https://th.bing.com/th/id/R.de95dac0133853f128bcffbfebcdbbc1?rik=%2bnFw9jo31aDcag&pid=ImgRaw&r=0",
+      amount: 500000,
+      start_date: new Date("2024-01-01"),
+      end_date: new Date("2044-01-01"),
+      current: 200000,
+      is_done: new Date("2044-01-01") < new Date(), // false
     },
   ];
+
+  const transaction = {
+    id: 10,
+    image: require("../../../assets/category/car.png"),
+    type: "Expense",
+    category_name: "Entertainment",
+    date: new Date(2023, 2, 20),
+    value: 15200000,
+  };
+
+  const transactionList = {
+    id: 1,
+    title: "Category Title",
+    subtitle: "10",
+    image_url:
+      "https://th.bing.com/th/id/R.9cdacb09e37604f78a22d5d1b4e9c67c?rik=KOAVX5xNHfygFg&riu=http%3a%2f%2fmedia.doisongphapluat.com%2f693%2f2019%2f7%2f3%2ftruong+my+lan.jpg&ehk=CK0Dg158I1tHQFpaxExZBcMb0LaQ3ODkDfHj6%2fGpPcY%3d&risl=&pid=ImgRaw&r=0",
+    total: 110000, // Total of 10 transactions with value over 10000 and divisible by 1000
+    transactions: [
+      {
+        id: 1,
+        type: "Type 1",
+        name: "Transaction 1",
+        date: new Date(),
+        value: 15000, // Over 10000 and divisible by 1000
+      },
+      {
+        id: 2,
+        type: "Type 2",
+        name: "Transaction 2",
+        date: new Date(),
+        value: 20000, // Over 10000 and divisible by 1000
+      },
+      {
+        id: 3,
+        type: "Type 3",
+        name: "Transaction 3",
+        date: new Date(),
+        value: 13000, // Over 10000 and divisible by 1000
+      },
+      // Repeat this pattern for the remaining transactions
+      {
+        id: 4,
+        type: "Type 4",
+        name: "Transaction 4",
+        date: new Date(),
+        value: 11000, // Over 10000 and divisible by 1000
+      },
+      {
+        id: 5,
+        type: "Type 5",
+        name: "Transaction 5",
+        date: new Date(),
+        value: 14000, // Over 10000 and divisible by 1000
+      },
+      {
+        id: 6,
+        type: "Type 6",
+        name: "Transaction 6",
+        date: new Date(),
+        value: 18000, // Over 10000 and divisible by 1000
+      },
+      {
+        id: 7,
+        type: "Type 7",
+        name: "Transaction 7",
+        date: new Date(),
+        value: 12000, // Over 10000 and divisible by 1000
+      },
+      {
+        id: 8,
+        type: "Type 8",
+        name: "Transaction 8",
+        date: new Date(),
+        value: 16000, // Over 10000 and divisible by 1000
+      },
+      {
+        id: 9,
+        type: "Type 9",
+        name: "Transaction 9",
+        date: new Date(),
+        value: 17000, // Over 10000 and divisible by 1000
+      },
+      {
+        id: 10,
+        type: "Type 10",
+        name: "Transaction 10",
+        date: new Date(),
+        value: 19000, // Over 10000 and divisible by 1000
+      },
+    ],
+  };
 
   const utilityList = [
     {
@@ -391,13 +457,11 @@ export default function Page() {
           </View>
         </View>
       </ScrollView>
-
       {/* <TransactionWithName transaction={transaction2} /> */}
       {/* <ListTransactionWithName
         listTransactions={listTransactions}
         style={{ flex: 1 }}
       /> */}
-
       {/* <UpdateProfile></UpdateProfile> */}
       {/* <BarChartVerticalWithLabels /> */}
       {/* <MyBarChart data={barChartData} />
@@ -405,6 +469,20 @@ export default function Page() {
       {/* <GroupTotal transaction={transaction2} /> */}
       {/* <ListGroupTotal groups={listTransactions.transactions} /> */}
       {/* <NotificationComponentList notifications={notifications} /> */}
+      {/* <View style={styles.listReTrans}></View>
+      </View> */}
+      {/* <View style={styles.otherUtilities}>
+        <Text style={styles.lTitleBox}> Other utilities</Text>
+        <View style={styles.listOtherUti}>
+          <UtilityItemList itemData={utilityList} qualityPerRow={4} />
+        </View>
+      </View> */}
+      {/* <ContactList contacts={contacts} />
+      <BudgetComponentList budgets={budgets} /> */}
+      {/* <TransactionWithDateWithoutImage transaction={transaction} /> */}
+      {/* // <TransactionListWithDateWithoutImage data={transactionList} />
+      // <Text>Index page of Widgets Tab</Text>
+      //{" "} */}
     </View>
   );
 }
@@ -413,8 +491,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "E9E9E9",
-    // alignItems: "center",
-    // justifyContent: "center",
+    marginBottom: "11%",
   },
   totalBalance: {
     backgroundColor: COLORS.primary,
@@ -488,6 +565,6 @@ const styles = StyleSheet.create({
   },
   spending: {},
   scrollViewContainer: {
-    marginBottom: 62,
+    // marginBottom: 62,
   },
 });
