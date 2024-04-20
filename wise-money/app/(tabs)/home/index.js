@@ -456,6 +456,7 @@ export default function Page() {
             <UtilityItemList itemData={utilityList} qualityPerRow={4} />
           </View>
         </View>
+
       </ScrollView>
       {/* <TransactionWithName transaction={transaction2} /> */}
       {/* <ListTransactionWithName
@@ -472,10 +473,12 @@ export default function Page() {
       {/* <View style={styles.listReTrans}></View>
       </View> */}
       {/* <View style={styles.otherUtilities}>
+
         <Text style={styles.lTitleBox}> Other utilities</Text>
         <View style={styles.listOtherUti}>
           <UtilityItemList itemData={utilityList} qualityPerRow={4} />
         </View>
+
       </View> */}
       {/* <ContactList contacts={contacts} />
       <BudgetComponentList budgets={budgets} /> */}
@@ -483,6 +486,7 @@ export default function Page() {
       {/* // <TransactionListWithDateWithoutImage data={transactionList} />
       // <Text>Index page of Widgets Tab</Text>
       //{" "} */}
+
     </View>
   );
 }
