@@ -32,18 +32,23 @@ const styles = StyleSheet.create({
         borderRadius: 25,
     },
     title: {
-        fontSize: SIZES.h5,
+        fontSize: SIZES.h6,
         fontFamily: FONT.medium
     },
     subtitle: {
         color: COLORS.gray,
-        fontSize: SIZES.h8
+        fontSize: SIZES.h8,
+        fontFamily: FONT.regular
     },
     red: {
         color: COLORS.red,
+        fontSize: SIZES.h7,
+        fontFamily: FONT.regular
     },
     green: {
         color: COLORS.primary,
+        fontSize: SIZES.h7,
+        fontFamily: FONT.regular
     },
 });
 
