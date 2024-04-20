@@ -29,6 +29,8 @@ import BudgetComponentList from '../components/budget/BudgetComponentList'
 import TransactionWithDateWithoutImage from '../components/transaction/TransactionWithDateWithoutImage'
 import TransactionListWithDateWithoutImage from '../components/transaction/TransactionListWithDateWithoutImage'
 import FullChartData from '../components/chart/interface'
+import GroupTree from '../components/group-tree/GroupTree'
+import { GroupTreeData } from '../components/group-tree/interface'
 
 export default function Page() {
     const contacts = [
@@ -272,15 +274,58 @@ export default function Page() {
         ]
     };
 
-    const myChartData: FullChartData = {
-        title: "Revenue Distribution",
-        height: 300,
+    // const myChartData: FullChartData = {
+    //     title: "Revenue Distribution",
+    //     height: 300,
+    //     list: [
+    //         { value: 15000, name: "Product A" },
+    //         { value: 25000, name: "Product B" },
+    //         // { value: 30000, name: "Product C" },
+    //         // { value: 12000, name: "Product D" },
+    //         // { value: 20000, name: "Product E" },
+    //     ],
+    // };
+
+    const groupTreeExample: GroupTreeData = {
+        id: 1,
+        name: "Electronics",
+        image_url: "https://th.bing.com/th/id/OIP.talhVFwQG6cbyWOLthpjBAHaHa?rs=1&pid=ImgDetMain",
         list: [
-            { value: 15000, name: "Product A" },
-            { value: 25000, name: "Product B" },
-            // { value: 30000, name: "Product C" },
-            // { value: 12000, name: "Product D" },
-            // { value: 20000, name: "Product E" },
+            {
+                id: 1,
+                name: "Mobile Phones",
+                image_url: "https://th.bing.com/th/id/OIP.talhVFwQG6cbyWOLthpjBAHaHa?rs=1&pid=ImgDetMain",
+            },
+            {
+                id: 2,
+                name: "Laptops",
+                image_url: "https://th.bing.com/th/id/OIP.talhVFwQG6cbyWOLthpjBAHaHa?rs=1&pid=ImgDetMain",
+            },
+            {
+                id: 3,
+                name: "Tablets",
+                image_url: "https://th.bing.com/th/id/OIP.talhVFwQG6cbyWOLthpjBAHaHa?rs=1&pid=ImgDetMain",
+            },
+            {
+                id: 4,
+                name: "Cameras",
+                image_url: "https://th.bing.com/th/id/OIP.talhVFwQG6cbyWOLthpjBAHaHa?rs=1&pid=ImgDetMain",
+            },
+            {
+                id: 5,
+                name: "Smartwatches",
+                image_url: "https://th.bing.com/th/id/OIP.talhVFwQG6cbyWOLthpjBAHaHa?rs=1&pid=ImgDetMain",
+            },
+            {
+                id: 6,
+                name: "Headphones",
+                image_url: "https://th.bing.com/th/id/OIP.talhVFwQG6cbyWOLthpjBAHaHa?rs=1&pid=ImgDetMain",
+            },
+            {
+                id: 7,
+                name: "Gaming Consoles",
+                image_url: "https://th.bing.com/th/id/OIP.talhVFwQG6cbyWOLthpjBAHaHa?rs=1&pid=ImgDetMain",
+            },
         ],
     };
 
@@ -289,7 +334,8 @@ export default function Page() {
             {/* <TransactionWithDateWithoutImage transaction={transaction} /> */}
             {/* <TransactionListWithDateWithoutImage data={transactionList} /> */}
             {/* <TransactionWithDate transaction={transaction} /> */}
-            <MyBarChart data={myChartData} />
+            {/* <MyBarChart data={myChartData} /> */}
+            <GroupTree data={groupTreeExample} />
             <Text>Index page of Widgets Tab</Text>
         </View>
     );
