@@ -3,25 +3,39 @@ import React from "react";
 import UtilityItem from "../home/utilityItem";
 
 const UtilityItemList = ({ itemData, qualityPerRow }) => {
-  const renderIconRow = ({ item }) => (
-    <View style={styles.rowContainer}>
-      {item.map((utilityItem, index) => (
-        <UtilityItem
-          key={index}
-          title={utilityItem.title}
-          icon={utilityItem.icon}
-          colorBox={utilityItem.colorBox}
-        />
-      ))}
-    </View>
-  );
+  // const renderIconRow = ({ item }) => (
+  //   <View style={styles.rowContainer}>
+  //     {item.map((utilityItem, index) => (
+  //       <UtilityItem
+  //         key={index}
+  //         title={utilityItem.title}
+  //         icon={utilityItem.icon}
+  //         colorBox={utilityItem.colorBox}
+  //       />
+  //     ))}
+  //   </View>
+  // );
 
   return (
-    <FlatList
-      data={chunkArray(itemData, qualityPerRow)} // Split imageList into arrays of 5 items
-      renderItem={renderIconRow}
-      keyExtractor={(item, index) => index.toString()}
-    />
+    // <FlatList
+    //   data={chunkArray(itemData, qualityPerRow)} // Split imageList into arrays of 5 items
+    //   renderItem={renderIconRow}
+    //   keyExtractor={(item, index) => index.toString()}
+    // />
+    <View>
+      {chunkArray(itemData, qualityPerRow).map((item, index) => (
+        <View key={index} style={styles.rowContainer}>
+          {item.map((utilityItem, index) => (
+            <UtilityItem
+              key={index}
+              title={utilityItem.title}
+              icon={utilityItem.icon}
+              colorBox={utilityItem.colorBox}
+            />
+          ))}
+        </View>
+      ))}
+    </View>
   );
 };
 
