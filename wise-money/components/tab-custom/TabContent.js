@@ -7,8 +7,82 @@ import {
   ScrollView,
 } from "react-native";
 import { COLORS } from "../../constants";
+import TransactionListWithDateWithoutImage from "../transaction/TransactionListWithDateWithoutImage";
+import ListTransactionWithName from "../transaction/TransactionListWithName";
 
 const TabContent = ({ content }) => {
+  const transactionListData = [
+    {
+      date: new Date(2024, 3, 20), // Day 1
+      total: 50000,
+      transactions: [
+        {
+          id: 1,
+          image_url: "image1.jpg",
+          type: "expense",
+          category_name: "Food",
+          name: "Lunch",
+          value: 20000,
+        },
+        {
+          id: 2,
+          image_url: "image2.jpg",
+          type: "expense",
+          category_name: "Transportation",
+          name: "Taxi",
+          value: 15000,
+        },
+        // Add more transactions for Day 1 if needed
+      ],
+    },
+    {
+      date: new Date(2024, 3, 18), // Day 2
+      total: 70000,
+      transactions: [
+        {
+          id: 3,
+          image_url: "image3.jpg",
+          type: "expense",
+          category_name: "Shopping",
+          name: "Clothes",
+          value: 30000,
+        },
+        {
+          id: 4,
+          image_url: "image4.jpg",
+          type: "expense",
+          category_name: "Food",
+          name: "Dinner",
+          value: 40000,
+        },
+        // Add more transactions for Day 2 if needed
+      ],
+    },
+    {
+      date: new Date(2024, 3, 16), // Day 3
+      total: 60000,
+      transactions: [
+        {
+          id: 5,
+          image_url: "image5.jpg",
+          type: "expense",
+          category_name: "Entertainment",
+          name: "Movie",
+          value: 40000,
+        },
+        {
+          id: 6,
+          image_url: "image6.jpg",
+          type: "expense",
+          category_name: "Food",
+          name: "Snacks",
+          value: 20000,
+        },
+        // Add more transactions for Day 3 if needed
+      ],
+    },
+  ];
+
   return (
     <ScrollView style={styles.containerSv}>
       <View style={styles.initReport}>
@@ -53,6 +127,12 @@ const TabContent = ({ content }) => {
           </TouchableOpacity>
         </View>
       </View>
+      {transactionListData.map((dayTransactions, index) => (
+        <ListTransactionWithName
+          key={index}
+          listTransactions={dayTransactions}
+        />
+      ))}
     </ScrollView>
   );
 };
@@ -69,6 +149,7 @@ const styles = StyleSheet.create({
     paddingTop: 25,
     paddingBottom: 20,
     backgroundColor: "white",
+    marginBottom: 30,
   },
   itemReport: {
     flexDirection: "row",
