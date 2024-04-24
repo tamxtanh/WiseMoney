@@ -246,6 +246,39 @@ const debts = ({ fill }) => {
   return <SvgXml xml={svgXml} />;
 };
 
+const searchIcon = ({ fill }) => {
+  const svgXml = `
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <mask id="mask0_164_1009" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+  <rect width="24" height="24" fill="#D9D9D9"/>
+  </mask>
+  <g mask="url(#mask0_164_1009)">
+  <path d="M19.6 24L13.3 17.7C12.8 18.1 12.225 18.4167 11.575 18.65C10.925 18.8833 10.2333 19 9.5 19C7.68333 19 6.14583 18.3708 4.8875 17.1125C3.62917 15.8542 3 14.3167 3 12.5C3 10.6833 3.62917 9.14583 4.8875 7.8875C6.14583 6.62917 7.68333 6 9.5 6C11.3167 6 12.8542 6.62917 14.1125 7.8875C15.3708 9.14583 16 10.6833 16 12.5C16 13.2333 15.8833 13.925 15.65 14.575C15.4167 15.225 15.1 15.8 14.7 16.3L21 22.6L19.6 24ZM9.5 17C10.75 17 11.8125 16.5625 12.6875 15.6875C13.5625 14.8125 14 13.75 14 12.5C14 11.25 13.5625 10.1875 12.6875 9.3125C11.8125 8.4375 10.75 8 9.5 8C8.25 8 7.1875 8.4375 6.3125 9.3125C5.4375 10.1875 5 11.25 5 12.5C5 13.75 5.4375 14.8125 6.3125 15.6875C7.1875 16.5625 8.25 17 9.5 17Z" fill="${fill}"/>
+  </g>
+  </svg>
+
+    `;
+
+  return <SvgXml xml={svgXml} />;
+};
+
+const select = ({ fill }) => {
+  const svgXml = `
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <mask id="mask0_164_864" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+  <rect width="24" height="24" fill="#D9D9D9"/>
+  </mask>
+  <g mask="url(#mask0_164_864)">
+  <path d="M5 20V13H3V11H9V13H7V20H5ZM5 9V4H7V9H5ZM9 9V7H11V4H13V7H15V9H9ZM11 20V11H13V20H11ZM17 20V17H15V15H21V17H19V20H17ZM17 13V4H19V13H17Z" fill="${fill}"/>
+  </g>
+  </svg>
+
+
+    `;
+
+  return <SvgXml xml={svgXml} />;
+};
+
 export default {
   heart,
   menu,
@@ -274,4 +307,6 @@ export default {
   taxCaculating,
   spendingSuggestions,
   exportData,
+  searchIcon,
+  select,
 };
