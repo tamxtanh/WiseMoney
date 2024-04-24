@@ -7,6 +7,7 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+
 import TransactionWithDate from "../../../components/transaction/TransactionWithDate";
 import MyBarChart from "../../../components/chart/MyBarChart";
 import { icons, COLORS, SIZES } from "../../../constants";
