@@ -10,8 +10,12 @@ import {
 import { icons, COLORS, SIZES } from "../../../constants";
 import InputTransaction from "../../../components/transaction/InputTransaction";
 import { CheckBox } from "react-native-elements";
+import NumericKeyboard from "../../../components/keyboard-custom/NumericKeyboard";
+import { useState } from "react";
 
 export default function Page() {
+  const [inputValue, setInputValue] = useState("");
+
   return (
     <View style={styles.container}>
       <Stack.Screen
@@ -76,6 +80,8 @@ export default function Page() {
               }}
               placeholder="0"
               placeholderTextColor={COLORS.primary}
+              value={inputValue}
+              onChangeText={setInputValue}
             />
 
             <Text
@@ -200,7 +206,7 @@ export default function Page() {
           <icons.arrowDropDown />
         </View>
 
-        {/* <View style={styles.saveBtn}>
+        <View style={styles.saveBtn}>
           <TouchableOpacity
             style={{
               backgroundColor: COLORS.primary,
@@ -220,9 +226,13 @@ export default function Page() {
               Save
             </Text>
           </TouchableOpacity>
-        </View> */}
+        </View>
 
-        <View style={styles.saveDeleteBtn}>
+        <View style={styles.keyboard}>
+          <NumericKeyboard value={inputValue} setValue={setInputValue} />
+        </View>
+
+        {/* <View style={styles.saveDeleteBtn}>
           <TouchableOpacity
             style={{
               flex: 1,
@@ -266,7 +276,7 @@ export default function Page() {
               Save
             </Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
       </ScrollView>
     </View>
   );
