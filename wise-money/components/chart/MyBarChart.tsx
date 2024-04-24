@@ -47,7 +47,6 @@ class MyBarChart extends React.PureComponent<{ data: FullChartData }> {
                         spacing={0.2}
                         gridMin={0}
                     >
-                        <Grid direction={Grid.Direction.HORIZONTAL} />
                         <Labels />
                     </BarChart>
                 </View>

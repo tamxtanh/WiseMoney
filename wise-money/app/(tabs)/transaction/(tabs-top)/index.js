@@ -6,10 +6,10 @@ export default function Page() {
     <View style={styles.container}>
       <Stack.Screen
         options={{
-          headerTitle: "Following",
+          headerTitle: () => <Header title="Watch Later" iconvisible={false} />,
+          headerTitleAlign: "center",
         }}
       />
-      <Text>Index page of Following Tab</Text>
     </View>
   );
 }
