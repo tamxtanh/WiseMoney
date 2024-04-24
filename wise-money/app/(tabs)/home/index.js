@@ -1,5 +1,12 @@
 import { Stack } from "expo-router";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+} from "react-native";
 import TransactionWithDate from "../../../components/transaction/TransactionWithDate";
 import MyBarChart from "../../../components/chart/MyBarChart";
 import { icons, COLORS, SIZES } from "../../../constants";
@@ -169,6 +176,17 @@ export default function Page() {
           </View>
         </View>
       </ScrollView>
+
+      {/* <View style={styles.listReTrans}></View>
+      </View> */}
+      {/* <View style={styles.otherUtilities}>
+
+        <Text style={styles.lTitleBox}> Other utilities</Text>
+        <View style={styles.listOtherUti}>
+          <UtilityItemList itemData={utilityList} qualityPerRow={4} />
+        </View>
+
+      </View> */}
     </View>
   );
 }
