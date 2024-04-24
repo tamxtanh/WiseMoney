@@ -3,8 +3,9 @@ import { Stack } from "expo-router";
 import { View, Text, StyleSheet } from "react-native";
 import { icons, COLORS } from "../../../constants";
 import CustomTabBar from "../../../components/tab-custom/CustomTabBar";
+import TabContent from "../../../components/tab-custom/TabContent";
 
-const ParentComponent = () => {
+const Page = () => {
   const currentDate = new Date();
 
   const currentMonth = currentDate.getMonth() + 1;
@@ -69,7 +70,7 @@ const ParentComponent = () => {
         </Text>
       </View>
 
-      <CustomTabBar nestedTabs={nestedTabs} />
+      <CustomTabBar nestedTabs={nestedTabs} TabContent={TabContent} />
     </View>
   );
 };
@@ -80,4 +81,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ParentComponent;
+export default Page;

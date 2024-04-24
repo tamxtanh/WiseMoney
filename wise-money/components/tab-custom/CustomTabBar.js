@@ -5,7 +5,7 @@ import { Dimensions } from "react-native";
 import { COLORS } from "../../constants";
 import { Animated, StyleSheet } from "react-native";
 
-const CustomTabBar = ({ nestedTabs }) => {
+const CustomTabBar = ({ nestedTabs, TabContent }) => {
   const [index, setIndex] = useState(0);
 
   const handleIndexChange = (index) => {
