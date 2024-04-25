@@ -53,11 +53,11 @@ export default function SignIn({ switchToSignUp }) {
                 //     router.push(`/(tabs)/home`);
                 // }
             }
-            setLoading(false)
         } else {
             // Form is invalid, display error message
             Alert.alert('Invalid Form', validationResult.message);
         }
+        setLoading(false)
     }
 
     return (
