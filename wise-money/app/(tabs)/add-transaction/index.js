@@ -19,6 +19,7 @@ import {
   handleTakePhoto,
 } from "../../../components/image-function/ImageHandler";
 import ModalCalendar from "../../../components/modal-calendar/ModalCalendar";
+import DateTimePickerCustom from "../../../components/modal-calendar/DateTimePickerCustom";
 
 export default function Page() {
   const [inputValue, setInputValue] = useState("");
@@ -340,6 +341,8 @@ export default function Page() {
             </Text>
           </TouchableOpacity>
         </View> */}
+
+        <DateTimePickerCustom />
       </ScrollView>
     </View>
   );

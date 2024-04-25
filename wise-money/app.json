@@ -47,7 +47,8 @@
           "./assets/fonts/Inter-Regular.otf",
           "./assets/fonts/Inter-SemiBold.otf"]
         }
-      ]
+      ],
+      "./plugins/custom-android-styles.js"
     ]
   }
 }

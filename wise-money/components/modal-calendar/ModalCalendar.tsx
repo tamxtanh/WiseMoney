@@ -10,7 +10,6 @@ import {
 import { Calendar } from "react-native-calendars";
 import RNPickerSelect from "react-native-picker-select";
 import { COLORS, icons } from "../../constants";
-import DateTimePicker from '@react-native-community/datetimepicker';
 
 const CustomArrow = ({ direction }) => {
   const icon =
@@ -30,15 +29,7 @@ const changeYearOfDate = (year, date) => {
   return year + "-" + month + "-" + day;
 };
 
-const ModalCalendar = ({
-  visible,
-  close,
-  selectedDate,
-  setSelectedDate,
-  timePicker = false,
-}) => {
-  const [openTimePicker, setOpenTimePicker] = useState(false);
-
+const ModalCalendar = ({ visible, close, selectedDate, setSelectedDate }) => {
   const [selectedYear, setSelectedYear] = useState(selectedDate.getFullYear());
   const [initialDate, setInitialDate] = useState(formatYMD(selectedDate));
   const [calendarKey, setCalendarKey] = useState(0);
@@ -82,15 +73,10 @@ const ModalCalendar = ({
   };
 
   const handleSelect = () => {
-    
+    close();
     setSelectedDate(temptSelectedDate);
     setMarkedDates({ [formatYMD(temptSelectedDate)]: { selected: true } });
     setInitialDate(formatYMD(temptSelectedDate));
-    if (timePicker){
-        setOpenTimePicker(true)
-    } else{
-        close();
-    }
   };
 
   const yearItems = Array.from({ length: 100 }, (_, i) => ({
@@ -98,65 +84,44 @@ const ModalCalendar = ({
     value: 2024 - i,
   }));
 
-  const handleDatePicked = (date) => {
-    console.log("A date has been picked: ", date);
-    hideDateTimePicker();
-  };
-
-  const hideDateTimePicker = () => {
-    setOpenTimePicker(false);
-    close();
-  };
-
   return (
     <Modal animationType="fade" transparent={true} visible={visible}>
       <View style={styles.centeredView}>
-        {!openTimePicker ? (
-          <View style={styles.modalView}>
-            <RNPickerSelect
-              onValueChange={handleYearChange}
-              items={yearItems}
-              style={pickerSelectStyles}
-              placeholder={{ label: "Select a year", value: null }}
-              value={selectedYear}
-            />
+        <View style={styles.modalView}>
+          <RNPickerSelect
+            onValueChange={handleYearChange}
+            items={yearItems}
+            style={pickerSelectStyles}
+            placeholder={{ label: "Select a year", value: null }}
+            value={selectedYear}
+          />
 
-            <Calendar
-              key={calendarKey} // Key to force rerender
-              style={styles.calendar}
-              current={initialDate}
-              onDayPress={(day) => handleDateChange(day.dateString)}
-              theme={theme}
-              markedDates={markedDates}
-              renderArrow={(direction) => <CustomArrow direction={direction} />}
-            />
-            <View
-              style={{
-                flexDirection: "row",
-                marginLeft: 80,
-                gap: 20,
-                paddingHorizontal: 20,
-                paddingTop: 20,
-              }}
-            >
-              <TouchableOpacity onPress={handleCancel} style={styles.button}>
-                <Text style={styles.textButton}>CANCEL</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={handleSelect} style={styles.button}>
-                <Text style={styles.textButton}>SELECT TIME</Text>
-              </TouchableOpacity>
-            </View>
+          <Calendar
+            key={calendarKey} // Key to force rerender
+            style={styles.calendar}
+            current={initialDate}
+            onDayPress={(day) => handleDateChange(day.dateString)}
+            theme={theme}
+            markedDates={markedDates}
+            renderArrow={(direction) => <CustomArrow direction={direction} />}
+          />
+          <View
+            style={{
+              flexDirection: "row",
+              marginLeft: 80,
+              gap: 20,
+              paddingHorizontal: 20,
+              paddingTop: 20,
+            }}
+          >
+            <TouchableOpacity onPress={handleCancel} style={styles.button}>
+              <Text style={styles.textButton}>CANCEL</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleSelect} style={styles.button}>
+              <Text style={styles.textButton}>SELECT TIME</Text>
+            </TouchableOpacity>
           </View>
-        ) : (
-            <View>
-
-            </View>
-        //   <DateTimePicker
-        //     isVisible={openTimePicker}
-        //     onConfirm={handleDatePicked}
-        //     onCancel={hideDateTimePicker}
-        //   />
-        )}
+        </View>
       </View>
     </Modal>
   );
