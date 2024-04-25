@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
 
 const InputTransaction = ({
@@ -6,12 +6,15 @@ const InputTransaction = ({
   title,
   iconBoxStyle,
   textInputTransaction,
+  handlerOnPress,
 }) => {
   return (
-    <View style={styles.inputTransaction}>
-      <View style={[styles.iconBox, iconBoxStyle]}>{iconSvg}</View>
-      <Text style={textInputTransaction}> {title} </Text>
-    </View>
+    <TouchableOpacity onPress={handlerOnPress}>
+      <View style={styles.inputTransaction}>
+        <View style={[styles.iconBox, iconBoxStyle]}>{iconSvg}</View>
+        <Text style={textInputTransaction}> {title} </Text>
+      </View>
+    </TouchableOpacity>
   );
 };
 

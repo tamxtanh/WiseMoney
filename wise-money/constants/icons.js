@@ -448,6 +448,38 @@ const share2 = ({ fill }) => {
   return <SvgXml xml={svgXml} />;
 };
 
+const arrowLeft = ({ fill }) => {
+  const svgXml = `
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <mask id="mask0_454_753" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+  <rect width="24" height="24" fill="#D9D9D9"/>
+  </mask>
+  <g mask="url(#mask0_454_753)">
+  <path d="M16 22L6 12L16 2L17.775 3.775L9.55 12L17.775 20.225L16 22Z" fill="#1C1B1F"/>
+  </g>
+  </svg>
+  
+    `;
+
+  return <SvgXml xml={svgXml} />;
+};
+
+const arrowRight = ({ fill }) => {
+  const svgXml = `
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_454_759" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+<rect width="24" height="24" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_454_759)">
+<path d="M8.025 22L6.25 20.225L14.475 12L6.25 3.775L8.025 2L18.025 12L8.025 22Z" fill="#1C1B1F"/>
+</g>
+</svg>
+
+    `;
+
+  return <SvgXml xml={svgXml} />;
+};
+
 export default {
   heart,
   menu,
@@ -488,4 +520,6 @@ export default {
   wallet2,
   arrowDropDown,
   share2,
+  arrowLeft,
+  arrowRight,
 };

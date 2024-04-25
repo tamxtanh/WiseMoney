@@ -6,15 +6,49 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Image,
+  Button,
 } from "react-native";
 import { icons, COLORS, SIZES } from "../../../constants";
 import InputTransaction from "../../../components/transaction/InputTransaction";
 import { CheckBox } from "react-native-elements";
 import NumericKeyboard from "../../../components/keyboard-custom/NumericKeyboard";
 import { useState } from "react";
+import {
+  handlePickImage,
+  handleTakePhoto,
+} from "../../../components/image-function/ImageHandler";
+import ModalCalendar from "../../../components/modal-calendar/ModalCalendar";
 
 export default function Page() {
   const [inputValue, setInputValue] = useState("");
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const [showCalendarModal, setShowCalendarModal] = useState(false);
+  const [transactDate, setTransactDate] = useState(new Date());
+
+  const formatDate = (date) => {
+    const options = {
+      weekday: "long",
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    };
+    const formattedDate = date.toLocaleDateString("en-US", options);
+    const [dayOfWeek, rest] = formattedDate.split(", ");
+    const [month, day, year] = rest.split("/");
+    console.log("dayOfWeek", dayOfWeek);
+    console.log("month", month);
+    console.log("day", day);
+    console.log("year", year);
+    return `${dayOfWeek}, ${day}/${month}/${year}`;
+  };
+
+  console.log("transactDate", formatDate(transactDate));
+
+  const unVisible = () => {
+    setShowCalendarModal(false);
+  };
 
   return (
     <View style={styles.container}>
@@ -114,8 +148,19 @@ export default function Page() {
 
           <InputTransaction
             iconSvg={<icons.calenderClock />}
-            title="Today"
+            title={formatDate(transactDate)}
             textInputTransaction={styles.textInputTransaction3}
+            handlerOnPress={() => {
+              setShowCalendarModal(true);
+            }}
+          />
+
+          <ModalCalendar
+            visible={showCalendarModal}
+            close={unVisible}
+            selectedDate={transactDate}
+            setSelectedDate={setTransactDate}
+            timePicker={true}
           />
 
           <InputTransaction
@@ -138,24 +183,42 @@ export default function Page() {
           />
         </View>
 
-        <View style={[styles.photos, styles.inputBox]}>
-          <View
-            style={[
-              styles.photoBox,
-              { borderTopRightRadius: 0, borderBottomRightRadius: 0 },
-            ]}
-          >
-            <icons.addPhoto />
+        <View
+          style={[
+            styles.inputBox,
+            { paddingHorizontal: 14, paddingVertical: 21 },
+          ]}
+        >
+          <View style={[styles.photos]}>
+            <TouchableOpacity
+              style={[
+                styles.photoBox,
+                { borderTopRightRadius: 0, borderBottomRightRadius: 0 },
+              ]}
+              onPress={() => handlePickImage(setSelectedImage)}
+            >
+              <icons.addPhoto />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[
+                styles.photoBox,
+                { borderTopLeftRadius: 0, borderBottomLeftRadius: 0 },
+              ]}
+              onPress={() => handleTakePhoto(setSelectedImage)}
+            >
+              <icons.takePhoto />
+            </TouchableOpacity>
           </View>
 
-          <View
-            style={[
-              styles.photoBox,
-              { borderTopLeftRadius: 0, borderBottomLeftRadius: 0 },
-            ]}
-          >
-            <icons.takePhoto />
-          </View>
+          {selectedImage && (
+            <View style={{ marginTop: 21, flex: 1 }}>
+              <Image
+                source={{ uri: selectedImage }}
+                style={{ height: 300, borderRadius: 5 }}
+              />
+            </View>
+          )}
         </View>
 
         <View
@@ -317,8 +380,6 @@ const styles = StyleSheet.create({
   photos: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 14,
-    paddingVertical: 21,
   },
   photoBox: {
     borderRadius: 3,

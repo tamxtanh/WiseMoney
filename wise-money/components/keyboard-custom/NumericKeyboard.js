@@ -12,12 +12,13 @@ const NumericKeyboard = ({ value, setValue }) => {
       case "x":
       case "+":
       case "-":
-        setValue((prevValue) => prevValue + key);
+      case "000":
+        setValue((prevValue) => prevValue + "," + key);
         break;
       case "del":
         setValue((prevValue) => prevValue.slice(0, -1));
         break;
-      case "done":
+      case "Done":
         // Perform any action needed when "done" is pressed
         break;
       default:
@@ -29,7 +30,7 @@ const NumericKeyboard = ({ value, setValue }) => {
   const renderKey = (key) => {
     const isDoneButton = key === "Done";
     const calculateCell = (key) => {
-      if (["C", "/", "x", "Del", "-", "+"].includes(key)) {
+      if (["C", "/", "x", "del", "-", "+"].includes(key)) {
         return true;
       } else {
         return false;
@@ -37,8 +38,6 @@ const NumericKeyboard = ({ value, setValue }) => {
     };
 
     const isCalculateCell = calculateCell(key);
-
-    console.log(isCalculateCell);
 
     return (
       <TouchableOpacity
@@ -85,7 +84,7 @@ const NumericKeyboard = ({ value, setValue }) => {
 
       <View style={styles.rightContainer}>
         <View style={{}}>
-          {renderKey("Del")}
+          {renderKey("del")}
           {renderKey("+")}
           <TouchableOpacity
             style={[styles.key, styles.calCell, { marginTop: -2 }]}
