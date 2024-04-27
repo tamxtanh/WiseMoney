@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: COLORS.background,
         flexDirection: 'column',
+        marginBottom: 14
     },
     top: {
         height: 70,

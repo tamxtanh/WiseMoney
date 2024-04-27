@@ -54,7 +54,7 @@ export default function TabsLayout() {
       />
 
       <Tabs.Screen
-        name="watch-later"
+        name="add-transaction"
         options={{
           tabBarLabel: "",
           title: "",
