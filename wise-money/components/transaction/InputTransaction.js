@@ -6,15 +6,13 @@ const InputTransaction = ({
   title,
   iconBoxStyle,
   textInputTransaction,
-  handlerOnPress,
+  inputIcon = false,
 }) => {
   return (
-    <TouchableOpacity onPress={handlerOnPress}>
-      <View style={styles.inputTransaction}>
-        <View style={[styles.iconBox, iconBoxStyle]}>{iconSvg}</View>
-        <Text style={textInputTransaction}> {title} </Text>
-      </View>
-    </TouchableOpacity>
+    <View style={styles.inputTransaction}>
+      <View style={[styles.iconBox, iconBoxStyle]}>{iconSvg}</View>
+      <Text style={textInputTransaction}> {title} </Text>
+    </View>
   );
 };
 
