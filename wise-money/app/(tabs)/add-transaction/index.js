@@ -17,15 +17,15 @@ import { icons, COLORS, SIZES } from "../../../constants";
 import InputTransaction from "../../../components/transaction/InputTransaction";
 import { CheckBox } from "react-native-elements";
 import NumericKeyboard from "../../../components/keyboard-custom/NumericKeyboard";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   handlePickImage,
   handleTakePhoto,
 } from "../../../components/image-function/ImageHandler";
 import DateTimePickerCustom from "../../../components/modal-calendar/DateTimePickerCustom";
+import { useKeyboard } from "../../../context/KeyboardContext";
 
 export default function Page() {
-  const [inputValue, setInputValue] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
   const [noteContent, setNoteContent] = useState("");
 
@@ -35,6 +35,16 @@ export default function Page() {
   const localParams = useGlobalSearchParams();
 
   const [imageSource, setImageSource] = useState();
+
+  const textInputRef = useRef(null);
+  const { openKeyboard, inputValue, setInputValue } = useKeyboard();
+
+  const handleOpenKeyboard = () => {
+    openKeyboard(); // Call the openKeyboard function from the context
+    if (textInputRef.current) {
+      textInputRef.current.blur();
+    }
+  };
 
   useEffect(() => {
     // Check if localParams.source is a string and update imageSource
@@ -99,6 +109,7 @@ export default function Page() {
             }}
           >
             <TextInput
+              ref={textInputRef}
               style={{
                 flex: 1,
                 height: 40,
@@ -114,6 +125,8 @@ export default function Page() {
               placeholderTextColor={COLORS.primary}
               value={inputValue}
               onChangeText={setInputValue}
+              onFocus={handleOpenKeyboard}
+              showSoftInputOnFocus={false}
             />
 
             <Text
@@ -360,10 +373,6 @@ export default function Page() {
           </TouchableOpacity>
         </View> */}
       </ScrollView>
-
-      <View style={styles.keyboard}>
-        <NumericKeyboard value={inputValue} setValue={setInputValue} />
-      </View>
     </View>
   );
 }
@@ -372,6 +381,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#E9E9E9",
+    position: "relative",
   },
   inputBox: {
     backgroundColor: "white",
@@ -435,9 +445,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 15,
-  },
-  keyboard: {
-    // position: "fixed",
-    // bottom: 0,
   },
 });
