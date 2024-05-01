@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Text, TextInput, TouchableOpacity, View, StyleSheet } from 'react-native';
 import styles from '../auth/style';
 import { Button, Icon, Header } from 'react-native-elements';
@@ -43,9 +43,12 @@ export default function ChangePasswordModal({ modalVisible, setModalVisible }) {
                             })
                         if (error) console.error(error)
                         else {
-                            console.log(data)
                             alert("Password updated successfully!");
                             setModalVisible(false);
+                            setCurrentPassword("");
+                            setNewPassword("");
+                            setRetypePassword("");
+                            setHidePassword(true)
                         }
                     }
                 } else {
@@ -55,6 +58,13 @@ export default function ChangePasswordModal({ modalVisible, setModalVisible }) {
         }
         await checkPassword()
     };
+
+    useEffect(() => {
+        setCurrentPassword("");
+        setNewPassword("");
+        setRetypePassword("");
+        setHidePassword(true);
+    }, [modalVisible])
 
     return (
         <Modal

@@ -3,7 +3,7 @@ import { Stack } from "expo-router";
 import { View, Text, StyleSheet } from "react-native";
 import { icons, COLORS } from "../../../constants";
 import CustomTabBar from "../../../components/tab-custom/CustomTabBar";
-import ReportContent from "../../../components/tab-custom/ReportContent";
+import TabContent from "../../../components/tab-custom/TabContent";
 
 const Page = () => {
   const currentDate = new Date();
@@ -41,16 +41,11 @@ const Page = () => {
                   color: "white",
                 }}
               >
-                Report
+                Transactions
               </Text>
             </View>
           ),
-          headerRight: () => (
-            <View style={{ flexDirection: "row", gap: 12 }}>
-              <icons.share2 />
-              <icons.select fill="white" />
-            </View>
-          ),
+          headerRight: () => <icons.select fill="white" />,
           headerStyle: {
             backgroundColor: COLORS.primary,
           },
@@ -75,7 +70,7 @@ const Page = () => {
         </Text>
       </View>
 
-      <CustomTabBar nestedTabs={nestedTabs} TabContent={ReportContent} />
+      <CustomTabBar nestedTabs={nestedTabs} TabContent={TabContent} />
     </View>
   );
 };

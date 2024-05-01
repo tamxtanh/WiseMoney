@@ -24,6 +24,8 @@ const COLORS = {
 
   whitee: "#ffffff",
   red: "red",
+  income: "#30A0CC",
+  expense: "#ED5D5D",
 };
 
 const FONT = {
@@ -46,6 +48,7 @@ const SIZES = {
   h10: 10,
   width,
   height,
+  heightBottomNavigation: 62,
 };
 
 const SHADOWS = {

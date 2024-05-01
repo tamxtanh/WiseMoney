@@ -7,17 +7,22 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+
 import TransactionWithDate from "../../../components/transaction/TransactionWithDate";
 import MyBarChart from "../../../components/chart/MyBarChart";
-import MyPieChart from "../../../components/chart/MyPieChart";
 import { icons, COLORS, SIZES } from "../../../constants";
-import UtilityItem from "../../../components/home/utilityItem";
 import UtilityItemList from "../../../components/utility/utilityItemList";
-
 import RadioTabList from "../../../components/home/radioTabList";
 
-
 export default function Page() {
+  const transaction = {
+    id: 10,
+    image: require("../../../assets/category/car.png"),
+    type: "Expense",
+    name: "Entertainment",
+    date: new Date(2023, 2, 20),
+    value: 15200000,
+  };
 
   const utilityList = [
     {
@@ -100,7 +105,6 @@ export default function Page() {
               </View>
               <Text style={styles.valueBalance}> 5,000,000 đ </Text>
             </View>
-            {/* icon */}
             <View style={styles.rightBalanceBox}>
               <icons.visibility fill={COLORS.textColor3} />
             </View>
@@ -114,25 +118,6 @@ export default function Page() {
 
           <View style={styles.tabsSpReport}>
             <View style={{ marginHorizontal: 15 }}>
-              {/* {listTab.map((item, index) => (
-                <TouchableOpacity
-                  key={index}
-                  style={[
-                    styles.tabBtn,
-                    barStatus === item.title && styles.tabBtnActive,
-                  ]}
-                  onPress={() => setBarStatus(item.title)}
-                >
-                  <Text
-                    style={[
-                      styles.textTab,
-                      barStatus === item.title && styles.textTabActive,
-                    ]}
-                  >
-                    {item.title}
-                  </Text>
-                </TouchableOpacity>
-              ))} */}
               <RadioTabList
                 listTab={listTabData}
                 defaultSelected={listTabData[1].title}
@@ -191,10 +176,7 @@ export default function Page() {
             <UtilityItemList itemData={utilityList} qualityPerRow={4} />
           </View>
         </View>
-
       </ScrollView>
-
-
 
       {/* <View style={styles.listReTrans}></View>
       </View> */}
@@ -206,8 +188,6 @@ export default function Page() {
         </View>
 
       </View> */}
-
-
     </View>
   );
 }
@@ -288,7 +268,6 @@ const styles = StyleSheet.create({
   tabsSpReport: {
     marginVertical: 12,
   },
-  spending: {},
   scrollViewContainer: {
     // marginBottom: 62,
   },
