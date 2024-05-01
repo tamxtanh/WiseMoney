@@ -24,10 +24,12 @@ import {
 } from "../../../components/image-function/ImageHandler";
 import DateTimePickerCustom from "../../../components/modal-calendar/DateTimePickerCustom";
 import { useKeyboard } from "../../../context/KeyboardContext";
+import ListSmallContact from "../../../components/contact/ListSmallContact";
 
 export default function Page() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [noteContent, setNoteContent] = useState("");
+  const [contactContent, setContactContent] = useState("");
 
   const [transactDate, setTransactDate] = useState(new Date());
   const [remindDate, setRemindDate] = useState(new Date());
@@ -56,7 +58,17 @@ export default function Page() {
     if (typeof localParams.note === "string") {
       setNoteContent(localParams.note);
     }
-  }, [localParams.source, localParams.note]);
+
+    // Update contactContent
+    if (typeof localParams.contact === "string") {
+      setContactContent(localParams.contact);
+    }
+  }, [localParams.source, localParams.note, localParams.contact]);
+
+  console.log(
+    "contactContentsplit",
+    contactContent.split(", ").filter((contact) => contact.trim() !== "")
+  );
 
   return (
     <View style={styles.container}>
@@ -205,11 +217,30 @@ export default function Page() {
         </View>
 
         <View style={[styles.detailTransaction, styles.inputBox]}>
-          <InputTransaction
-            iconSvg={<icons.groupUser />}
-            title="With"
-            textInputTransaction={styles.textInputTransaction3}
-          />
+          <Link
+            href={{
+              pathname: "/contact",
+              params: {
+                previousPage: "add-transaction",
+                oldContent: contactContent,
+              },
+            }}
+            style={{ padding: 0 }}
+          >
+            <InputTransaction
+              iconSvg={<icons.groupUser />}
+              title={contactContent ? contactContent : "With"}
+              textInputTransaction={styles.textInputTransaction3}
+              isHaveChildren={contactContent.length > 0 ? true : false}
+              children={
+                <ListSmallContact
+                  nameList={contactContent
+                    .split(", ")
+                    .filter((contact) => contact.trim() !== "")}
+                />
+              }
+            />
+          </Link>
 
           <DateTimePickerCustom
             dateTimeMode={true}

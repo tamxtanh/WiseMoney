@@ -7,11 +7,17 @@ const InputTransaction = ({
   iconBoxStyle,
   textInputTransaction,
   inputIcon = false,
+  isHaveChildren = false,
+  children,
 }) => {
   return (
     <View style={styles.inputTransaction}>
       <View style={[styles.iconBox, iconBoxStyle]}>{iconSvg}</View>
-      <Text style={textInputTransaction}> {title} </Text>
+      {isHaveChildren ? (
+        children
+      ) : (
+        <Text style={textInputTransaction}> {title} </Text>
+      )}
     </View>
   );
 };
