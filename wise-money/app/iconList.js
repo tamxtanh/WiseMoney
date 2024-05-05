@@ -39,6 +39,7 @@ const imageList = [
 
 const IconList = () => {
   const { previousPage } = useLocalSearchParams();
+
   const handlePress = (imagePath) => {
     router.navigate({
       pathname: previousPage,

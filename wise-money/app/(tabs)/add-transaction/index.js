@@ -1,4 +1,9 @@
-import { Stack } from "expo-router";
+import {
+  Stack,
+  useLocalSearchParams,
+  Link,
+  useGlobalSearchParams,
+} from "expo-router";
 import {
   StyleSheet,
   Text,
@@ -7,49 +12,63 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
-  Button,
 } from "react-native";
 import { icons, COLORS, SIZES } from "../../../constants";
 import InputTransaction from "../../../components/transaction/InputTransaction";
 import { CheckBox } from "react-native-elements";
 import NumericKeyboard from "../../../components/keyboard-custom/NumericKeyboard";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   handlePickImage,
   handleTakePhoto,
 } from "../../../components/image-function/ImageHandler";
-import ModalCalendar from "../../../components/modal-calendar/ModalCalendar";
 import DateTimePickerCustom from "../../../components/modal-calendar/DateTimePickerCustom";
+import { useKeyboard } from "../../../context/KeyboardContext";
+import ListSmallContact from "../../../components/contact/ListSmallContact";
 
 export default function Page() {
-  const [inputValue, setInputValue] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
+  const [noteContent, setNoteContent] = useState("");
+  const [contactContent, setContactContent] = useState("");
 
-  const [showCalendarModal, setShowCalendarModal] = useState(false);
   const [transactDate, setTransactDate] = useState(new Date());
+  const [remindDate, setRemindDate] = useState(new Date());
 
-  const formatDate = (date) => {
-    const options = {
-      weekday: "long",
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    };
-    const formattedDate = date.toLocaleDateString("en-US", options);
-    const [dayOfWeek, rest] = formattedDate.split(", ");
-    const [month, day, year] = rest.split("/");
-    console.log("dayOfWeek", dayOfWeek);
-    console.log("month", month);
-    console.log("day", day);
-    console.log("year", year);
-    return `${dayOfWeek}, ${day}/${month}/${year}`;
+  const localParams = useGlobalSearchParams();
+
+  const [imageSource, setImageSource] = useState();
+
+  const textInputRef = useRef(null);
+  const { openKeyboard, inputValue, setInputValue } = useKeyboard();
+
+  const handleOpenKeyboard = () => {
+    openKeyboard(); // Call the openKeyboard function from the context
+    if (textInputRef.current) {
+      textInputRef.current.blur();
+    }
   };
 
-  console.log("transactDate", formatDate(transactDate));
+  useEffect(() => {
+    // Check if localParams.source is a string and update imageSource
+    if (typeof localParams?.source === "string") {
+      setImageSource(Number(localParams.source));
+    }
 
-  const unVisible = () => {
-    setShowCalendarModal(false);
-  };
+    // Update noteContent
+    if (typeof localParams.note === "string") {
+      setNoteContent(localParams.note);
+    }
+
+    // Update contactContent
+    if (typeof localParams.contact === "string") {
+      setContactContent(localParams.contact);
+    }
+  }, [localParams.source, localParams.note, localParams.contact]);
+
+  console.log(
+    "contactContentsplit",
+    contactContent.split(", ").filter((contact) => contact.trim() !== "")
+  );
 
   return (
     <View style={styles.container}>
@@ -102,6 +121,7 @@ export default function Page() {
             }}
           >
             <TextInput
+              ref={textInputRef}
               style={{
                 flex: 1,
                 height: 40,
@@ -117,6 +137,8 @@ export default function Page() {
               placeholderTextColor={COLORS.primary}
               value={inputValue}
               onChangeText={setInputValue}
+              onFocus={handleOpenKeyboard}
+              showSoftInputOnFocus={false}
             />
 
             <Text
@@ -134,34 +156,57 @@ export default function Page() {
         </View>
 
         <View style={[styles.inforTransaction, styles.inputBox]}>
-          <InputTransaction
-            iconSvg={<icons.questionMark />}
-            title="Select category"
-            iconBoxStyle={styles.iconBox}
-            textInputTransaction={styles.textInputTransaction}
-          />
-
-          <InputTransaction
-            iconSvg={<icons.notes />}
-            title="Write note"
-            textInputTransaction={styles.textInputTransaction2}
-          />
-
-          <InputTransaction
-            iconSvg={<icons.calenderClock />}
-            title={formatDate(transactDate)}
-            textInputTransaction={styles.textInputTransaction3}
-            handlerOnPress={() => {
-              setShowCalendarModal(true);
+          <Link
+            href={{
+              pathname: "/iconList",
+              params: { previousPage: "add-transaction" },
             }}
-          />
+            style={{ padding: 0 }}
+          >
+            <InputTransaction
+              iconSvg={
+                imageSource ? (
+                  <Image
+                    source={imageSource}
+                    style={{
+                      width: 38,
+                      height: 38,
+                    }}
+                    resizeMode="contain"
+                  />
+                ) : (
+                  <icons.questionMark />
+                )
+              }
+              title="Select category"
+              iconBoxStyle={
+                imageSource ? styles.iconImageBox : styles.iconSvgBox
+              }
+              textInputTransaction={styles.textInputTransaction}
+            />
+          </Link>
 
-          <ModalCalendar
-            visible={showCalendarModal}
-            close={unVisible}
+          <Link
+            href={{
+              pathname: "/note",
+              params: {
+                previousPage: "add-transaction",
+                oldContent: noteContent,
+              },
+            }}
+            style={{ padding: 0 }}
+          >
+            <InputTransaction
+              iconSvg={<icons.notes />}
+              title={noteContent ? noteContent : "Write note"}
+              textInputTransaction={styles.textInputTransaction2}
+            />
+          </Link>
+
+          <DateTimePickerCustom
             selectedDate={transactDate}
             setSelectedDate={setTransactDate}
-            timePicker={true}
+            iconSvg={<icons.calenderClock />}
           />
 
           <InputTransaction
@@ -172,15 +217,36 @@ export default function Page() {
         </View>
 
         <View style={[styles.detailTransaction, styles.inputBox]}>
-          <InputTransaction
-            iconSvg={<icons.groupUser />}
-            title="With"
-            textInputTransaction={styles.textInputTransaction3}
-          />
-          <InputTransaction
+          <Link
+            href={{
+              pathname: "/contact",
+              params: {
+                previousPage: "add-transaction",
+                oldContent: contactContent,
+              },
+            }}
+            style={{ padding: 0 }}
+          >
+            <InputTransaction
+              iconSvg={<icons.groupUser />}
+              title={contactContent ? contactContent : "With"}
+              textInputTransaction={styles.textInputTransaction3}
+              isHaveChildren={contactContent.length > 0 ? true : false}
+              children={
+                <ListSmallContact
+                  nameList={contactContent
+                    .split(", ")
+                    .filter((contact) => contact.trim() !== "")}
+                />
+              }
+            />
+          </Link>
+
+          <DateTimePickerCustom
+            dateTimeMode={true}
+            selectedDate={remindDate}
+            setSelectedDate={setRemindDate}
             iconSvg={<icons.alarm />}
-            title="No remind"
-            textInputTransaction={styles.textInputTransaction3}
           />
         </View>
 
@@ -292,10 +358,6 @@ export default function Page() {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.keyboard}>
-          <NumericKeyboard value={inputValue} setValue={setInputValue} />
-        </View>
-
         {/* <View style={styles.saveDeleteBtn}>
           <TouchableOpacity
             style={{
@@ -341,8 +403,6 @@ export default function Page() {
             </Text>
           </TouchableOpacity>
         </View> */}
-
-        <DateTimePickerCustom />
       </ScrollView>
     </View>
   );
@@ -352,6 +412,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#E9E9E9",
+    position: "relative",
   },
   inputBox: {
     backgroundColor: "white",
@@ -371,9 +432,13 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: "#010101",
   },
-  iconBox: {
+  iconSvgBox: {
     backgroundColor: "#CCCCCC",
     borderRadius: 50,
+  },
+  iconImageBox: {
+    marginLeft: -7,
+    marginRight: -10,
   },
   textInputTransaction: {
     fontFamily: "InterMedium",
