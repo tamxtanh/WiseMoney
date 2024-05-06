@@ -1,35 +1,17 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { COLORS } from "../../constants";
 import { useKeyboard } from "../../context/KeyboardContext";
 
 const NumericKeyboard = () => {
   const { isKeyboardVisible, inputValue, setInputValue, closeKeyboard } =
     useKeyboard();
-
-  // const handleKeyPress = (key) => {
-  //   switch (key) {
-  //     case "C":
-  //       setInputValue("");
-  //       break;
-  //     case "/":
-  //     case "x":
-  //     case "+":
-  //     case "-":
-  //     case "000":
-  //       setInputValue((prevValue) => prevValue + "," + key);
-  //       break;
-  //     case "del":
-  //       setInputValue((prevValue) => prevValue.slice(0, -1));
-  //       break;
-  //     case "Done":
-  //       closeKeyboard();
-  //       break;
-  //     default:
-  //       setInputValue((prevValue) => prevValue + key);
-  //       break;
-  //   }
-  // };
 
   // Function to add commas to a number to separate every three digits
   const addCommasToNumber = (number) => {
@@ -43,8 +25,6 @@ const NumericKeyboard = () => {
     // Add commas for every three digits
     return sanitizedInput.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
-
-  console.log("test", "000123,43434".replace(/,/g, "").replace(/^0+/, ""));
 
   const getLastInput = (input) => {
     // Reverse the input value to find the first operator or non-digit character
@@ -236,7 +216,9 @@ const NumericKeyboard = () => {
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={{ flex: 2 }}>{renderKey("Done")}</View>
+        <View style={{ flex: 2, backgroundColor: "#077F08" }}>
+          {renderKey("Done")}
+        </View>
       </View>
     </View>
   ) : null;
@@ -244,14 +226,13 @@ const NumericKeyboard = () => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "#CCCCCC",
     flex: 1,
     flexDirection: "row",
     position: "absolute", // Position the keyboard container absolutely
     bottom: 0, // Align it to the bottom of the screen
     left: 0, // Ensure it starts from the left edge
     right: 0, // Ensure it ends at the right edge
-    elevation: 10,
-    zIndex: 10, // Ensure the keyboard is above other elements
   },
   leftContainer: {
     flex: 3 / 4,

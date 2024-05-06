@@ -16,7 +16,6 @@ import {
 import { icons, COLORS, SIZES } from "../../../constants";
 import InputTransaction from "../../../components/transaction/InputTransaction";
 import { CheckBox } from "react-native-elements";
-import NumericKeyboard from "../../../components/keyboard-custom/NumericKeyboard";
 import { useState, useEffect, useRef } from "react";
 import {
   handlePickImage,
@@ -25,21 +24,39 @@ import {
 import DateTimePickerCustom from "../../../components/modal-calendar/DateTimePickerCustom";
 import { useKeyboard } from "../../../context/KeyboardContext";
 import ListSmallContact from "../../../components/contact/ListSmallContact";
+import { supabase } from "../../../lib/supabase";
 
 export default function Page() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [noteContent, setNoteContent] = useState("");
   const [contactContent, setContactContent] = useState("");
+  const [category, setCategory] = useState();
+  const [typeTransaction, setTypeTransaction] = useState();
 
   const [transactDate, setTransactDate] = useState(new Date());
-  const [remindDate, setRemindDate] = useState(new Date());
+  const [remindDate, setRemindDate] = useState();
 
   const localParams = useGlobalSearchParams();
 
-  const [imageSource, setImageSource] = useState();
-
   const textInputRef = useRef(null);
   const { openKeyboard, inputValue, setInputValue } = useKeyboard();
+
+  const formatDate = (dateObj) => {
+    const year = dateObj.getUTCFullYear();
+    const month = dateObj.getUTCMonth();
+    const date = dateObj.getUTCDate();
+
+    // Create a new Date object with only the date components
+    return new Date(Date.UTC(year, month, date));
+  };
+
+  const formatAmount = (value) => {
+    // Remove commas from the string
+    const numberString = value.replace(/,/g, "");
+
+    // Convert the string to a number
+    return parseInt(numberString); // For integer value
+  };
 
   const handleOpenKeyboard = () => {
     openKeyboard(); // Call the openKeyboard function from the context
@@ -49,11 +66,6 @@ export default function Page() {
   };
 
   useEffect(() => {
-    // Check if localParams.source is a string and update imageSource
-    if (typeof localParams?.source === "string") {
-      setImageSource(Number(localParams.source));
-    }
-
     // Update noteContent
     if (typeof localParams.note === "string") {
       setNoteContent(localParams.note);
@@ -63,12 +75,101 @@ export default function Page() {
     if (typeof localParams.contact === "string") {
       setContactContent(localParams.contact);
     }
-  }, [localParams.source, localParams.note, localParams.contact]);
 
-  console.log(
-    "contactContentsplit",
-    contactContent.split(", ").filter((contact) => contact.trim() !== "")
-  );
+    // Update contactContent
+    if (typeof localParams.categoryImg === "string") {
+      setCategory((prevCategory) => ({
+        ...prevCategory,
+        img: localParams.categoryImg,
+      }));
+    }
+
+    // Update contactContent
+    if (typeof localParams.categoryId === "string") {
+      setCategory((prevCategory) => ({
+        ...prevCategory,
+        id: localParams.categoryId,
+      }));
+    }
+
+    // Update contactContent
+    if (typeof localParams.categoryName === "string") {
+      setCategory((prevCategory) => ({
+        ...prevCategory,
+        name: localParams.categoryName,
+      }));
+    }
+
+    // Update contactContent
+    if (typeof localParams.typeTransaction === "string") {
+      setTypeTransaction(localParams.typeTransaction);
+    }
+  }, [localParams.source, localParams.note, localParams.contact, localParams]);
+
+  const handleSave = () => {
+    // console.log("inputValue", formatAmount(inputValue));
+    // console.log("category", category);
+    // console.log("transactDate", formatDate(transactDate));
+    // console.log("contactContent", typeof contactContent);
+    // console.log("remindDate", remindDate);
+    // console.log("selectedImage", selectedImage);
+    // console.log("typeTransaction", typeTransaction);
+
+    const insertExpenseRow = async (formData) => {
+      const { data, error } = await supabase
+        .from("Expense")
+        .insert([
+          {
+            category: formData.categoryId,
+            amount: formData.amount,
+            date: formData.date,
+            note: formData.note,
+          },
+        ])
+        .select();
+    };
+
+    const insertIncomeRow = async () => {
+      const { data, error } = await supabase
+        .from("Expense")
+        .insert([{ category: categoryId, amount: "otherValue" }])
+        .select();
+    };
+
+    const insertDebtRow = async () => {
+      const { data, error } = await supabase
+        .from("Expense")
+        .insert([{ category: categoryId, amount: "otherValue" }])
+        .select();
+    };
+
+    const insertLoanRow = async () => {
+      const { data, error } = await supabase
+        .from("Expense")
+        .insert([{ category: categoryId, amount: "otherValue" }])
+        .select();
+    };
+
+    const transactionData = {
+      categoryId: Number(category.id),
+      amount: formatAmount(inputValue),
+      date: formatDate(transactDate),
+      note: noteContent,
+    };
+
+    switch (typeTransaction) {
+      case "expense": {
+        insertExpenseRow(transactionData);
+        break;
+      }
+      case "income": {
+        break;
+      }
+      case "debtLoan": {
+        break;
+      }
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -158,16 +259,16 @@ export default function Page() {
         <View style={[styles.inforTransaction, styles.inputBox]}>
           <Link
             href={{
-              pathname: "/iconList",
+              pathname: "/categoryList",
               params: { previousPage: "add-transaction" },
             }}
             style={{ padding: 0 }}
           >
             <InputTransaction
               iconSvg={
-                imageSource ? (
+                category?.img ? (
                   <Image
-                    source={imageSource}
+                    source={{ uri: category.img }}
                     style={{
                       width: 38,
                       height: 38,
@@ -178,11 +279,12 @@ export default function Page() {
                   <icons.questionMark />
                 )
               }
-              title="Select category"
-              iconBoxStyle={
-                imageSource ? styles.iconImageBox : styles.iconSvgBox
-              }
-              textInputTransaction={styles.textInputTransaction}
+              title={category?.name ? category.name : "Select category"}
+              iconBoxStyle={category ? styles.iconImageBox : styles.iconSvgBox}
+              textInputTransaction={[
+                styles.textInputTransaction,
+                { color: category ? "#010101" : COLORS.textColor3 },
+              ]}
             />
           </Link>
 
@@ -199,7 +301,10 @@ export default function Page() {
             <InputTransaction
               iconSvg={<icons.notes />}
               title={noteContent ? noteContent : "Write note"}
-              textInputTransaction={styles.textInputTransaction2}
+              textInputTransaction={[
+                styles.textInputTransaction2,
+                { color: noteContent ? "#010101" : COLORS.textColor3 },
+              ]}
             />
           </Link>
 
@@ -230,7 +335,10 @@ export default function Page() {
             <InputTransaction
               iconSvg={<icons.groupUser />}
               title={contactContent ? contactContent : "With"}
-              textInputTransaction={styles.textInputTransaction3}
+              textInputTransaction={[
+                styles.textInputTransaction3,
+                { color: contactContent ? "#010101" : COLORS.textColor3 },
+              ]}
               isHaveChildren={contactContent.length > 0 ? true : false}
               children={
                 <ListSmallContact
@@ -339,16 +447,18 @@ export default function Page() {
         <View style={styles.saveBtn}>
           <TouchableOpacity
             style={{
-              backgroundColor: COLORS.primary,
+              backgroundColor:
+                !inputValue || !category ? "#dfdfdf" : COLORS.primary,
               alignItems: "center",
               justifyContent: "center",
               padding: 14,
               borderRadius: 7,
             }}
+            onPress={handleSave}
           >
             <Text
               style={{
-                color: "#FCFCFC",
+                color: !inputValue || !category ? COLORS.textColor3 : "#FCFCFC",
                 fontFamily: "InterSemiBold",
                 fontSize: 18,
               }}
@@ -411,7 +521,7 @@ export default function Page() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#E9E9E9",
+    backgroundColor: "#F4F3F8",
     position: "relative",
   },
   inputBox: {

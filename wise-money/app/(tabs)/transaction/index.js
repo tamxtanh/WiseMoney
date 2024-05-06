@@ -70,7 +70,7 @@ const Page = () => {
         </Text>
       </View>
 
-      <CustomTabBar nestedTabs={nestedTabs} TabContent={TabContent} />
+      {/* <CustomTabBar nestedTabs={nestedTabs} TabContent={TabContent} /> */}
     </View>
   );
 };

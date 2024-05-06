@@ -5,8 +5,29 @@ import { Dimensions } from "react-native";
 import { COLORS } from "../../constants";
 import { Animated, StyleSheet } from "react-native";
 
-const CustomTabBar = ({ nestedTabs, TabContent }) => {
+const CustomTabBar = ({ widthOfPerTab = 100, nestedTabs, TabContent }) => {
   const [index, setIndex] = useState(0);
+
+  const styles = StyleSheet.create({
+    tabBar: {
+      backgroundColor: "white",
+    },
+    perTab: {
+      paddingBottom: 8,
+      width: widthOfPerTab,
+    },
+    tabText: {
+      color: COLORS.textColor3, // Change this color to your desired text color
+      fontFamily: "InterSemiBold", // Add any other text styles as needed
+      fontSize: 16,
+      textTransform: "capitalize",
+    },
+    indicator: {
+      backgroundColor: "black",
+      height: 3,
+      // width: 50,
+    },
+  });
 
   const handleIndexChange = (index) => {
     setIndex(index);
@@ -71,26 +92,5 @@ const CustomTabBar = ({ nestedTabs, TabContent }) => {
     />
   );
 };
-
-const styles = StyleSheet.create({
-  tabBar: {
-    backgroundColor: "white",
-  },
-  perTab: {
-    paddingBottom: 8,
-    width: 100,
-  },
-  tabText: {
-    color: COLORS.textColor3, // Change this color to your desired text color
-    fontFamily: "InterSemiBold", // Add any other text styles as needed
-    fontSize: 14,
-    textTransform: "capitalize",
-  },
-  indicator: {
-    backgroundColor: "black",
-    height: 3,
-    // width: 50,
-  },
-});
 
 export default CustomTabBar;

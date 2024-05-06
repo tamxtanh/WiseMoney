@@ -57,7 +57,7 @@ const DateTimePickerCustom = ({
 
   const showMode = (currentMode) => {
     DateTimePickerAndroid.open({
-      value: selectedDate,
+      value: selectedDate ? selectedDate : new Date(),
       onChange: (event, selectedValue) =>
         onChange(event, selectedValue, currentMode),
       mode: currentMode,
@@ -76,12 +76,16 @@ const DateTimePickerCustom = ({
       <InputTransaction
         iconSvg={iconSvg}
         title={
-          dateTimeMode ? formatDateTime(selectedDate) : formatDate(selectedDate)
+          selectedDate
+            ? dateTimeMode
+              ? formatDateTime(selectedDate)
+              : formatDate(selectedDate)
+            : "No remind"
         }
         textInputTransaction={{
           fontFamily: "InterMedium",
           fontSize: 15,
-          color: "#010101",
+          color: selectedDate ? "#010101" : COLORS.textColor3,
         }}
       />
     </TouchableOpacity>

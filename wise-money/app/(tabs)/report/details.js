@@ -75,7 +75,7 @@ const Page = () => {
         </Text>
       </View>
 
-      <CustomTabBar nestedTabs={nestedTabs} TabContent={ReportContent} />
+      {/* <CustomTabBar nestedTabs={nestedTabs} TabContent={ReportContent} /> */}
     </View>
   );
 };

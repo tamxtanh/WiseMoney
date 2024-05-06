@@ -8,7 +8,7 @@ export const handlePickImage = async (setSelectedImage) => {
     quality: 1,
   });
 
-  if (!result.cancelled && result.assets.length > 0) {
+  if (!result?.cancelled && result?.assets?.length > 0) {
     setSelectedImage(result.assets[0].uri);
   }
 };
@@ -20,7 +20,7 @@ export const handleTakePhoto = async (setSelectedImage) => {
     quality: 1,
   });
 
-  if (!result.cancelled && result.assets.length > 0) {
+  if (!result?.cancelled && result?.assets?.length > 0) {
     setSelectedImage(result.assets[0].uri);
   }
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Image,
@@ -10,61 +10,64 @@ import { useLocalSearchParams } from "expo-router";
 import { router } from "expo-router";
 
 import { SIZES } from "../constants";
-
-const imageList = [
-  require("../assets/category/bar-graph.png"),
-  require("../assets/category/barbell.png"),
-  require("../assets/category/bill(1).png"),
-  require("../assets/category/bill(2).png"),
-  require("../assets/category/car-rent.png"),
-  require("../assets/category/car.png"),
-  require("../assets/category/celebration.png"),
-  require("../assets/category/cutlery.png"),
-  require("../assets/category/economic-growth.png"),
-  require("../assets/category/education.png"),
-  require("../assets/category/fitness(1).png"),
-  require("../assets/category/fitness.png"),
-  require("../assets/category/give.png"),
-  require("../assets/category/graduation-cap.png"),
-  require("../assets/category/green-home.png"),
-  require("../assets/category/home(1).png"),
-  require("../assets/category/home.png"),
-  require("../assets/category/medical-report.png"),
-  require("../assets/category/promoting.png"),
-  require("../assets/category/restaurant.png"),
-  require("../assets/category/saving.png"),
-  require("../assets/category/scholarship.png"),
-  require("../assets/category/shield.png"),
-];
+import darkColors from "react-native-elements/dist/config/colorsDark";
+import { supabase } from "../lib/supabase";
+import { useState } from "react";
 
 const IconList = () => {
+  const [imageList, setImageList] = useState([]);
+
+  useEffect(() => {
+    const getListIconSelect = async () => {
+      try {
+        let { data: Image, error } = await supabase
+          .from("Image")
+          .select("id, url")
+          .eq("description", "iconSelect");
+
+        if (error) {
+          throw error;
+        }
+
+        setImageList(Image);
+      } catch (error) {
+        console.error("Error fetching image data:", error.message);
+      }
+    };
+
+    getListIconSelect();
+  }, []);
+
   const { previousPage } = useLocalSearchParams();
 
-  const handlePress = (imagePath) => {
+  const handlePress = (id, imagePath) => {
     router.navigate({
       pathname: previousPage,
       params: {
         source: imagePath,
+        imageId: id,
       },
     });
   };
 
-  const renderIconRow = ({ item }) => (
-    <View style={styles.rowContainer}>
-      {item.map((imagePath, index) => (
-        <TouchableOpacity
-          style={styles.iconButton}
-          onPress={() => handlePress(imagePath)}
-          key={index}
-        >
-          <Image
-            style={styles.icon}
-            source={imagePath} // Use image path directly
-          />
-        </TouchableOpacity>
-      ))}
-    </View>
-  );
+  const renderIconRow = ({ item: imageRow }) => {
+    return (
+      <View style={styles.rowContainer}>
+        {imageRow.map((item, index) => (
+          <TouchableOpacity
+            style={styles.iconButton}
+            onPress={() => handlePress(item.id, item.url)}
+            key={index}
+          >
+            <Image
+              style={styles.icon}
+              source={{ uri: item.url }} // Use image path directly
+            />
+          </TouchableOpacity>
+        ))}
+      </View>
+    );
+  };
 
   return (
     <FlatList
