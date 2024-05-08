@@ -20,18 +20,15 @@ const ParentCategory = () => {
   useEffect(() => {
     const getGroupTreeData = async (type, userId) => {
       try {
-        let { data: tempt, error } = await supabase.rpc(
-          "get_parent_group_data",
-          {
-            group_type: type,
-            user_id: userId,
-          }
-        );
+        let { data: tempt, error } = await supabase.rpc("get_group_data", {
+          group_type: type,
+          user_id: userId,
+        });
 
         if (error) {
           throw error;
         }
-        console.log("tempt", tempt);
+        // console.log("tempt", tempt);
         return tempt;
       } catch (error) {
         console.error(error);

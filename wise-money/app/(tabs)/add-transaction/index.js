@@ -15,16 +15,17 @@ import {
 } from "react-native";
 import { icons, COLORS, SIZES } from "../../../constants";
 import InputTransaction from "../../../components/transaction/InputTransaction";
-import { CheckBox } from "react-native-elements";
 import { useState, useEffect, useRef } from "react";
 import {
   handlePickImage,
   handleTakePhoto,
+  uploadImage,
 } from "../../../components/image-function/ImageHandler";
 import DateTimePickerCustom from "../../../components/modal-calendar/DateTimePickerCustom";
 import { useKeyboard } from "../../../context/KeyboardContext";
 import ListSmallContact from "../../../components/contact/ListSmallContact";
 import { supabase } from "../../../lib/supabase";
+import { CheckBox } from "react-native-elements";
 
 export default function Page() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -35,6 +36,7 @@ export default function Page() {
 
   const [transactDate, setTransactDate] = useState(new Date());
   const [remindDate, setRemindDate] = useState();
+  const [isChecked, setIsChecked] = useState(false);
 
   const localParams = useGlobalSearchParams();
 
@@ -56,6 +58,10 @@ export default function Page() {
 
     // Convert the string to a number
     return parseInt(numberString); // For integer value
+  };
+
+  const splitContactList = (list) => {
+    return list.split(", ").filter((contact) => contact.trim() !== "");
   };
 
   const handleOpenKeyboard = () => {
@@ -107,75 +113,253 @@ export default function Page() {
   }, [localParams.source, localParams.note, localParams.contact, localParams]);
 
   const handleSave = () => {
-    // console.log("inputValue", formatAmount(inputValue));
-    // console.log("category", category);
-    // console.log("transactDate", formatDate(transactDate));
-    // console.log("contactContent", typeof contactContent);
-    // console.log("remindDate", remindDate);
-    // console.log("selectedImage", selectedImage);
-    // console.log("typeTransaction", typeTransaction);
-
     const insertExpenseRow = async (formData) => {
-      const { data, error } = await supabase
-        .from("Expense")
-        .insert([
-          {
-            category: formData.categoryId,
-            amount: formData.amount,
-            date: formData.date,
-            note: formData.note,
-          },
-        ])
-        .select();
+      try {
+        const { data, error } = await supabase
+          .from("Expense")
+          .insert([
+            {
+              category: formData.categoryId,
+              amount: formData.amount,
+              date: formData.date,
+              note: formData.note,
+              remind: formData.remind,
+              image: formData.image,
+              exception: formData.exception,
+            },
+          ])
+          .select("id")
+          .single();
+
+        if (error) throw error;
+
+        return data.id;
+      } catch (error) {
+        console.error(error.message);
+      }
     };
 
-    const insertIncomeRow = async () => {
-      const { data, error } = await supabase
-        .from("Expense")
-        .insert([{ category: categoryId, amount: "otherValue" }])
-        .select();
+    const insertIncomeRow = async (formData) => {
+      try {
+        const { data, error } = await supabase
+          .from("Income")
+          .insert([
+            {
+              category: formData.categoryId,
+              amount: formData.amount,
+              date: formData.date,
+              note: formData.note,
+              remind: formData.remind,
+              image: formData.image,
+              exception: formData.exception,
+            },
+          ])
+          .select("id")
+          .single();
+        if (error) throw error;
+
+        return data.id;
+      } catch (error) {
+        console.error(error.message);
+      }
     };
 
-    const insertDebtRow = async () => {
-      const { data, error } = await supabase
-        .from("Expense")
-        .insert([{ category: categoryId, amount: "otherValue" }])
-        .select();
+    const insertDebtRow = async (formData) => {
+      try {
+        const { data, error } = await supabase
+          .from("Debt")
+          .insert([
+            {
+              category: formData.categoryId,
+              amount: formData.amount,
+              date: formData.date,
+              note: formData.note,
+              remind: formData.remind,
+              image: formData.image,
+              exception: formData.exception,
+            },
+          ])
+          .select("id")
+          .single();
+        if (error) throw error;
+
+        return data.id;
+      } catch (error) {
+        console.error(error.message);
+      }
     };
 
-    const insertLoanRow = async () => {
-      const { data, error } = await supabase
-        .from("Expense")
-        .insert([{ category: categoryId, amount: "otherValue" }])
-        .select();
+    const insertLoanRow = async (formData) => {
+      try {
+        const { data, error } = await supabase
+          .from("Loan")
+          .insert([
+            {
+              category: formData.categoryId,
+              amount: formData.amount,
+              date: formData.date,
+              note: formData.note,
+              remind: formData.remind,
+              image: formData.image,
+              exception: formData.exception,
+            },
+          ])
+          .select("id")
+          .single();
+        if (error) throw error;
+
+        return data.id;
+      } catch (error) {
+        console.error(error.message);
+      }
     };
 
-    const transactionData = {
-      categoryId: Number(category.id),
+    const insertContact = (idTran, type, contactContent) => {
+      if (contactContent) {
+        const contactList = splitContactList(contactContent);
+        const contentInsert = contactList.map((item, index) => {
+          return {
+            name: item,
+          };
+        });
+
+        const insertManyContacts = async (contentInsert) => {
+          try {
+            const { data, error } = await supabase
+              .from("Contact")
+              .insert(contentInsert)
+              .select("id");
+
+            if (error) throw error;
+
+            return data;
+          } catch (error) {
+            console.error(error.message);
+          }
+        };
+
+        const insertManyContactTransaction = async (idTransaction, type) => {
+          const idContacts = await insertManyContacts(contentInsert);
+          const contactTransactionList = idContacts.map((item) => {
+            return {
+              transaction: idTransaction,
+              contact: item.id,
+              type: type,
+            };
+          });
+
+          try {
+            const { data, error } = await supabase
+              .from("ContactTransaction")
+              .insert(contactTransactionList)
+              .select("id");
+
+            if (error) throw error;
+          } catch (error) {
+            console.error(error.message);
+          }
+        };
+
+        insertManyContactTransaction(idTran, type);
+      }
+    };
+
+    const insertRemindRow = async (remindDate, userId) => {
+      try {
+        const { data, error } = await supabase
+          .from("Remind")
+          .insert([{ time: remindDate, user: userId }])
+          .select("id")
+          .single();
+
+        if (error) throw error;
+        return data.id;
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    const insertImageRow = async (name, desc, url) => {
+      try {
+        const { data, error } = await supabase
+          .from("Image")
+          .insert([{ name: name, description: desc, url: url }])
+          .select("id")
+          .single();
+        if (error) {
+          throw error;
+        }
+
+        return data.id;
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    let transactionData = {
+      categoryId: Number(category?.id),
       amount: formatAmount(inputValue),
       date: formatDate(transactDate),
       note: noteContent,
+      exception: isChecked,
     };
 
-    switch (typeTransaction) {
-      case "expense": {
-        insertExpenseRow(transactionData);
-        break;
+    const insertTransaction = async () => {
+      if (remindDate) {
+        const remindId = await insertRemindRow(remindDate, 1);
+
+        transactionData = {
+          ...transactionData,
+          remind: remindId,
+        };
+
+        console.log("transactionData", transactionData);
       }
-      case "income": {
-        break;
+
+      if (selectedImage) {
+        const imageName = transactDate.toISOString().substring(0, 10);
+        const urlImage = await uploadImage(selectedImage, "transaction");
+        const idImage = await insertImageRow(
+          imageName,
+          typeTransaction,
+          urlImage
+        );
+        transactionData = {
+          ...transactionData,
+          image: idImage,
+        };
+
+        console.log("transactionData", transactionData);
       }
-      case "debtLoan": {
-        break;
+
+      switch (typeTransaction) {
+        case "expense": {
+          const id = await insertExpenseRow(transactionData);
+          insertContact(id, typeTransaction, contactContent);
+          break;
+        }
+        case "income": {
+          const id = await insertIncomeRow(transactionData);
+          insertContact(id, typeTransaction, contactContent);
+          break;
+        }
+        ///???
+        case "debtLoan": {
+          const id = await insertExpenseRow(transactionData);
+          insertContact(id, typeTransaction, contactContent);
+          break;
+        }
       }
-    }
+    };
+
+    insertTransaction();
   };
 
   return (
     <View style={styles.container}>
       <Stack.Screen
         options={{
-          headerLeft: () => <icons.close fill="white" />,
+          headerLeft: () => <icons.close fill="white" width={26} height={26} />,
           headerTitle: () => (
             <View style={{ marginLeft: 0 }}>
               <Text
@@ -341,11 +525,7 @@ export default function Page() {
               ]}
               isHaveChildren={contactContent.length > 0 ? true : false}
               children={
-                <ListSmallContact
-                  nameList={contactContent
-                    .split(", ")
-                    .filter((contact) => contact.trim() !== "")}
-                />
+                <ListSmallContact nameList={splitContactList(contactContent)} />
               }
             />
           </Link>
@@ -387,11 +567,36 @@ export default function Page() {
           </View>
 
           {selectedImage && (
-            <View style={{ marginTop: 21, flex: 1 }}>
+            <View
+              style={{
+                marginTop: 21,
+                flex: 1,
+                backgroundColor: "#EAEAEA",
+                paddingHorizontal: 20,
+                borderRadius: 5,
+                alignItems: "center",
+                position: "relative",
+              }}
+            >
               <Image
                 source={{ uri: selectedImage }}
-                style={{ height: 300, borderRadius: 5 }}
+                style={{ height: 200, width: 250 }}
               />
+
+              <View
+                style={{
+                  backgroundColor: "#EF5363",
+                  borderRadius: 30,
+                  position: "absolute",
+                  right: -6,
+                  top: -11,
+                  padding: 2,
+                }}
+              >
+                <TouchableOpacity onPress={() => setSelectedImage("")}>
+                  <icons.close fill="white" width={19} height={19} />
+                </TouchableOpacity>
+              </View>
             </View>
           )}
         </View>
@@ -407,7 +612,14 @@ export default function Page() {
             },
           ]}
         >
-          <CheckBox />
+          <CheckBox
+            checked={isChecked}
+            iconType="material-community"
+            checkedIcon="checkbox-marked"
+            uncheckedIcon="checkbox-blank-outline"
+            onPress={() => setIsChecked(!isChecked)}
+            checkedColor={COLORS.primary}
+          />
           <View>
             <Text
               style={{
@@ -430,7 +642,7 @@ export default function Page() {
           </View>
         </View>
 
-        <View style={[styles.hideDetail, styles.inputBox]}>
+        {/* <View style={[styles.hideDetail, styles.inputBox]}>
           <Text
             style={{
               color: COLORS.primary,
@@ -442,7 +654,7 @@ export default function Page() {
           </Text>
 
           <icons.arrowDropDown />
-        </View>
+        </View> */}
 
         <View style={styles.saveBtn}>
           <TouchableOpacity
@@ -454,6 +666,7 @@ export default function Page() {
               padding: 14,
               borderRadius: 7,
             }}
+            disabled={!inputValue || !category}
             onPress={handleSave}
           >
             <Text

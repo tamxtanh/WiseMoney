@@ -58,13 +58,13 @@ const NewCategory = () => {
   }, [localParams]);
 
   const handleSave = () => {
-    const insertGroupRow = async (name, iconId, userId, type) => {
+    const insertGroupRow = async (categoryId) => {
       try {
         const { data, error } = await supabase
           .from("Group")
-          .insert([{ name: name, icon: iconId, user: userId, type: type }])
+          .insert([{ category: categoryId }])
           .single();
-        console.log("data", data);
+
         if (error) {
           throw error;
         }
@@ -73,27 +73,86 @@ const NewCategory = () => {
       }
     };
 
-    const insertCategoryRow = async (name, iconId, groupId, walletId = 1) => {
+    const insertCategoryRow = async (
+      name,
+      iconId,
+      type,
+      userId,
+      groupId,
+      walletId = 1
+    ) => {
       try {
         const { data, error } = await supabase
           .from("Category")
           .insert([
-            { name: name, icon: iconId, wallet: walletId, group: groupId },
+            {
+              name: name,
+              icon: iconId,
+              wallet: walletId,
+              group: groupId,
+              type: type,
+              user: userId,
+            },
           ])
-          .select();
+          .select("id")
+          .single();
 
         if (error) {
           throw error;
         }
+
+        return data.id;
       } catch (error) {
         console.error(error.message);
       }
     };
 
+    // const filterGroupRow = async (categoryId) => {
+    //   let { data: groudId, error } = await supabase
+    //     .from("Group")
+    //     .select("id")
+    //     .eq("category", categoryId)
+    //     .single();
+
+    //   console.log("parentId", typeof groudId.id);
+    //   setGroupId(groudId.id);
+    // };
+
     if (parentId) {
-      insertCategoryRow(categoryName, categoryImgId, parentId);
+      // console.log("categoryName", categoryName);
+      // console.log("categoryImgId", categoryImgId);
+      // console.log("typeGroup", typeGroup);
+      // console.log("parentId", parentId);
+      const insertDataWithGroupId = async () => {
+        let { data: groudId, error } = await supabase
+          .from("Group")
+          .select("id")
+          .eq("category", parentId)
+          .single();
+
+        insertCategoryRow(
+          categoryName,
+          categoryImgId,
+          typeGroup,
+          1,
+          groudId.id
+        );
+      };
+
+      insertDataWithGroupId();
     } else {
-      insertGroupRow(categoryName, categoryImgId, 1, typeGroup);
+      const insertDataAndCreateNewGroup = async () => {
+        const categoryId = await insertCategoryRow(
+          categoryName,
+          categoryImgId,
+          typeGroup,
+          1
+        );
+
+        insertGroupRow(categoryId);
+      };
+
+      insertDataAndCreateNewGroup();
     }
 
     router.navigate({

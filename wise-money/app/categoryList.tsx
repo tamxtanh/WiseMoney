@@ -39,8 +39,8 @@ const CategoryList = () => {
   useEffect(() => {
     const getGroupTreeData = async (type, userId) => {
       try {
-        let { data: tempt, error } = await supabase.rpc("get_group_data", {
-          group_type: type,
+        let { data: tempt, error } = await supabase.rpc("get_category_data", {
+          category_type: type,
           user_id: userId,
         });
 

@@ -279,9 +279,9 @@ const select = ({ fill }) => {
   return <SvgXml xml={svgXml} />;
 };
 
-const close = ({ fill }) => {
+const close = ({ fill, width, height }) => {
   const svgXml = `
-  <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg width="${width}" height="${height}" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
   <mask id="mask0_164_1174" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="26" height="26">
   <rect width="26" height="26" fill="#D9D9D9"/>
   </mask>
