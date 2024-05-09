@@ -1,122 +1,90 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  SafeAreaView,
-  Platform,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
-import { useState } from "react";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
-import { COLORS } from "../../constants";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import { COLORS, icons } from "../../constants";
+import InputTransaction from "../transaction/InputTransaction";
 
-const DateTimePickerCustom = () => {
-  //   const [date, setDate] = useState(new Date(1598051730000));
+const formatDate = (dateTimeObj) => {
+  const dayOfWeek = new Intl.DateTimeFormat("en-US", {
+    weekday: "long",
+  }).format(dateTimeObj);
+  const dateOptions = { day: "2-digit", month: "2-digit", year: "numeric" };
 
-  //   console.log("date1", new Date(1598051730000));
-  //   const onChange = (event, selectedDate) => {
-  //     const currentDate = selectedDate;
-  //     setDate(currentDate);
-  //   };
+  const formattedDate = dateTimeObj
+    .toLocaleDateString("en-US", dateOptions)
+    .replace(/\//g, "-");
 
-  //   const showMode = (currentMode) => {
-  //     DateTimePickerAndroid.open({
-  //       value: date,
-  //       onChange,
-  //       mode: currentMode,
-  //       is24Hour: true,
-  //       positiveButton: { label: "SELECT TIME", textColor: COLORS.primary },
-  //       negativeButton: { label: "CANCEL", textColor: COLORS.primary },
-  //     });
-  //   };
+  const dateParts = formattedDate.split("-");
 
-  //   const showDatepicker = () => {
-  //     showMode("time");
-  //     showMode("date");
-  //   };
+  return `${dayOfWeek}, ${dateParts[1]}/${dateParts[0]}/${dateParts[2]}`;
+};
+const formatDateTime = (dateTimeObj) => {
+  const formattedDate = formatDate(dateTimeObj);
+  const timeOptions = { hour: "2-digit", minute: "2-digit", hour12: false };
 
-  //   const showTimepicker = () => {
-  //     showMode("time");
-  //   };
+  const formattedTime = dateTimeObj.toLocaleTimeString("en-US", timeOptions);
 
-  //   return (
-  //     <SafeAreaView>
-  //       <Button onPress={showDatepicker} title="Show date picker!" />
-  //       <Button onPress={showTimepicker} title="Show time picker!" />
-  //       <Text>selected: {date.toLocaleString()}</Text>
-  //     </SafeAreaView>
-  //   );
+  return `${formattedDate} - ${formattedTime}`;
+};
 
-  const [date, setDate] = useState(new Date());
-  const [mode, setMode] = useState("date");
-  const [show, setShow] = useState(false);
+const DateTimePickerCustom = ({
+  dateTimeMode = false,
+  defaultMode = "date",
+  selectedDate,
+  setSelectedDate,
+  iconSvg,
+}) => {
+  const onChange = (event, selectedValue, currentMode) => {
+    const currentValue = selectedValue;
 
-  const [time, setTime] = useState(new Date());
+    if (currentMode == "date") {
+      setSelectedDate(currentValue);
 
-  //   const onChange = (event, selectedDate) => {
-  //     const currentDate = selectedDate || date;
-
-  //     setDate(currentDate);
-  //     setShow(Platform.OS === "ios" ? true : false);
-  //   };
-
-  const onChange = (event, selectedValue) => {
-    setShow(Platform.OS === "ios");
-    if (mode == "date") {
-      const currentDate = selectedValue || new Date();
-      setDate(currentDate);
-      setMode("time");
-      setShow(Platform.OS !== "ios"); // to show the picker again in time mode
-    } else {
-      const selectedTime = selectedValue || new Date();
-      setTime(selectedTime);
-      setShow(Platform.OS === "ios");
-      setMode("date");
+      if (dateTimeMode && event.type !== "dismissed") {
+        showMode("time");
+      }
+    } else if (currentMode == "time") {
+      setSelectedDate((prevSelectedDate) => {
+        // Create a new Date object to avoid mutating the original state
+        const updatedDateTime = new Date(prevSelectedDate);
+        // Update the time part of the new Date object
+        updatedDateTime.setHours(currentValue.getHours());
+        updatedDateTime.setMinutes(currentValue.getMinutes());
+        return updatedDateTime;
+      });
     }
   };
 
   const showMode = (currentMode) => {
-    setShow(true);
-    setMode(currentMode);
+    DateTimePickerAndroid.open({
+      value: selectedDate,
+      onChange: (event, selectedValue) =>
+        onChange(event, selectedValue, currentMode),
+      mode: currentMode,
+      is24Hour: true,
+      positiveButton: { label: "SELECT TIME", textColor: COLORS.primary },
+      negativeButton: { label: "CANCEL", textColor: COLORS.primary },
+    });
   };
 
-  const showDatePicker = () => {
-    showMode("date");
-  };
-
-  const showTimepicker = () => {
-    showMode("time");
-  };
-
-  const formatDate = (date, time) => {
-    return `${date.getDate()}/${
-      date.getMonth() + 1
-    }/${date.getFullYear()} ${time.getHours()}:${time.getMinutes()}`;
+  const showDateTimepicker = () => {
+    showMode(defaultMode);
   };
 
   return (
-    <View>
-      <View>
-        <TouchableOpacity onPress={showDatePicker}>
-          <Text style={styles.title}>{formatDate(date, time)}</Text>
-        </TouchableOpacity>
-      </View>
-
-      {show && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          timeZoneOffsetInMinutes={0}
-          value={date}
-          mode={mode}
-          is24Hour={true}
-          display="default"
-          onChange={onChange}
-        />
-      )}
-    </View>
+    <TouchableOpacity onPress={showDateTimepicker}>
+      <InputTransaction
+        iconSvg={iconSvg}
+        title={
+          dateTimeMode ? formatDateTime(selectedDate) : formatDate(selectedDate)
+        }
+        textInputTransaction={{
+          fontFamily: "InterMedium",
+          fontSize: 15,
+          color: "#010101",
+        }}
+      />
+    </TouchableOpacity>
   );
 };
 

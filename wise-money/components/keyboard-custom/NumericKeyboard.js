@@ -1,28 +1,167 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { COLORS } from "../../constants";
+import { useKeyboard } from "../../context/KeyboardContext";
 
-const NumericKeyboard = ({ value, setValue }) => {
+const NumericKeyboard = () => {
+  const { isKeyboardVisible, inputValue, setInputValue, closeKeyboard } =
+    useKeyboard();
+
+  // const handleKeyPress = (key) => {
+  //   switch (key) {
+  //     case "C":
+  //       setInputValue("");
+  //       break;
+  //     case "/":
+  //     case "x":
+  //     case "+":
+  //     case "-":
+  //     case "000":
+  //       setInputValue((prevValue) => prevValue + "," + key);
+  //       break;
+  //     case "del":
+  //       setInputValue((prevValue) => prevValue.slice(0, -1));
+  //       break;
+  //     case "Done":
+  //       closeKeyboard();
+  //       break;
+  //     default:
+  //       setInputValue((prevValue) => prevValue + key);
+  //       break;
+  //   }
+  // };
+
+  // Function to add commas to a number to separate every three digits
+  const addCommasToNumber = (number) => {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
+  const formatInputValue = (input) => {
+    // Remove existing commas and leading zeros
+    const sanitizedInput = input.replace(/,/g, "").replace(/^0+/, "");
+
+    // Add commas for every three digits
+    return sanitizedInput.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
+  console.log("test", "000123,43434".replace(/,/g, "").replace(/^0+/, ""));
+
+  const getLastInput = (input) => {
+    // Reverse the input value to find the first operator or non-digit character
+    const reversedInput = input.split("").reverse().join("");
+    const operatorIndex = reversedInput.search(/[-+x/]/);
+    // Extract the last Input by slicing the reversed input value
+    const lastInput = reversedInput
+      .slice(0, operatorIndex)
+      .split("")
+      .reverse()
+      .join("");
+    return lastInput;
+  };
+
   const handleKeyPress = (key) => {
     switch (key) {
       case "C":
-        setValue("");
+        setInputValue("");
+        break;
+      case ".":
+        const lastChar = inputValue.slice(-1);
+        const lastCharIsOperator = "+-x/".includes(lastChar);
+
+        if (lastCharIsOperator) {
+          setInputValue((prevValue) => prevValue + "0.");
+        } else {
+          const lastInput = getLastInput(inputValue);
+          const lastInputHasDot = /[.]/.test(lastInput);
+          if (!lastInputHasDot) {
+            setInputValue((prevValue) => prevValue + key);
+          }
+        }
         break;
       case "/":
       case "x":
       case "+":
       case "-":
-      case "000":
-        setValue((prevValue) => prevValue + "," + key);
+        if (inputValue) {
+          // Check if the last character is a digit or an operator
+          const lastCharIsOperator = "+-x/".includes(inputValue.slice(-1));
+          if (lastCharIsOperator) {
+            // Replace the last character with the new operator
+            setInputValue((prevValue) => prevValue.slice(0, -1) + key);
+          } else {
+            // Append the operator to the input value
+            setInputValue((prevValue) => prevValue + key);
+          }
+        }
         break;
       case "del":
-        setValue((prevValue) => prevValue.slice(0, -1));
+        const lastCharacter = inputValue.slice(-1);
+
+        if (!isNaN(lastCharacter))
+          setInputValue((prevValue) => {
+            const deletedInput = prevValue.slice(0, -1);
+            return formatInputValue(deletedInput.replace(/,/g, ""));
+          });
+        else {
+          setInputValue((prevValue) => prevValue.slice(0, -1));
+        }
+
         break;
       case "Done":
-        // Perform any action needed when "done" is pressed
+        const hasOperator = /[-+x/]/.test(inputValue);
+        if (!hasOperator) {
+          closeKeyboard();
+        } else {
+          try {
+            const expression = inputValue.replace(/,/g, "").replace(/x/g, "*");
+            let result = eval(expression); // Evaluate the expression
+
+            // Check if the result has decimal digits
+            if (result % 1 !== 0) {
+              // If it has decimal digits, round it to 2 decimal places
+              result = result.toFixed(2);
+            }
+
+            // Split the result into integer and decimal parts
+            const [integerPart, decimalPart] = result.toString().split(".");
+
+            // Add commas to the integer part
+            const formattedIntegerPart = addCommasToNumber(integerPart);
+
+            // Combine the integer and decimal parts
+            const formattedResult = decimalPart
+              ? `${formattedIntegerPart}.${decimalPart}`
+              : formattedIntegerPart;
+
+            console.log("result", formattedResult);
+            setInputValue(formattedResult);
+          } catch (error) {
+            console.error("Error evaluating expression:", error); // Log the error message
+          }
+        }
+
         break;
       default:
-        setValue((prevValue) => prevValue + key);
+        //setInputValue((prevValue) => prevValue + key);
+        if (!isNaN(key) || key === ",") {
+          // Check if there is a dot in the input value
+          const lastInput = getLastInput(inputValue);
+          if (lastInput.includes(".")) {
+            // Check the number of digits after the dot
+            const digitsAfterDot =
+              lastInput.split(".")[1]?.length + key.length || 0;
+            // Check if the number of digits after the dot exceeds 3
+            if (digitsAfterDot <= 3) {
+              setInputValue((prevValue) => prevValue + key);
+            } else {
+              alert("Maximum characters");
+            }
+          } else {
+            // Format the input value and append the sanitized key
+            setInputValue((prevValue) => formatInputValue(prevValue + key));
+          }
+        }
+
         break;
     }
   };
@@ -72,7 +211,7 @@ const NumericKeyboard = ({ value, setValue }) => {
 
   const keyRight = ["Del", "+", "-"];
 
-  return (
+  return isKeyboardVisible ? (
     <View style={styles.container}>
       <View style={styles.leftContainer}>
         {keyLeft.map((row, rowIndex) => (
@@ -100,13 +239,19 @@ const NumericKeyboard = ({ value, setValue }) => {
         <View style={{ flex: 2 }}>{renderKey("Done")}</View>
       </View>
     </View>
-  );
+  ) : null;
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "row",
+    position: "absolute", // Position the keyboard container absolutely
+    bottom: 0, // Align it to the bottom of the screen
+    left: 0, // Ensure it starts from the left edge
+    right: 0, // Ensure it ends at the right edge
+    elevation: 10,
+    zIndex: 10, // Ensure the keyboard is above other elements
   },
   leftContainer: {
     flex: 3 / 4,
@@ -128,10 +273,10 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: "#D5D4DB",
     backgroundColor: "white",
-    padding: 7,
+    padding: 12,
   },
   keyText: {
-    fontSize: 20,
+    fontSize: 22,
     color: COLORS.primary,
   },
   doneButton: {
@@ -140,6 +285,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
   },
   textDoneButton: {
+    fontSize: 20,
     marginTop: -5,
     color: "white",
   },

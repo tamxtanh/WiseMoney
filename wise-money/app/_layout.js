@@ -1,7 +1,10 @@
 import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import { icons } from "../constants";
-import { TouchableOpacity, View, Text } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
+import { KeyboardProvider } from "../context/KeyboardContext";
+import NumericKeyboard from "../components/keyboard-custom/NumericKeyboard";
+
 // import * as SplashScreen from "expo-splash-screen";
 
 // SplashScreen.preventAutoHideAsync();
@@ -19,37 +22,47 @@ const Layout = () => {
     InterExtraBold: require("../assets/fonts/Inter-ExtraBold.otf"),
   });
 
-  if (!fontsLoaded) {
-    return null;
-  }
-
   return (
-    <Stack initialRouteName="(tabs)">
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="onboarding" options={{ headerShown: false }} />
-      <Stack.Screen
-        name="create-wallet/index"
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="iconList"
-        options={{
-          headerTitle: () => (
-            <View style={{ marginLeft: 0 }}>
-              <Text style={{ fontSize: 20, fontFamily: "InterSemiBold" }}>
-                Select icon
-              </Text>
-            </View>
-          ),
-          // headerLeft: () => (
-          //   <TouchableOpacity onPress={() => navigation.goBack()}>
-          //     <icons.arrowBack fill="black" />
-          //   </TouchableOpacity>
-          // ),
-        }}
-      />
-    </Stack>
+    <KeyboardProvider>
+      {fontsLoaded ? (
+        <View style={styles.container}>
+          <Stack initialRouteName="(tabs)">
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="onboarding" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="create-wallet/index"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="iconList"
+              options={{
+                headerTitle: () => (
+                  <View style={{ marginLeft: 0 }}>
+                    <Text style={{ fontSize: 20, fontFamily: "InterSemiBold" }}>
+                      Select icon
+                    </Text>
+                  </View>
+                ),
+                // headerLeft: () => (
+                //   <TouchableOpacity onPress={() => navigation.goBack()}>
+                //     <icons.arrowBack fill="black" />
+                //   </TouchableOpacity>
+                // ),
+              }}
+            />
+          </Stack>
+          <NumericKeyboard />
+        </View>
+      ) : null}
+    </KeyboardProvider>
   );
 };
 
 export default Layout;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    position: "relative", // Ensure the parent container has position: relative
+  },
+});
