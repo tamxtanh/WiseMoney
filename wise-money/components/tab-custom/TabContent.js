@@ -5,136 +5,280 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  Image,
 } from "react-native";
-import { COLORS } from "../../constants";
+import { COLORS, SIZES } from "../../constants";
 import TransactionListWithDateWithoutImage from "../transaction/TransactionListWithDateWithoutImage";
 import ListTransactionWithName from "../transaction/TransactionListWithName";
+import { useState, useEffect } from "react";
+import { err } from "react-native-svg";
+import { supabase } from "../../lib/supabase";
 
-const TabContent = ({ content }) => {
-  const transactionListData = [
-    {
-      date: new Date(2024, 3, 20), // Day 1
-      total: 50000,
-      transactions: [
-        {
-          id: 1,
-          image_url: "image1.jpg",
-          type: "expense",
-          category_name: "Food",
-          name: "Lunch",
-          value: 20000,
-        },
-        {
-          id: 2,
-          image_url: "image2.jpg",
-          type: "expense",
-          category_name: "Transportation",
-          name: "Taxi",
-          value: 15000,
-        },
-        // Add more transactions for Day 1 if needed
-      ],
-    },
-    {
-      date: new Date(2024, 3, 18), // Day 2
-      total: 70000,
-      transactions: [
-        {
-          id: 3,
-          image_url: "image3.jpg",
-          type: "expense",
-          category_name: "Shopping",
-          name: "Clothes",
-          value: 30000,
-        },
-        {
-          id: 4,
-          image_url: "image4.jpg",
-          type: "expense",
-          category_name: "Food",
-          name: "Dinner",
-          value: 40000,
-        },
-        // Add more transactions for Day 2 if needed
-      ],
-    },
-    {
-      date: new Date(2024, 3, 16), // Day 3
-      total: 60000,
-      transactions: [
-        {
-          id: 5,
-          image_url: "image5.jpg",
-          type: "expense",
-          category_name: "Entertainment",
-          name: "Movie",
-          value: 40000,
-        },
-        {
-          id: 6,
-          image_url: "image6.jpg",
-          type: "expense",
-          category_name: "Food",
-          name: "Snacks",
-          value: 20000,
-        },
-        // Add more transactions for Day 3 if needed
-      ],
-    },
-  ];
+const TabContent = ({ content, typeApi }) => {
+  console.log("content", content);
+  const [transacDateList, setTransacDateList] = useState(null);
+  const [transacCategList, setTransacCategList] = useState(null);
+  useEffect(() => {
+    async function fetchDataByTime(walletId, month, year) {
+      try {
+        let { data, error } = await supabase.rpc("get_transactions_by_month", {
+          month: month,
+          walletid: walletId,
+          year: year,
+        });
 
-  return (
-    <ScrollView style={styles.containerSv}>
-      <View style={styles.initReport}>
-        <View style={styles.itemReport}>
-          <Text style={styles.titleItemReport}>Opening balance </Text>
-          <Text style={styles.valueItemReport}>2,000,000</Text>
-        </View>
-        <View style={styles.itemReport}>
-          <Text style={styles.titleItemReport}>Total income </Text>
-          <Text style={styles.valueItemReport}>4,000,000</Text>
-        </View>
-        <View style={styles.itemReport}>
-          <Text style={styles.titleItemReport}>Total expense </Text>
-          <Text style={styles.valueItemReport}>1,000,000</Text>
-        </View>
-        <View style={styles.itemReport}>
-          <Text
+        if (error) throw error;
+        else
+          setTransacDateList(
+            data.map((item) => ({
+              ...item,
+              date: new Date(item.date),
+              total: Number(item.total),
+            }))
+          );
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    async function fetchDataByCategory(walletId, month, year) {
+      try {
+        let { data, error } = await supabase.rpc(
+          "get_transactions_by_category",
+          {
+            month: month,
+            walletid: walletId,
+            year: year,
+          }
+        );
+
+        if (error) throw error;
+        else
+          setTransacCategList(
+            data.map((item) => ({
+              ...item,
+              total: Number(item.total),
+              transactions: item.transactions.map((transaction) => ({
+                ...transaction,
+                date: new Date(transaction.date),
+              })),
+            }))
+          );
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    if (typeApi === "viewByTransac") {
+      fetchDataByTime(1, 5, 2024);
+    } else if (typeApi === "viewByCateg") {
+      fetchDataByCategory(1, 5, 2024);
+    }
+  }, [typeApi]);
+
+  // console.log(
+  //   "transactionListData",
+  //   transactionListData ? transactionListData[0]?.date : "none"
+  // );
+  // console.log("transactionListData", transactionListData);
+
+  if (typeApi === "viewByTransac") {
+    return transacDateList ? (
+      <ScrollView style={styles.containerSv}>
+        <View style={styles.initReport}>
+          {/* <View style={styles.itemReport}>
+            <Text style={styles.titleItemReport}>Opening balance </Text>
+            <Text style={styles.valueItemReport}>2,000,000</Text>
+          </View> */}
+          <View style={styles.itemReport}>
+            <Text style={styles.titleItemReport}>Inflow </Text>
+            <Text style={styles.valueItemReport}>4,000,000</Text>
+          </View>
+          <View style={styles.itemReport}>
+            <Text style={styles.titleItemReport}>Outflow </Text>
+            <Text style={styles.valueItemReport}>1,000,000</Text>
+          </View>
+          <View
             style={{
-              fontSize: 13,
-              color: COLORS.textColor3,
-              fontFamily: "InterBold",
+              flexDirection: "row",
+              justifyContent: "flex-end",
+              paddingVertical: 5,
             }}
           >
-            Ending balance
-          </Text>
-          <Text
-            style={{
-              fontSize: 13,
-              color: "#000000",
-              fontFamily: "InterBold",
-            }}
-          >
-            5,000,000
-          </Text>
-        </View>
+            {/* <Text
+              style={{
+                fontSize: 13,
+                color: COLORS.textColor3,
+                fontFamily: "InterBold",
+              }}
+            >
+              Ending balance
+            </Text> */}
+            <Text
+              style={{
+                fontSize: 13,
+                color: "#000000",
+                fontFamily: "InterBold",
 
-        <View style={styles.btnReportView}>
-          <TouchableOpacity style={styles.btnReport}>
-            <Text style={styles.textBtnReport}>
-              View report for this period
+                textAlign: "right",
+              }}
+            >
+              5,000,000
             </Text>
-          </TouchableOpacity>
+          </View>
+
+          <View style={styles.btnReportView}>
+            <TouchableOpacity style={styles.btnReport}>
+              <Text style={styles.textBtnReport}>
+                View report for this period
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        {transacDateList?.map(
+          (dayTransactions, index) => (
+            <ListTransactionWithName
+              key={index}
+              listTransactions={dayTransactions}
+            />
+          )
+          // <Text>viewByTransac</Text>
+        )}
+      </ScrollView>
+    ) : (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: "#F3F2F7",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <View
+          style={{
+            marginTop: -100,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Image
+            style={{ width: 70, height: 70 }}
+            source={require("../../assets/images/transactional.png")}
+          />
+          <Text
+            style={{
+              textAlign: "center",
+              fontSize: 16,
+              fontFamily: "InterRegular",
+              color: COLORS.textColor1,
+            }}
+          >
+            Tap{" "}
+            <Text style={{ fontSize: 24, color: COLORS.textColor2 }}>+</Text> to
+            add one
+          </Text>
         </View>
       </View>
-      {transactionListData.map((dayTransactions, index) => (
-        <ListTransactionWithName
-          key={index}
-          listTransactions={dayTransactions}
-        />
-      ))}
-    </ScrollView>
-  );
+    );
+  } else if (typeApi === "viewByCateg") {
+    return transacCategList ? (
+      <ScrollView style={styles.containerSv}>
+        <View style={styles.initReport}>
+          {/* <View style={styles.itemReport}>
+            <Text style={styles.titleItemReport}>Opening balance </Text>
+            <Text style={styles.valueItemReport}>2,000,000</Text>
+          </View> */}
+          <View style={styles.itemReport}>
+            <Text style={styles.titleItemReport}>Inflow </Text>
+            <Text style={styles.valueItemReport}>4,000,000</Text>
+          </View>
+          <View style={styles.itemReport}>
+            <Text style={styles.titleItemReport}>Outflow </Text>
+            <Text style={styles.valueItemReport}>1,000,000</Text>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "flex-end",
+              paddingVertical: 5,
+            }}
+          >
+            {/* <Text
+              style={{
+                fontSize: 13,
+                color: COLORS.textColor3,
+                fontFamily: "InterBold",
+              }}
+            >
+              Ending balance
+            </Text> */}
+            <Text
+              style={{
+                fontSize: 13,
+                color: "#000000",
+                fontFamily: "InterBold",
+
+                textAlign: "right",
+              }}
+            >
+              5,000,000
+            </Text>
+          </View>
+
+          <View style={styles.btnReportView}>
+            <TouchableOpacity style={styles.btnReport}>
+              <Text style={styles.textBtnReport}>
+                View report for this period
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        {transacCategList?.map(
+          (dayTransactions, index) => (
+            <TransactionListWithDateWithoutImage
+              key={index}
+              data={dayTransactions}
+            />
+          )
+          // <Text>viewByCateg</Text>
+        )}
+      </ScrollView>
+    ) : (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: "#F3F2F7",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <View
+          style={{
+            marginTop: -100,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Image
+            style={{ width: 70, height: 70 }}
+            source={require("../../assets/images/transactional.png")}
+          />
+          <Text
+            style={{
+              textAlign: "center",
+              fontSize: 16,
+              fontFamily: "InterRegular",
+              color: COLORS.textColor1,
+            }}
+          >
+            Tap{" "}
+            <Text style={{ fontSize: 24, color: COLORS.textColor2 }}>+</Text> to
+            add one
+          </Text>
+        </View>
+      </View>
+    );
+  }
 };
 
 export default TabContent;
@@ -143,6 +287,7 @@ const styles = StyleSheet.create({
   containerSv: {
     flex: 1,
     backgroundColor: "#F3F2F7",
+    marginBottom: SIZES.heightBottomNavigation,
   },
   initReport: {
     paddingHorizontal: 16,
