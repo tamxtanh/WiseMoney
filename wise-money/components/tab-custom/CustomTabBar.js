@@ -11,20 +11,20 @@ const CustomTabBar = React.memo(
 
     const styles = StyleSheet.create({
       tabBar: {
-        backgroundColor: "white",
+        backgroundColor: COLORS.primary,
       },
       perTab: {
         paddingBottom: 8,
         width: widthOfPerTab,
       },
       tabText: {
-        color: COLORS.textColor3, // Change this color to your desired text color
+        color: "white", // Change this color to your desired text color
         fontFamily: "InterSemiBold", // Add any other text styles as needed
         fontSize: 16,
         textTransform: "capitalize",
       },
       indicator: {
-        backgroundColor: "black",
+        backgroundColor: "white",
         height: 3,
         // width: 50,
       },
@@ -35,7 +35,13 @@ const CustomTabBar = React.memo(
     };
 
     const renderScene = ({ route }) => {
-      return <TabContent content={route.content} typeApi={selectedOption} />;
+      return (
+        <TabContent
+          content={route.content}
+          typeApi={selectedOption}
+          index={route.key}
+        />
+      );
     };
 
     const renderIndicator = (props) => {
@@ -76,7 +82,7 @@ const CustomTabBar = React.memo(
         style={styles.tabBar}
         scrollEnabled={true} // Enable tab bar scrolling
         labelStyle={styles.tabText}
-        activeColor="black"
+        activeColor="white"
         tabStyle={styles.perTab}
         pressColor="transparent"
         renderIndicator={renderIndicator}

@@ -131,3 +131,42 @@ export const generateWeekList = (currentDate) => {
 
   return weekList;
 };
+
+export const generateCustomNestedTabs = (startDate, endDate) => {
+  // Format the start and end dates
+  const formattedStartDate = startDate.toLocaleDateString("en-GB", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+  const formattedEndDate = endDate.toLocaleDateString("en-GB", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+
+  // Split the date strings
+  const endDateParts = formattedStartDate.split("/");
+  const startDateParts = formattedEndDate.split("/");
+
+  // Remove the century part (first two characters) from the year
+  const startTitle =
+    endDateParts[0] + "/" + endDateParts[1] + "/" + endDateParts[2].slice(2);
+  const endTitle =
+    startDateParts[0] +
+    "/" +
+    startDateParts[1] +
+    "/" +
+    startDateParts[2].slice(2);
+
+  // Return the custom tab as a single object
+  return {
+    key: 1,
+    title: `${startTitle} - ${endTitle}`,
+    content: {
+      walletId: 1,
+      startDate: formattedStartDate.split("/").reverse().join("-"),
+      endDate: formattedEndDate.split("/").reverse().join("-"),
+    },
+  };
+};

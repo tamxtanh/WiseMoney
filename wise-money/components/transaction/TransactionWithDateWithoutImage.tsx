@@ -37,13 +37,7 @@ const TransactionWithDateWithoutImage: React.FC<{
         {/* <Text style={styles.subtitle}>{transaction.note}</Text> */}
       </View>
       <View style={styles.right}>
-        <Text
-          style={
-            transaction.type === "DEBT" || transaction.type === "EXPENSE"
-              ? styles.red
-              : styles.green
-          }
-        >
+        <Text style={transaction.value > 0 ? styles.blue : styles.red}>
           {transaction.value.toLocaleString("en-US", {
             // style: "currency",
             // currency: "VND",
@@ -97,12 +91,12 @@ const styles = StyleSheet.create({
     fontFamily: FONT.regular,
   },
   red: {
-    color: COLORS.red,
+    color: COLORS.expense,
     fontSize: SIZES.h8,
     fontFamily: FONT.regular,
   },
-  green: {
-    color: COLORS.primary,
+  blue: {
+    color: COLORS.income,
     fontSize: SIZES.h8,
     fontFamily: FONT.regular,
   },

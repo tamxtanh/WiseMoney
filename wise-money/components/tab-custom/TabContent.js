@@ -14,17 +14,16 @@ import { useState, useEffect } from "react";
 import { err } from "react-native-svg";
 import { supabase } from "../../lib/supabase";
 
-const TabContent = ({ content, typeApi }) => {
-  console.log("content", content);
+const TabContent = ({ content, typeApi, index }) => {
   const [transacDateList, setTransacDateList] = useState(null);
   const [transacCategList, setTransacCategList] = useState(null);
   useEffect(() => {
-    async function fetchDataByTime(walletId, month, year) {
+    async function fetchDataByTime(walletId, startDate, endDate) {
       try {
-        let { data, error } = await supabase.rpc("get_transactions_by_month", {
-          month: month,
-          walletid: walletId,
-          year: year,
+        let { data, error } = await supabase.rpc("get_transactions_by_dates", {
+          end_date: endDate,
+          start_date: startDate,
+          wallet_id: walletId,
         });
 
         if (error) throw error;
@@ -41,16 +40,13 @@ const TabContent = ({ content, typeApi }) => {
       }
     }
 
-    async function fetchDataByCategory(walletId, month, year) {
+    async function fetchDataByCategory(walletId, startDate, endDate) {
       try {
-        let { data, error } = await supabase.rpc(
-          "get_transactions_by_category",
-          {
-            month: month,
-            walletid: walletId,
-            year: year,
-          }
-        );
+        let { data, error } = await supabase.rpc("get_transactions_by_categ", {
+          end_date: endDate,
+          start_date: startDate,
+          wallet_id: walletId,
+        });
 
         if (error) throw error;
         else
@@ -70,11 +66,16 @@ const TabContent = ({ content, typeApi }) => {
     }
 
     if (typeApi === "viewByTransac") {
-      fetchDataByTime(1, 5, 2024);
+      fetchDataByTime(content.walletId, content.startDate, content.endDate);
     } else if (typeApi === "viewByCateg") {
-      fetchDataByCategory(1, 5, 2024);
+      fetchDataByCategory(content.walletId, content.startDate, content.endDate);
     }
-  }, [typeApi]);
+  }, [typeApi, content]);
+
+  console.log("index", index);
+  console.log("typeApi", typeApi);
+  console.log("transactionListData", transacDateList);
+  console.log("transactionListData", transacCategList);
 
   // console.log(
   //   "transactionListData",
@@ -83,13 +84,13 @@ const TabContent = ({ content, typeApi }) => {
   // console.log("transactionListData", transactionListData);
 
   if (typeApi === "viewByTransac") {
-    return transacDateList ? (
+    return transacDateList?.length > 0 ? (
       <ScrollView style={styles.containerSv}>
-        <View style={styles.initReport}>
-          {/* <View style={styles.itemReport}>
+        {/* <View style={styles.initReport}>
+          <View style={styles.itemReport}>
             <Text style={styles.titleItemReport}>Opening balance </Text>
             <Text style={styles.valueItemReport}>2,000,000</Text>
-          </View> */}
+          </View>
           <View style={styles.itemReport}>
             <Text style={styles.titleItemReport}>Inflow </Text>
             <Text style={styles.valueItemReport}>4,000,000</Text>
@@ -105,7 +106,7 @@ const TabContent = ({ content, typeApi }) => {
               paddingVertical: 5,
             }}
           >
-            {/* <Text
+            <Text
               style={{
                 fontSize: 13,
                 color: COLORS.textColor3,
@@ -113,7 +114,7 @@ const TabContent = ({ content, typeApi }) => {
               }}
             >
               Ending balance
-            </Text> */}
+            </Text>
             <Text
               style={{
                 fontSize: 13,
@@ -134,7 +135,7 @@ const TabContent = ({ content, typeApi }) => {
               </Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </View> */}
         {transacDateList?.map(
           (dayTransactions, index) => (
             <ListTransactionWithName
@@ -181,13 +182,13 @@ const TabContent = ({ content, typeApi }) => {
       </View>
     );
   } else if (typeApi === "viewByCateg") {
-    return transacCategList ? (
+    return transacCategList?.length > 0 ? (
       <ScrollView style={styles.containerSv}>
-        <View style={styles.initReport}>
-          {/* <View style={styles.itemReport}>
+        {/* <View style={styles.initReport}>
+          <View style={styles.itemReport}>
             <Text style={styles.titleItemReport}>Opening balance </Text>
             <Text style={styles.valueItemReport}>2,000,000</Text>
-          </View> */}
+          </View>
           <View style={styles.itemReport}>
             <Text style={styles.titleItemReport}>Inflow </Text>
             <Text style={styles.valueItemReport}>4,000,000</Text>
@@ -203,7 +204,7 @@ const TabContent = ({ content, typeApi }) => {
               paddingVertical: 5,
             }}
           >
-            {/* <Text
+            <Text
               style={{
                 fontSize: 13,
                 color: COLORS.textColor3,
@@ -211,7 +212,7 @@ const TabContent = ({ content, typeApi }) => {
               }}
             >
               Ending balance
-            </Text> */}
+            </Text>
             <Text
               style={{
                 fontSize: 13,
@@ -232,7 +233,7 @@ const TabContent = ({ content, typeApi }) => {
               </Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </View> */}
         {transacCategList?.map(
           (dayTransactions, index) => (
             <TransactionListWithDateWithoutImage
@@ -285,6 +286,7 @@ export default TabContent;
 
 const styles = StyleSheet.create({
   containerSv: {
+    paddingTop: 5,
     flex: 1,
     backgroundColor: "#F3F2F7",
     marginBottom: SIZES.heightBottomNavigation,

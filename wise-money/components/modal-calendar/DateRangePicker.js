@@ -10,6 +10,7 @@ const DateRangePicker = ({
   setStartDate,
   endDate,
   setEndDate,
+  setRangeOption,
 }) => {
   const [temptStartDate, setTemptStartDate] = useState(startDate);
   const [temptEndDate, setTemptEndDate] = useState(endDate);
@@ -19,9 +20,14 @@ const DateRangePicker = ({
   };
 
   const handleSelect = () => {
-    close();
-    setStartDate(temptStartDate);
-    setEndDate(temptEndDate);
+    if (temptEndDate < temptStartDate) {
+      alert("Ending date must be after starting date");
+    } else {
+      close();
+      setRangeOption("custom");
+      setStartDate(temptStartDate);
+      setEndDate(temptEndDate);
+    }
   };
   return (
     <Modal animationType="fade" transparent={true} visible={visible}>

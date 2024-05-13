@@ -26,13 +26,7 @@ const TransactionWithName: React.FC<{ transaction: CategoryTransaction }> = ({
         {/* <Text style={styles.subtitle}>{transaction.name}</Text> */}
       </View>
       <View style={styles.right}>
-        <Text
-          style={
-            transaction.type === "DEBT" || transaction.type === "EXPENSE"
-              ? styles.red
-              : styles.green
-          }
-        >
+        <Text style={transaction.value > 0 ? styles.blue : styles.red}>
           {transaction.value.toLocaleString("en-US", {
             // style: "currency",
             // currency: "VND",

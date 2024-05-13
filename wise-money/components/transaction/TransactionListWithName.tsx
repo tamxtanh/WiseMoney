@@ -45,7 +45,13 @@ const ListTransactionWithName: React.FC<{
         </View>
 
         <View style={styles.right}>
-          <Text style={listTransactions.total < 0 ? styles.red : styles.green}>
+          <Text
+            style={{
+              color: COLORS.textColor2,
+              fontSize: 15,
+              fontFamily: FONT.medium,
+            }}
+          >
             {listTransactions.total.toLocaleString("en-US", {
               //   style: "currency",
               //   currency: "VND",

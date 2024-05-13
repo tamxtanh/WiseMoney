@@ -17,6 +17,7 @@ import {
   generateDateList,
   generateWeekList,
   generateMonthList,
+  generateCustomNestedTabs,
 } from "../../../components/transaction-function/generateListTab";
 import TransactionPopup from "../../../components/modal-popUp/TransactionPopup";
 import TimRangePopup from "../../../components/modal-popUp/TimRangePopup";
@@ -80,6 +81,9 @@ const Page = () => {
       case "month":
         setNestedTabs(generateMonthList(currentDate));
         break;
+      case "custom":
+        setNestedTabs(generateCustomNestedTabs(customStartDate, customEndDate));
+        break;
       default:
         setNestedTabs(generateMonthList(currentDate));
         break;
@@ -88,22 +92,64 @@ const Page = () => {
 
   useEffect(() => {
     generateTablist(rangeOption);
-  }, [rangeOption]); // Call generateTablist when rangeOption changes
+  }, [rangeOption, customStartDate, customEndDate]); // Call generateTablist when rangeOption changes
 
   // Memoized CustomTabBar component instance
   const memoizedTabBar = useMemo(
-    () => (
-      <CustomTabBar
-        widthOfPerTab={
-          rangeOption == "week"
-            ? Dimensions.get("window").width / 2
-            : Dimensions.get("window").width / 3
-        }
-        nestedTabs={nestedTabs}
-        TabContent={TabContent}
-        selectedOption={popupOption}
-      />
-    ),
+    () =>
+      rangeOption === "custom" ? (
+        <View style={{ backgroundColor: "white", flex: 1 }}>
+          <View
+            style={{
+              paddingHorizontal: 15,
+              paddingTop: 10,
+              borderBottomWidth: 2,
+              borderColor: "#F3F2F7",
+              backgroundColor: COLORS.primary,
+            }}
+          >
+            <View
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Text
+                style={{
+                  color: "white", // Change this color to your desired text color
+                  fontFamily: "InterSemiBold", // Add any other text styles as needed
+                  fontSize: 16,
+                  textTransform: "capitalize",
+                  paddingBottom: 8,
+                }}
+              >
+                {nestedTabs.title}
+              </Text>
+
+              <View
+                style={{
+                  height: 3,
+                  backgroundColor: "white",
+                  width: "30%",
+                  borderRadius: 10,
+                }}
+              />
+            </View>
+          </View>
+          <TabContent content={nestedTabs.content} typeApi={popupOption} />
+        </View>
+      ) : (
+        <CustomTabBar
+          widthOfPerTab={
+            rangeOption == "week"
+              ? Dimensions.get("window").width / 2
+              : Dimensions.get("window").width / 3
+          }
+          nestedTabs={nestedTabs}
+          TabContent={TabContent}
+          selectedOption={popupOption}
+        />
+      ),
     [nestedTabs, popupOption]
   );
 
@@ -158,9 +204,10 @@ const Page = () => {
         setStartDate={setCustomStartDate}
         endDate={customEndDate}
         setEndDate={setCustomEndDate}
+        setRangeOption={setRangeOption}
       />
 
-      <View
+      {/* <View
         style={{
           backgroundColor: "white",
           paddingTop: 17,
@@ -175,7 +222,7 @@ const Page = () => {
         >
           Total amount: 5,000,000 VNĐ
         </Text>
-      </View>
+      </View> */}
 
       {/* <CustomTabBar
         widthOfPerTab={Dimensions.get("window").width / 3}

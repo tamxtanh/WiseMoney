@@ -41,12 +41,12 @@ const styles = StyleSheet.create({
     fontFamily: FONT.regular,
   },
   red: {
-    color: COLORS.red,
+    color: COLORS.expense,
     fontSize: SIZES.h8,
     fontFamily: FONT.regular,
   },
-  green: {
-    color: COLORS.primary,
+  blue: {
+    color: COLORS.income,
     fontSize: SIZES.h8,
     fontFamily: FONT.regular,
   },
