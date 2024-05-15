@@ -1,13 +1,19 @@
 import { Stack } from "expo-router";
-import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, ScrollView, StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from "react-native";
 import { useRouter } from "expo-router";
 import { Button } from "react-native-elements";
 import { supabase } from "../../../lib/supabase";
 import UpdateProfile from "../../../components/profile/UpdateProfile";
 import { COLORS, icons, SIZES } from "../../../constants";
 import UtilityItemList from "../../../components/utility/utilityItemList";
+import React, { useState, useEffect } from "react";
+import styles from "./styles";
 
 export default function Page() {
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+
+  const [avatarUrl, setAvatarUrl] = useState('https://eianmciufswbutirdbka.supabase.co/storage/v1/object/public/my%20files/images/icons/dollar.png?t=2024-03-03T11%3A57%3A19.836Z');
   const router = useRouter();
 
   const signOut = async () => {
@@ -66,6 +72,41 @@ export default function Page() {
     },
   ];
 
+  const functionList = [
+    {
+      title: "Change Profile",
+      onPress: () => {
+        router.push('/profile')
+      },
+    },
+    {
+      title: "About Us",
+      onPress: () => { },
+    },
+    {
+      title: "Policy",
+      onPress: () => { },
+    },
+  ];
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      let { data, error } = await supabase
+        .rpc('get_user_data', {
+          user_email: user.email
+        })
+
+      if (error) console.error(error)
+      else {
+        setEmail(data[0].email)
+        setName(data[0].name)
+        setAvatarUrl(data[0].avatar_url)
+      }
+    }
+    fetchUserData()
+  }, [])
+
   return (
     <View style={styles.container}>
       <Stack.Screen
@@ -104,39 +145,46 @@ export default function Page() {
           headerShadowVisible: false,
         }}
       />
-      <ScrollView
-        style={{ flex: 1, marginBottom: SIZES.heightBottomNavigation }}
-      >
+      <ScrollView style={styles.scrollView}>
         <View style={{ flex: 1 }}>
-          <UpdateProfile></UpdateProfile>
-          <Button title="Sign Out" onPress={signOut} />
+          <View style={styles.infoContainer}>
+            <Image
+              style={styles.avatar}
+              source={{ uri: avatarUrl }}
+            />
+            <Text style={styles.textName}>{name}</Text>
+            <Text>{email}</Text>
+          </View>
+
+          <View style={styles.separator} />
 
           <View style={styles.otherUtilities}>
-            <Text style={styles.lTitleBox}> Other utilities</Text>
-            <View style={styles.listOtherUti}>
-              <UtilityItemList itemData={utilityList} qualityPerRow={4} />
-            </View>
+            <Text style={styles.lTitleBox}> Utilities</Text>
+            <UtilityItemList itemData={utilityList} qualityPerRow={4} />
           </View>
+
+          <View style={styles.separator} />
+
+          <View style={styles.otherUtilities}>
+            <Text style={styles.lTitleBox}> Others</Text>
+            <FlatList
+              scrollEnabled={false}
+              data={functionList}
+              keyExtractor={(item) => item.title}
+              renderItem={({ item }) => (
+                <TouchableOpacity style={styles.functionItem} onPress={item.onPress}>
+                  <Text style={styles.functionTitle}>{item.title}</Text>
+                </TouchableOpacity>
+              )}
+            />
+          </View>
+
+          <View style={styles.separator} />
+
+          <Button buttonStyle={styles.signOut} title="SIGN OUT" onPress={signOut} />
         </View>
       </ScrollView>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-
-  otherUtilities: {
-    marginTop: 10,
-    backgroundColor: "white",
-    paddingVertical: 15,
-    paddingHorizontal: 10,
-  },
-  lTitleBox: {
-    fontSize: 16,
-    fontFamily: "InterSemiBold",
-    color: "#000000",
-  },
-});

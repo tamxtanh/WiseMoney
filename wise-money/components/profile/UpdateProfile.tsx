@@ -23,7 +23,7 @@ export default function UpdateProfile() {
     useEffect(() => {
         const fetchUserData = async () => {
             const { data: { user } } = await supabase.auth.getUser()
-            console.log("Email of current session:", user.email)
+            // console.log("Email of current session:", user.email)
             let { data, error } = await supabase
                 .rpc('get_user_data', {
                     user_email: user.email
