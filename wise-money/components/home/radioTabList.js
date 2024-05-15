@@ -3,8 +3,13 @@ import React from "react";
 import { COLORS } from "../../constants";
 import { useState } from "react";
 
-const RadioTabList = ({ listTab, defaultSelected }) => {
+const RadioTabList = ({ listTab, defaultSelected, setPeriodValue }) => {
   const [barStatus, setBarStatus] = useState(defaultSelected);
+
+  const handleOnPress = (item) => {
+    setBarStatus(item.title);
+    setPeriodValue(item.value);
+  };
 
   return (
     <View style={styles.listTab}>
@@ -15,7 +20,7 @@ const RadioTabList = ({ listTab, defaultSelected }) => {
             styles.tabBtn,
             barStatus === item.title && styles.tabBtnActive,
           ]}
-          onPress={() => setBarStatus(item.title)}
+          onPress={() => handleOnPress(item)}
         >
           <Text
             style={[
@@ -44,11 +49,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 10,
+    padding: 8,
   },
   textTab: {
-    fontFamily: "InterSemiBold",
-    fontSize: 15,
+    fontFamily: "InterMedium",
+    fontSize: 13,
     textAlign: "center",
     color: COLORS.textColor3,
   },

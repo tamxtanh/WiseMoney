@@ -72,11 +72,6 @@ const TabContent = ({ content, typeApi, index }) => {
     }
   }, [typeApi, content]);
 
-  console.log("index", index);
-  console.log("typeApi", typeApi);
-  console.log("transactionListData", transacDateList);
-  console.log("transactionListData", transacCategList);
-
   // console.log(
   //   "transactionListData",
   //   transactionListData ? transactionListData[0]?.date : "none"

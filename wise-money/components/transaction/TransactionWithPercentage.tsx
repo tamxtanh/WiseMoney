@@ -1,26 +1,15 @@
 import React, { useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
-import { DateTransaction } from "./interface";
+import { PercentageTransaction } from "./interface";
 import { fonts } from "react-native-elements/dist/config";
 import { COLORS, FONT, SIZES } from "../../constants/theme";
 
-const TransactionWithDate: React.FC<{ transaction: DateTransaction }> = ({
-  transaction,
-}) => {
+const TransactionWithPercentage: React.FC<{
+  transaction: PercentageTransaction;
+}> = ({ transaction }) => {
   const handleClick = () => {
     // Handle click event here
     // Navigate to other page depending on type
-  };
-
-  const formatDate = (date: Date) => {
-    const options: Intl.DateTimeFormatOptions = {
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
-    };
-    const formattedDate = new Date(date).toLocaleDateString("en-US", options);
-    const [month, day, year] = formattedDate.split(" ");
-    return `${day.replace(",", "")} ${month} ${year}`;
   };
 
   return (
@@ -29,25 +18,25 @@ const TransactionWithDate: React.FC<{ transaction: DateTransaction }> = ({
         <Image source={{ uri: transaction.image_url }} style={styles.icon} />
         <View style={styles.categoryName}>
           <Text style={styles.title}>{transaction.category_name}</Text>
-          <Text style={styles.subtitle}>{formatDate(transaction.date)}</Text>
+          <Text style={styles.subtitle}>
+            {transaction.value.toLocaleString("en-US", {
+              // style: "currency",
+              // currency: "VND",
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 2,
+            })}
+          </Text>
         </View>
       </View>
 
       <View style={styles.right}>
-        <Text style={transaction.value < 0 ? styles.red : styles.blue}>
-          {transaction.value.toLocaleString("en-US", {
-            // style: "currency",
-            // currency: "VND",
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 2,
-          })}
-        </Text>
+        <Text style={styles.red}>{transaction.percentage}%</Text>
       </View>
     </TouchableOpacity>
   );
 };
 
-export default TransactionWithDate;
+export default TransactionWithPercentage;
 
 const styles = StyleSheet.create({
   container: {
@@ -94,6 +83,6 @@ const styles = StyleSheet.create({
   blue: {
     color: COLORS.income,
     fontSize: SIZES.h8,
-    fontFamily: FONT.regular,
+    fontFamily: FONT.semiBold,
   },
 });

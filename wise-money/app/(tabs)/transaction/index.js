@@ -148,6 +148,11 @@ const Page = () => {
           nestedTabs={nestedTabs}
           TabContent={TabContent}
           selectedOption={popupOption}
+          colorStyle={{
+            backgroundColorTabBar: COLORS.primary,
+            colorTabText: "white",
+            backgroundColorIndicator: "white",
+          }}
         />
       ),
     [nestedTabs, popupOption]

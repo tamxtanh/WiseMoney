@@ -312,8 +312,6 @@ export default function Page() {
           ...transactionData,
           remind: remindId,
         };
-
-        console.log("transactionData", transactionData);
       }
 
       if (selectedImage) {

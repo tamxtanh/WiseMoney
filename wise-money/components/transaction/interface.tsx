@@ -24,9 +24,17 @@ export interface ListTransactionADay {
 export interface DateTransaction {
   id: number;
   image_url: string;
+  category_name: string;
   type: string;
-  name: string;
   date: Date;
+  value: number;
+}
+
+export interface PercentageTransaction {
+  id: number;
+  image_url: string;
+  category_name: string;
+  percentage: number;
   value: number;
 }
 
