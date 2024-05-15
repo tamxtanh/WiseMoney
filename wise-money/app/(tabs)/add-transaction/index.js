@@ -15,31 +15,54 @@ import {
 } from "react-native";
 import { icons, COLORS, SIZES } from "../../../constants";
 import InputTransaction from "../../../components/transaction/InputTransaction";
-import { CheckBox } from "react-native-elements";
-import NumericKeyboard from "../../../components/keyboard-custom/NumericKeyboard";
 import { useState, useEffect, useRef } from "react";
 import {
   handlePickImage,
   handleTakePhoto,
+  uploadImage,
 } from "../../../components/image-function/ImageHandler";
 import DateTimePickerCustom from "../../../components/modal-calendar/DateTimePickerCustom";
 import { useKeyboard } from "../../../context/KeyboardContext";
 import ListSmallContact from "../../../components/contact/ListSmallContact";
+import { supabase } from "../../../lib/supabase";
+import { CheckBox } from "react-native-elements";
 
 export default function Page() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [noteContent, setNoteContent] = useState("");
   const [contactContent, setContactContent] = useState("");
+  const [category, setCategory] = useState();
+  const [typeTransaction, setTypeTransaction] = useState();
 
   const [transactDate, setTransactDate] = useState(new Date());
-  const [remindDate, setRemindDate] = useState(new Date());
+  const [remindDate, setRemindDate] = useState();
+  const [isChecked, setIsChecked] = useState(false);
 
   const localParams = useGlobalSearchParams();
 
-  const [imageSource, setImageSource] = useState();
-
   const textInputRef = useRef(null);
   const { openKeyboard, inputValue, setInputValue } = useKeyboard();
+
+  const formatDate = (dateObj) => {
+    const year = dateObj.getUTCFullYear();
+    const month = dateObj.getUTCMonth();
+    const date = dateObj.getUTCDate();
+
+    // Create a new Date object with only the date components
+    return new Date(Date.UTC(year, month, date));
+  };
+
+  const formatAmount = (value) => {
+    // Remove commas from the string
+    const numberString = value.replace(/,/g, "");
+
+    // Convert the string to a number
+    return parseInt(numberString); // For integer value
+  };
+
+  const splitContactList = (list) => {
+    return list.split(", ").filter((contact) => contact.trim() !== "");
+  };
 
   const handleOpenKeyboard = () => {
     openKeyboard(); // Call the openKeyboard function from the context
@@ -49,11 +72,6 @@ export default function Page() {
   };
 
   useEffect(() => {
-    // Check if localParams.source is a string and update imageSource
-    if (typeof localParams?.source === "string") {
-      setImageSource(Number(localParams.source));
-    }
-
     // Update noteContent
     if (typeof localParams.note === "string") {
       setNoteContent(localParams.note);
@@ -63,18 +81,285 @@ export default function Page() {
     if (typeof localParams.contact === "string") {
       setContactContent(localParams.contact);
     }
-  }, [localParams.source, localParams.note, localParams.contact]);
 
-  console.log(
-    "contactContentsplit",
-    contactContent.split(", ").filter((contact) => contact.trim() !== "")
-  );
+    // Update contactContent
+    if (typeof localParams.categoryImg === "string") {
+      setCategory((prevCategory) => ({
+        ...prevCategory,
+        img: localParams.categoryImg,
+      }));
+    }
+
+    // Update contactContent
+    if (typeof localParams.categoryId === "string") {
+      setCategory((prevCategory) => ({
+        ...prevCategory,
+        id: localParams.categoryId,
+      }));
+    }
+
+    // Update contactContent
+    if (typeof localParams.categoryName === "string") {
+      setCategory((prevCategory) => ({
+        ...prevCategory,
+        name: localParams.categoryName,
+      }));
+    }
+
+    // Update contactContent
+    if (typeof localParams.typeTransaction === "string") {
+      setTypeTransaction(localParams.typeTransaction);
+    }
+  }, [localParams.source, localParams.note, localParams.contact, localParams]);
+
+  const handleSave = () => {
+    const insertExpenseRow = async (formData) => {
+      try {
+        const { data, error } = await supabase
+          .from("Expense")
+          .insert([
+            {
+              category: formData.categoryId,
+              amount: formData.amount,
+              date: formData.date,
+              note: formData.note,
+              remind: formData.remind,
+              image: formData.image,
+              exception: formData.exception,
+            },
+          ])
+          .select("id")
+          .single();
+
+        if (error) throw error;
+
+        return data.id;
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    const insertIncomeRow = async (formData) => {
+      try {
+        const { data, error } = await supabase
+          .from("Income")
+          .insert([
+            {
+              category: formData.categoryId,
+              amount: formData.amount,
+              date: formData.date,
+              note: formData.note,
+              remind: formData.remind,
+              image: formData.image,
+              exception: formData.exception,
+            },
+          ])
+          .select("id")
+          .single();
+        if (error) throw error;
+
+        return data.id;
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    const insertDebtRow = async (formData) => {
+      try {
+        const { data, error } = await supabase
+          .from("Debt")
+          .insert([
+            {
+              category: formData.categoryId,
+              amount: formData.amount,
+              date: formData.date,
+              note: formData.note,
+              remind: formData.remind,
+              image: formData.image,
+              exception: formData.exception,
+            },
+          ])
+          .select("id")
+          .single();
+        if (error) throw error;
+
+        return data.id;
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    const insertLoanRow = async (formData) => {
+      try {
+        const { data, error } = await supabase
+          .from("Loan")
+          .insert([
+            {
+              category: formData.categoryId,
+              amount: formData.amount,
+              date: formData.date,
+              note: formData.note,
+              remind: formData.remind,
+              image: formData.image,
+              exception: formData.exception,
+            },
+          ])
+          .select("id")
+          .single();
+        if (error) throw error;
+
+        return data.id;
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    const insertContact = (idTran, type, contactContent) => {
+      if (contactContent) {
+        const contactList = splitContactList(contactContent);
+        const contentInsert = contactList.map((item, index) => {
+          return {
+            name: item,
+          };
+        });
+
+        const insertManyContacts = async (contentInsert) => {
+          try {
+            const { data, error } = await supabase
+              .from("Contact")
+              .insert(contentInsert)
+              .select("id");
+
+            if (error) throw error;
+
+            return data;
+          } catch (error) {
+            console.error(error.message);
+          }
+        };
+
+        const insertManyContactTransaction = async (idTransaction, type) => {
+          const idContacts = await insertManyContacts(contentInsert);
+          const contactTransactionList = idContacts.map((item) => {
+            return {
+              transaction: idTransaction,
+              contact: item.id,
+              type: type,
+            };
+          });
+
+          try {
+            const { data, error } = await supabase
+              .from("ContactTransaction")
+              .insert(contactTransactionList)
+              .select("id");
+
+            if (error) throw error;
+          } catch (error) {
+            console.error(error.message);
+          }
+        };
+
+        insertManyContactTransaction(idTran, type);
+      }
+    };
+
+    const insertRemindRow = async (remindDate, userId) => {
+      try {
+        const { data, error } = await supabase
+          .from("Remind")
+          .insert([{ time: remindDate, user: userId }])
+          .select("id")
+          .single();
+
+        if (error) throw error;
+        return data.id;
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    const insertImageRow = async (name, desc, url) => {
+      try {
+        const { data, error } = await supabase
+          .from("Image")
+          .insert([{ name: name, description: desc, url: url }])
+          .select("id")
+          .single();
+        if (error) {
+          throw error;
+        }
+
+        return data.id;
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    let transactionData = {
+      categoryId: Number(category?.id),
+      amount: formatAmount(inputValue),
+      date: formatDate(transactDate),
+      note: noteContent,
+      exception: isChecked,
+    };
+
+    const insertTransaction = async () => {
+      if (remindDate) {
+        const remindId = await insertRemindRow(remindDate, 1);
+
+        transactionData = {
+          ...transactionData,
+          remind: remindId,
+        };
+
+        console.log("transactionData", transactionData);
+      }
+
+      if (selectedImage) {
+        const imageName = transactDate.toISOString().substring(0, 10);
+        const urlImage = await uploadImage(selectedImage, "transaction");
+        const idImage = await insertImageRow(
+          imageName,
+          typeTransaction,
+          urlImage
+        );
+        transactionData = {
+          ...transactionData,
+          image: idImage,
+        };
+
+        console.log("transactionData", transactionData);
+      }
+
+      switch (typeTransaction) {
+        case "expense": {
+          const id = await insertExpenseRow(transactionData);
+          insertContact(id, typeTransaction, contactContent);
+          break;
+        }
+        case "income": {
+          const id = await insertIncomeRow(transactionData);
+          insertContact(id, typeTransaction, contactContent);
+          break;
+        }
+        ///???
+        case "debtLoan": {
+          const id = await insertExpenseRow(transactionData);
+          insertContact(id, typeTransaction, contactContent);
+          break;
+        }
+      }
+    };
+
+    insertTransaction();
+  };
 
   return (
     <View style={styles.container}>
       <Stack.Screen
         options={{
-          headerLeft: () => <icons.close fill="white" />,
+          headerLeft: () => <icons.close fill="white" width={26} height={26} />,
           headerTitle: () => (
             <View style={{ marginLeft: 0 }}>
               <Text
@@ -158,16 +443,16 @@ export default function Page() {
         <View style={[styles.inforTransaction, styles.inputBox]}>
           <Link
             href={{
-              pathname: "/iconList",
+              pathname: "/categoryList",
               params: { previousPage: "add-transaction" },
             }}
             style={{ padding: 0 }}
           >
             <InputTransaction
               iconSvg={
-                imageSource ? (
+                category?.img ? (
                   <Image
-                    source={imageSource}
+                    source={{ uri: category.img }}
                     style={{
                       width: 38,
                       height: 38,
@@ -178,11 +463,12 @@ export default function Page() {
                   <icons.questionMark />
                 )
               }
-              title="Select category"
-              iconBoxStyle={
-                imageSource ? styles.iconImageBox : styles.iconSvgBox
-              }
-              textInputTransaction={styles.textInputTransaction}
+              title={category?.name ? category.name : "Select category"}
+              iconBoxStyle={category ? styles.iconImageBox : styles.iconSvgBox}
+              textInputTransaction={[
+                styles.textInputTransaction,
+                { color: category ? "#010101" : COLORS.textColor3 },
+              ]}
             />
           </Link>
 
@@ -199,7 +485,10 @@ export default function Page() {
             <InputTransaction
               iconSvg={<icons.notes />}
               title={noteContent ? noteContent : "Write note"}
-              textInputTransaction={styles.textInputTransaction2}
+              textInputTransaction={[
+                styles.textInputTransaction2,
+                { color: noteContent ? "#010101" : COLORS.textColor3 },
+              ]}
             />
           </Link>
 
@@ -230,14 +519,13 @@ export default function Page() {
             <InputTransaction
               iconSvg={<icons.groupUser />}
               title={contactContent ? contactContent : "With"}
-              textInputTransaction={styles.textInputTransaction3}
+              textInputTransaction={[
+                styles.textInputTransaction3,
+                { color: contactContent ? "#010101" : COLORS.textColor3 },
+              ]}
               isHaveChildren={contactContent.length > 0 ? true : false}
               children={
-                <ListSmallContact
-                  nameList={contactContent
-                    .split(", ")
-                    .filter((contact) => contact.trim() !== "")}
-                />
+                <ListSmallContact nameList={splitContactList(contactContent)} />
               }
             />
           </Link>
@@ -279,11 +567,36 @@ export default function Page() {
           </View>
 
           {selectedImage && (
-            <View style={{ marginTop: 21, flex: 1 }}>
+            <View
+              style={{
+                marginTop: 21,
+                flex: 1,
+                backgroundColor: "#EAEAEA",
+                paddingHorizontal: 20,
+                borderRadius: 5,
+                alignItems: "center",
+                position: "relative",
+              }}
+            >
               <Image
                 source={{ uri: selectedImage }}
-                style={{ height: 300, borderRadius: 5 }}
+                style={{ height: 200, width: 250 }}
               />
+
+              <View
+                style={{
+                  backgroundColor: "#EF5363",
+                  borderRadius: 30,
+                  position: "absolute",
+                  right: -6,
+                  top: -11,
+                  padding: 2,
+                }}
+              >
+                <TouchableOpacity onPress={() => setSelectedImage("")}>
+                  <icons.close fill="white" width={19} height={19} />
+                </TouchableOpacity>
+              </View>
             </View>
           )}
         </View>
@@ -299,7 +612,14 @@ export default function Page() {
             },
           ]}
         >
-          <CheckBox />
+          <CheckBox
+            checked={isChecked}
+            iconType="material-community"
+            checkedIcon="checkbox-marked"
+            uncheckedIcon="checkbox-blank-outline"
+            onPress={() => setIsChecked(!isChecked)}
+            checkedColor={COLORS.primary}
+          />
           <View>
             <Text
               style={{
@@ -322,7 +642,7 @@ export default function Page() {
           </View>
         </View>
 
-        <View style={[styles.hideDetail, styles.inputBox]}>
+        {/* <View style={[styles.hideDetail, styles.inputBox]}>
           <Text
             style={{
               color: COLORS.primary,
@@ -334,21 +654,24 @@ export default function Page() {
           </Text>
 
           <icons.arrowDropDown />
-        </View>
+        </View> */}
 
         <View style={styles.saveBtn}>
           <TouchableOpacity
             style={{
-              backgroundColor: COLORS.primary,
+              backgroundColor:
+                !inputValue || !category ? "#dfdfdf" : COLORS.primary,
               alignItems: "center",
               justifyContent: "center",
               padding: 14,
               borderRadius: 7,
             }}
+            disabled={!inputValue || !category}
+            onPress={handleSave}
           >
             <Text
               style={{
-                color: "#FCFCFC",
+                color: !inputValue || !category ? COLORS.textColor3 : "#FCFCFC",
                 fontFamily: "InterSemiBold",
                 fontSize: 18,
               }}
@@ -411,7 +734,7 @@ export default function Page() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#E9E9E9",
+    backgroundColor: "#F4F3F8",
     position: "relative",
   },
   inputBox: {

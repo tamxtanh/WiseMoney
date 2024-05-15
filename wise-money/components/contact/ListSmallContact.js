@@ -29,7 +29,7 @@ const getColorByFirstCharacter = (character) => {
 };
 
 const ListSmallContact = ({ nameList }) => {
-  console.log("nameList", nameList);
+  // console.log("nameList", nameList);
   return (
     <View style={{ flexDirection: "row", gap: 15, flex: 1 }}>
       {nameList.map((item, index) => (

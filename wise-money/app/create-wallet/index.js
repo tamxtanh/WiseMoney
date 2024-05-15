@@ -17,12 +17,12 @@ const createWallet = () => {
   const localParams = useLocalSearchParams();
 
   const [imageSource, setImageSource] = useState(
-    require("../../assets/category/barbell.png")
+    "https://eianmciufswbutirdbka.supabase.co/storage/v1/object/public/my%20files/images/iconCategory/fitness2.png"
   );
 
   useEffect(() => {
     if (typeof localParams?.source === "string") {
-      setImageSource(Number(localParams.source));
+      setImageSource(localParams.source);
     }
   }, [localParams.source]);
 
@@ -56,7 +56,7 @@ const createWallet = () => {
       </View>
       <View style={styles.changeIcon}>
         <Image
-          source={imageSource}
+          source={{ uri: imageSource }}
           style={{
             width: 55,
             height: 55,
