@@ -43,8 +43,18 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.primary,
         borderRadius: 20,
         width: '100%',
-        height: 60
+        height: 'auto',
+        padding: 20,
+        marginTop: 20,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
+    buttonTitle: {
+        fontFamily: FONT.bold,
+        fontSize: 18,
+        color: COLORS.white,
+    },
+
     imageContainer: {
         alignSelf: 'center',
         marginBottom: 10,

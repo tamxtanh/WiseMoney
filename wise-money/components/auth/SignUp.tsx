@@ -14,12 +14,13 @@ export default function SignUp({ switchToSignIn }) {
     const [name, setName] = useState('')
     const [phone, setPhone] = useState('')
     const [username, setUsername] = useState('')
-
+    const [loading, setLoading] = useState(false)
     const [hidePassword, setHidePassword] = useState(true)
 
     const router = useRouter();
 
     async function signUpWithEmail() {
+        setLoading(true)
         const formData = {
             phone: phone,
             email: email,
@@ -59,6 +60,7 @@ export default function SignUp({ switchToSignIn }) {
             // Form is invalid, display error message
             Alert.alert('Invalid Form', validationResult.message);
         }
+        setLoading(false)
     }
 
     return (
@@ -119,9 +121,10 @@ export default function SignUp({ switchToSignIn }) {
                             <Text style={[{ color: COLORS.primary }, { fontFamily: FONT.bold }]}>  Sign In now!</Text>
                         </TouchableOpacity>
                     </Text>
-                    <Button buttonStyle={[styles.button, styles.mt20]} title="SIGN UP" onPress={() => signUpWithEmail()} />
+                    <TouchableOpacity style={styles.button} disabled={loading} onPress={() => signUpWithEmail()}>
+                        <Text style={styles.buttonTitle}>SIGN UP</Text>
+                    </TouchableOpacity>
                 </View>
-
             </View>
         </ScrollView>
 
