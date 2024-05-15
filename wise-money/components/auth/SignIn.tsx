@@ -89,7 +89,9 @@ export default function SignIn({ switchToSignUp }) {
                 </View>
 
                 <View style={styles.formCenter}>
-                    <Button buttonStyle={[styles.button, styles.mt20]} title="SIGN IN" disabled={loading} onPress={() => signInWithEmail()} />
+                    <TouchableOpacity style={styles.button} disabled={loading} onPress={() => signInWithEmail()}>
+                        <Text style={styles.buttonTitle}>SIGN IN</Text>
+                    </TouchableOpacity>
                     <Text style={styles.mt20}>Don't have an Account?
                         <TouchableOpacity disabled={loading} onPress={switchToSignUp}>
                             <Text style={[{ color: COLORS.primary }, { fontFamily: FONT.bold }]}>  Sign Up now!</Text>
