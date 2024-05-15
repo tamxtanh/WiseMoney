@@ -1,10 +1,20 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
+import { COLORS } from "../../constants";
+import { router } from "expo-router";
 
-const UtilityItem = ({ title, icon, colorBox }) => {
+const UtilityItem = ({ title, icon, colorBox, pathName }) => {
+  const handleOnPress = () => {
+    router.navigate({
+      pathname: pathName,
+      // params: {
+      //   contact: contactContent,
+      // },
+    });
+  };
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={handleOnPress}>
         <View style={[styles.iconBox, { backgroundColor: colorBox }]}>
           {icon}
         </View>
@@ -18,7 +28,7 @@ export default UtilityItem;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1 / 4,
+    flex: 1,
   },
   button: {
     alignItems: "center",
@@ -28,12 +38,13 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     alignItems: "center",
     justifyContent: "center",
-    padding: 10,
+    padding: 7,
   },
   title: {
     marginTop: 7,
     fontFamily: "InterMedium",
     fontSize: 12,
     textAlign: "center",
+    color: COLORS.textColor3,
   },
 });

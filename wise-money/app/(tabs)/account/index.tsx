@@ -1,5 +1,14 @@
 import { Stack } from "expo-router";
-import { Alert, ScrollView, StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from "react-native";
+import {
+  Alert,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
 import { useRouter } from "expo-router";
 import { Button } from "react-native-elements";
 import { supabase } from "../../../lib/supabase";
@@ -10,10 +19,12 @@ import React, { useState, useEffect } from "react";
 import styles from "./styles";
 
 export default function Page() {
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
 
-  const [avatarUrl, setAvatarUrl] = useState('https://eianmciufswbutirdbka.supabase.co/storage/v1/object/public/my%20files/images/icons/dollar.png?t=2024-03-03T11%3A57%3A19.836Z');
+  const [avatarUrl, setAvatarUrl] = useState(
+    "https://eianmciufswbutirdbka.supabase.co/storage/v1/object/public/my%20files/images/icons/dollar.png?t=2024-03-03T11%3A57%3A19.836Z"
+  );
   const router = useRouter();
 
   const signOut = async () => {
@@ -31,11 +42,13 @@ export default function Page() {
       title: "Wallets",
       icon: <icons.wallet3 fill="white" />,
       colorBox: "#4445E8",
+      pathName: "/categoryList",
     },
     {
       title: "Categories",
       icon: <icons.category fill="white" />,
       colorBox: "#12C144",
+      pathName: "/categoryList",
     },
     {
       title: "Debts",
@@ -49,8 +62,8 @@ export default function Page() {
     },
 
     {
-      title: "Tax",
-      icon: <icons.spendingSuggestions fill="white" />,
+      title: "Calculate Tax",
+      icon: <icons.category fill="white" />,
       colorBox: "#1BD6E2",
     },
 
@@ -61,7 +74,7 @@ export default function Page() {
     },
 
     {
-      title: "Interest",
+      title: "Calculate Interest",
       icon: <icons.bank fill="white" />,
       colorBox: "#FF4133",
     },
@@ -74,38 +87,52 @@ export default function Page() {
 
   const functionList = [
     {
+      icon: <icons.user fill="#919191" />,
       title: "Change Profile",
       onPress: () => {
-        router.push('/profile')
+        router.push("/profile");
       },
     },
     {
+      icon: <icons.about fill="#919191" />,
       title: "About Us",
-      onPress: () => { },
+      onPress: () => {},
     },
     {
+      icon: <icons.policy fill="#919191" />,
       title: "Policy",
-      onPress: () => { },
+      onPress: () => {},
+    },
+    {
+      icon: <icons.feedBack fill="#919191" />,
+      title: "Feedback",
+      onPress: () => {},
+    },
+    {
+      icon: <icons.rating fill="#919191" />,
+      title: "Rate App",
+      onPress: () => {},
     },
   ];
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      let { data, error } = await supabase
-        .rpc('get_user_data', {
-          user_email: user.email
-        })
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      let { data, error } = await supabase.rpc("get_user_data", {
+        user_email: user.email,
+      });
 
-      if (error) console.error(error)
+      if (error) console.error(error);
       else {
-        setEmail(data[0].email)
-        setName(data[0].name)
-        setAvatarUrl(data[0].avatar_url)
+        setEmail(data[0].email);
+        setName(data[0].name);
+        setAvatarUrl(data[0].avatar_url);
       }
-    }
-    fetchUserData()
-  }, [])
+    };
+    fetchUserData();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -136,7 +163,7 @@ export default function Page() {
               >
                 Support
               </Text>
-              <icons.support />
+              <icons.support fill="white" />
             </View>
           ),
           headerStyle: {
@@ -148,22 +175,19 @@ export default function Page() {
       <ScrollView style={styles.scrollView}>
         <View style={{ flex: 1 }}>
           <View style={styles.infoContainer}>
-            <Image
-              style={styles.avatar}
-              source={{ uri: avatarUrl }}
-            />
+            <Image style={styles.avatar} source={{ uri: avatarUrl }} />
             <Text style={styles.textName}>{name}</Text>
-            <Text>{email}</Text>
+            <Text style={{ textAlign: "center" }}>{email}</Text>
           </View>
 
-          <View style={styles.separator} />
+          {/* <View style={styles.separator} /> */}
 
-          <View style={styles.otherUtilities}>
+          <View style={[styles.otherUtilities, { paddingBottom: 25 }]}>
             <Text style={styles.lTitleBox}> Utilities</Text>
             <UtilityItemList itemData={utilityList} qualityPerRow={4} />
           </View>
 
-          <View style={styles.separator} />
+          {/* <View style={styles.separator} /> */}
 
           <View style={styles.otherUtilities}>
             <Text style={styles.lTitleBox}> Others</Text>
@@ -172,19 +196,44 @@ export default function Page() {
               data={functionList}
               keyExtractor={(item) => item.title}
               renderItem={({ item }) => (
-                <TouchableOpacity style={styles.functionItem} onPress={item.onPress}>
-                  <Text style={styles.functionTitle}>{item.title}</Text>
-                </TouchableOpacity>
+                <View>
+                  <TouchableOpacity
+                    style={styles.functionItem}
+                    onPress={item.onPress}
+                  >
+                    <View style={{ flexDirection: "row", gap: 20 }}>
+                      {item.icon}
+                      <Text style={styles.functionTitle}>{item.title}</Text>
+                    </View>
+
+                    <View>
+                      <icons.arrowRight fill="#c0c0c2" />
+                    </View>
+                  </TouchableOpacity>
+
+                  <View
+                    style={{
+                      height: 0.8,
+                      backgroundColor: "#EEEEF0",
+                      width: "92%",
+                      alignSelf: "center",
+                    }}
+                  ></View>
+                </View>
               )}
             />
           </View>
 
-          <View style={styles.separator} />
+          {/* <View style={styles.separator} /> */}
 
-          <Button buttonStyle={styles.signOut} title="SIGN OUT" onPress={signOut} />
+          <Button
+            buttonStyle={styles.signOut}
+            titleStyle={styles.textSignOut}
+            title="SIGN OUT"
+            onPress={signOut}
+          />
         </View>
       </ScrollView>
     </View>
   );
 }
-

@@ -280,7 +280,7 @@ export default function Page() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "E9E9E9",
+    backgroundColor: "#E9E9E9",
     marginBottom: SIZES.heightBottomNavigation,
   },
   totalBalance: {

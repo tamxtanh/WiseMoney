@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Stack } from "expo-router";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { icons, COLORS } from "../../../constants";
 import CustomTabBar from "../../../components/tab-custom/CustomTabBar";
 import ReportContent from "../../../components/tab-custom/ReportContent";
@@ -75,7 +75,11 @@ const Page = () => {
         </Text>
       </View>
 
-      {/* <CustomTabBar nestedTabs={nestedTabs} TabContent={ReportContent} /> */}
+      <CustomTabBar
+        widthOfPerTab={Dimensions.get("window").width / 3}
+        nestedTabs={nestedTabs}
+        TabContent={ReportContent}
+      />
     </View>
   );
 };

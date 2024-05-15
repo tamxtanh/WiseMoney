@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import styles from "./style";
 import { CategoryTransaction } from "./interface";
+import { router } from "expo-router";
 
 const TransactionWithName: React.FC<{ transaction: CategoryTransaction }> = ({
   transaction,
@@ -9,6 +10,12 @@ const TransactionWithName: React.FC<{ transaction: CategoryTransaction }> = ({
   const handleClick = () => {
     // Handle click event here
     // Navigate to other page depending on type
+    router.navigate({
+      pathname: "updateTransaction",
+      params: {
+        idTransaction: transaction?.id,
+      },
+    });
   };
 
   // useEffect(() => {
