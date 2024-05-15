@@ -60,7 +60,7 @@ export default function Auth() {
 
     return (
         <View style={[{ flex: 1 }]}>
-            <Stack.Screen options={{ headerShown: false, statusBarHidden: true, }} />
+            <Stack.Screen options={{ headerShown: false, statusBarHidden: false, }} />
             {isSignInComponent ? <SignIn switchToSignUp={switchComponent} /> : <SignUp switchToSignIn={switchComponent} />}
         </View>
     );

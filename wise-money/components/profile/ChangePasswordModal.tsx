@@ -4,6 +4,10 @@ import styles from '../auth/style';
 import { Button, Icon, Header } from 'react-native-elements';
 import { COLORS, SIZES } from '../../constants';
 import { supabase } from '../../lib/supabase';
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs(['Warning: TextElement: Support for defaultProps will be removed from function components in a future major release. Use JavaScript default parameters instead.']);
+
 
 export default function ChangePasswordModal({ modalVisible, setModalVisible }) {
     const [currentPassword, setCurrentPassword] = useState("");
