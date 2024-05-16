@@ -93,11 +93,11 @@ const styles = StyleSheet.create({
   red: {
     color: COLORS.expense,
     fontSize: SIZES.h8,
-    fontFamily: FONT.regular,
+    fontFamily: FONT.medium,
   },
   blue: {
     color: COLORS.income,
     fontSize: SIZES.h8,
-    fontFamily: FONT.regular,
+    fontFamily: FONT.medium,
   },
 });

@@ -17,9 +17,9 @@ const ListTransactionWithName: React.FC<{
     "Saturday",
   ];
 
-  useEffect(() => {
-    console.log(listTransactions);
-  }, []);
+  // useEffect(() => {
+  //   console.log(listTransactions);
+  // }, []);
 
   return (
     <View style={styles.container}>

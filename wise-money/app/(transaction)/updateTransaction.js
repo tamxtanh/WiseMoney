@@ -13,18 +13,18 @@ import {
   ScrollView,
   Image,
 } from "react-native";
-import { icons, COLORS, SIZES } from "../../../constants";
-import InputTransaction from "../../../components/transaction/InputTransaction";
+import { icons, COLORS, SIZES } from "../../constants";
+import InputTransaction from "../../components/transaction/InputTransaction";
 import { useState, useEffect, useRef } from "react";
 import {
+  uploadImage,
   handlePickImage,
   handleTakePhoto,
-  uploadImage,
-} from "../../../components/image-function/ImageHandler";
-import DateTimePickerCustom from "../../../components/modal-calendar/DateTimePickerCustom";
-import { useKeyboard } from "../../../context/KeyboardContext";
-import ListSmallContact from "../../../components/contact/ListSmallContact";
-import { supabase } from "../../../lib/supabase";
+} from "../../components/image-function/ImageHandler";
+import DateTimePickerCustom from "../../components/modal-calendar/DateTimePickerCustom";
+import { useKeyboard } from "../../context/KeyboardContext";
+import ListSmallContact from "../../components/contact/ListSmallContact";
+import { supabase } from "../../lib/supabase";
 import { CheckBox } from "react-native-elements";
 
 export default function Page() {
@@ -357,7 +357,7 @@ export default function Page() {
     <View style={styles.container}>
       <Stack.Screen
         options={{
-          headerLeft: () => <icons.close fill="white" width={26} height={26} />,
+          // headerLeft: () => <icons.close fill="white" width={26} height={26} />,
           headerTitle: () => (
             <View style={{ marginLeft: 0 }}>
               <Text
@@ -654,7 +654,7 @@ export default function Page() {
           <icons.arrowDropDown />
         </View> */}
 
-        <View style={styles.saveBtn}>
+        {/* <View style={styles.saveBtn}>
           <TouchableOpacity
             style={{
               backgroundColor:
@@ -677,9 +677,9 @@ export default function Page() {
               Save
             </Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
-        {/* <View style={styles.saveDeleteBtn}>
+        <View style={styles.saveDeleteBtn}>
           <TouchableOpacity
             style={{
               flex: 1,
@@ -723,7 +723,7 @@ export default function Page() {
               Save
             </Text>
           </TouchableOpacity>
-        </View> */}
+        </View>
       </ScrollView>
     </View>
   );

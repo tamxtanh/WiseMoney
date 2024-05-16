@@ -6,25 +6,35 @@ import { COLORS } from "../../constants";
 import { Animated, StyleSheet } from "react-native";
 
 const CustomTabBar = React.memo(
-  ({ widthOfPerTab = 100, nestedTabs, TabContent, selectedOption }) => {
+  ({
+    widthOfPerTab = 100,
+    nestedTabs,
+    TabContent,
+    selectedOption,
+    colorStyle = {
+      backgroundColorTabBar: "white",
+      colorTabText: "black",
+      backgroundColorIndicator: "black",
+    },
+  }) => {
     const [index, setIndex] = useState(0);
 
     const styles = StyleSheet.create({
       tabBar: {
-        backgroundColor: COLORS.primary,
+        backgroundColor: colorStyle.backgroundColorTabBar,
       },
       perTab: {
         paddingBottom: 8,
         width: widthOfPerTab,
       },
       tabText: {
-        color: "white", // Change this color to your desired text color
+        color: colorStyle.colorTabText, // Change this color to your desired text color
         fontFamily: "InterSemiBold", // Add any other text styles as needed
         fontSize: 16,
         textTransform: "capitalize",
       },
       indicator: {
-        backgroundColor: "white",
+        backgroundColor: colorStyle.backgroundColorIndicator,
         height: 3,
         // width: 50,
       },
@@ -82,7 +92,7 @@ const CustomTabBar = React.memo(
         style={styles.tabBar}
         scrollEnabled={true} // Enable tab bar scrolling
         labelStyle={styles.tabText}
-        activeColor="white"
+        activeColor={colorStyle.colorTabText}
         tabStyle={styles.perTab}
         pressColor="transparent"
         renderIndicator={renderIndicator}

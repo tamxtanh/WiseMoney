@@ -22,7 +22,7 @@ const UtilityItemList = ({ itemData, qualityPerRow }) => {
     //   renderItem={renderIconRow}
     //   keyExtractor={(item, index) => index.toString()}
     // />
-    <View>
+    <View style={{ gap: 17 }}>
       {chunkArray(itemData, qualityPerRow).map((item, index) => (
         <View key={index} style={styles.rowContainer}>
           {item.map((utilityItem, index) => (
@@ -31,6 +31,7 @@ const UtilityItemList = ({ itemData, qualityPerRow }) => {
               title={utilityItem.title}
               icon={utilityItem.icon}
               colorBox={utilityItem.colorBox}
+              pathName={utilityItem.pathName}
             />
           ))}
         </View>
@@ -56,5 +57,6 @@ const styles = StyleSheet.create({
   rowContainer: {
     flexDirection: "row",
     marginTop: 15,
+    gap: 15,
   },
 });

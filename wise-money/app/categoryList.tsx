@@ -85,7 +85,7 @@ const CategoryList = () => {
         "postgres_changes",
         { event: "*", schema: "public", table: "Group" },
         async (payload) => {
-          console.log("Change received in Group!", payload);
+          // console.log("Change received in Group!", payload);
           // Fetch data again when a change is received
           await fetchData();
         }
