@@ -71,6 +71,7 @@ export default function Page() {
       title: "Exchange Rates",
       icon: <icons.exchangeRates fill="white" />,
       colorBox: "#4445E8",
+      pathName: "/exchange-rate",
     },
 
     {
@@ -96,22 +97,22 @@ export default function Page() {
     {
       icon: <icons.about fill="#919191" />,
       title: "About Us",
-      onPress: () => {},
+      onPress: () => { },
     },
     {
       icon: <icons.policy fill="#919191" />,
       title: "Policy",
-      onPress: () => {},
+      onPress: () => { },
     },
     {
       icon: <icons.feedBack fill="#919191" />,
       title: "Feedback",
-      onPress: () => {},
+      onPress: () => { },
     },
     {
       icon: <icons.rating fill="#919191" />,
       title: "Rate App",
-      onPress: () => {},
+      onPress: () => { },
     },
   ];
 
