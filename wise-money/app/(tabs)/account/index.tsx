@@ -78,6 +78,7 @@ export default function Page() {
       title: "Calculate Interest",
       icon: <icons.bank fill="white" />,
       colorBox: "#FF4133",
+      pathName: "/saving",
     },
     {
       title: "Export Data",
