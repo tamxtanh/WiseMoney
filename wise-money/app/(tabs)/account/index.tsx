@@ -85,6 +85,7 @@ export default function Page() {
       title: "Export Data",
       icon: <icons.exportData fill="white" />,
       colorBox: "#FFC75C",
+      pathName: "/export-data",
     },
   ];
 
