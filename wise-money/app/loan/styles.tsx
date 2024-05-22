@@ -1,4 +1,3 @@
-//app/saving/styles.tsx
 import { COLORS, FONT } from '../../constants';
 import { StyleSheet } from 'react-native';
 
@@ -35,7 +34,7 @@ export const styles = StyleSheet.create({
         borderColor: COLORS.gray,
         padding: 10,
         borderRadius: 5,
-        paddingRight: 40, // To make room for the icon
+        paddingRight: 40,
     },
     inputIcon: {
         position: 'absolute',
@@ -43,18 +42,29 @@ export const styles = StyleSheet.create({
         fontSize: 18,
         color: '#666',
     },
-    button: {
-        justifyContent: 'center',
-        alignItems: 'center',
+    radioContainer: {
+        flexDirection: 'column',  // Change to column
+        justifyContent: 'flex-start',
+
     },
-    pickerContainer: {
-        flex: 5,
-        borderWidth: 1,
-        borderColor: COLORS.gray,
-        borderRadius: 5,
+    radioOption: {
+        marginVertical: 5,  // Add vertical margin for spacing
+        padding: 10,        // Add padding for better touch area
+        borderWidth: 1,     // Add border width
+        borderColor: COLORS.gray, // Border color
+        borderRadius: 5,    // Add border radius
+        backgroundColor: COLORS.background, // Background color
     },
-    picker: {
-        flex: 1,
+    radio: {
+        fontSize: 16,
+        color: COLORS.gray,
+        paddingVertical: 10,
+    },
+    selectedRadio: {
+        fontSize: 16,
+        color: COLORS.primary,
+        paddingVertical: 10,
+        fontWeight: 'bold',
     },
     calculateButton: {
         backgroundColor: COLORS.primary,
@@ -71,7 +81,7 @@ export const styles = StyleSheet.create({
         color: COLORS.white,
     },
     summary: {
-        marginBottom: 20,
+        marginTop: 20,
         padding: 10,
         backgroundColor: '#f9f9f9',
         borderRadius: 5,
@@ -98,5 +108,4 @@ export const styles = StyleSheet.create({
         flex: 7,
         textAlign: 'center',
     },
-
 });

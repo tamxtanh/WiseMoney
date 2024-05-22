@@ -1,3 +1,4 @@
+//app/saving/index.tsx
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
@@ -106,7 +107,7 @@ const Savings = () => {
                     const formattedBalance = formatCurrency(balance.toFixed(decimalPlaces));
                     const formattedTotal = formatCurrency(balance.toFixed(decimalPlaces));
                     result.push({
-                        times: i / 30,
+                        period: i / 30,
                         date: currentDate.toISOString().split('T')[0],
                         balance: formattedBalance,
                         total: formattedTotal,
@@ -118,7 +119,7 @@ const Savings = () => {
                 const formattedBalance = formatCurrency(balance.toFixed(decimalPlaces));
                 const formattedTotal = formatCurrency(balance.toFixed(decimalPlaces));
                 result.push({
-                    times: i,
+                    period: i,
                     date: currentDate.toISOString().split('T')[0],
                     balance: formattedBalance,
                     total: formattedTotal,
@@ -260,14 +261,14 @@ const Savings = () => {
                     {resultTable.length > 0 ? (
                         <View style={styles.table}>
                             <View style={styles.tableRow}>
-                                <Text style={[styles.tableHeader, { flex: 3 }]}>Times</Text>
+                                <Text style={[styles.tableHeader, { flex: 3 }]}>Period</Text>
                                 <Text style={styles.tableHeader}>Date</Text>
                                 <Text style={styles.tableHeader}>Balance (VND)</Text>
                                 <Text style={styles.tableHeader}>Total (VND)</Text>
                             </View>
                             {resultTable.map((row, index) => (
                                 <View key={index} style={styles.tableRow}>
-                                    <Text style={[styles.tableCell, { flex: 3 }]}>{row.times}</Text>
+                                    <Text style={[styles.tableCell, { flex: 3 }]}>{row.period}</Text>
                                     <Text style={styles.tableCell}>{row.date}</Text>
                                     <Text style={styles.tableCell}>{row.balance}</Text>
                                     <Text style={styles.tableCell}>{row.total}</Text>

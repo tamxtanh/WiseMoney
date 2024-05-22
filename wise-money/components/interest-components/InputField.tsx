@@ -1,3 +1,4 @@
+//app/components/interest-components/InputField.tsx
 import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { COLORS, SIZES } from '../../constants';
