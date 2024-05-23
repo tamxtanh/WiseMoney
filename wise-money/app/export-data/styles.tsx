@@ -66,13 +66,18 @@ export const styles = StyleSheet.create({
         color: 'gray',
     },
     calculateButton: {
-        padding: 15,
         backgroundColor: COLORS.primary,
-        borderRadius: 5,
+        borderRadius: 20,
+        width: '100%',
+        height: 'auto',
+        padding: 20,
         alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 10
     },
     calculateButtonText: {
-        color: COLORS.white,
+        fontFamily: FONT.bold,
         fontSize: 18,
+        color: COLORS.white,
     },
 });

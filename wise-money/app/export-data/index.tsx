@@ -6,6 +6,9 @@ import DatePickerField from '../../components/interest-components/DatePickerFiel
 import { COLORS } from '../../constants';
 import { supabase } from '../../lib/supabase';
 import ModalCalendar from '../../components/modal-calendar/ModalCalendar';
+import * as XLSX from 'xlsx';
+import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
 
 interface Category {
     id: number;
@@ -47,6 +50,44 @@ const ExportData: React.FC = () => {
         }
     };
 
+    const fetchCategoryData = async () => {
+        console.log('category ids', selectedCategories);
+        let { data, error } = await supabase
+            .rpc('get_category_items', {
+                category_ids: selectedCategories
+            });
+        if (error) console.error(error);
+        else {
+            exportToXLSX(data);
+        }
+    };
+
+    const exportToXLSX = async (data: any[]) => {
+        const formattedData = data.map(item => ({
+            Date: item.date,
+            Category: item.category_name,
+            Name: item.item_name,
+            Amount: item.amount,
+            Note: item.note,
+            'Money Type': item.type_name,
+            Contact: item.contact_name
+        }));
+
+        const worksheet = XLSX.utils.json_to_sheet(formattedData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
+
+        const wbout = XLSX.write(workbook, { type: 'base64', bookType: 'xlsx' });
+
+        const uri = FileSystem.documentDirectory + 'data.xlsx';
+
+        await FileSystem.writeAsStringAsync(uri, wbout, {
+            encoding: FileSystem.EncodingType.Base64
+        });
+
+        Sharing.shareAsync(uri);
+    };
+
     const handleExport = () => {
         if (startDate > endDate) {
             Alert.alert('Error', 'Start date must be before end date.');
@@ -60,7 +101,7 @@ const ExportData: React.FC = () => {
     };
 
     const fetchDataAndExport = () => {
-        // Empty function, you will handle fetching data and exporting to Excel
+        fetchCategoryData();
     };
 
     const toggleCategory = (categoryId: number) => {
@@ -143,6 +184,10 @@ const ExportData: React.FC = () => {
                         </TouchableOpacity>
                     </View>
 
+                    <TouchableOpacity style={styles.calculateButton} onPress={handleExport}>
+                        <Text style={styles.calculateButtonText}>Export</Text>
+                    </TouchableOpacity>
+
                     <View style={styles.checkList}>
                         {categories.map((category) => (
                             <View key={category.id} style={styles.checkItemContainer}>
@@ -158,10 +203,6 @@ const ExportData: React.FC = () => {
                             </View>
                         ))}
                     </View>
-
-                    <TouchableOpacity style={styles.calculateButton} onPress={handleExport}>
-                        <Text style={styles.calculateButtonText}>Export</Text>
-                    </TouchableOpacity>
                 </View>
             </ScrollView>
         </View>
