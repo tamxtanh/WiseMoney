@@ -3,25 +3,15 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
     scrollView: {
-        flex: 1,
-        backgroundColor: COLORS.background,
+        padding: 20,
     },
     container: {
         flex: 1,
-        padding: 20,
-        backgroundColor: COLORS.background,
+        paddingBottom: 20,
     },
     title: {
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: 'bold',
-        marginBottom: 10,
-    },
-    datePickerContainer: {
-        marginBottom: 20,
-    },
-    datePickerText: {
-        fontSize: 16,
-        color: COLORS.primary,
         marginBottom: 10,
     },
     buttonGroup: {
@@ -30,9 +20,9 @@ export const styles = StyleSheet.create({
         marginBottom: 20,
     },
     selectButton: {
+        padding: 10,
         backgroundColor: COLORS.primary,
         borderRadius: 5,
-        padding: 10,
     },
     buttonText: {
         color: COLORS.white,
@@ -41,35 +31,48 @@ export const styles = StyleSheet.create({
     checkList: {
         marginBottom: 20,
     },
-    checkItem: {
-        padding: 10,
-        borderWidth: 1,
-        borderColor: COLORS.gray,
+    checkItemContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingVertical: 10,
+    },
+    checkbox: {
+        width: 24,
+        height: 24,
         borderRadius: 5,
-        marginBottom: 10,
-        backgroundColor: COLORS.white,
+        borderWidth: 2,
+        borderColor: COLORS.primary,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 10,
+    },
+    checkboxSelected: {
+        backgroundColor: COLORS.primary,
+    },
+    checkboxText: {
+        color: COLORS.white,
+        fontSize: 16,
+    },
+    categoryTextContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
     checkItemText: {
         fontSize: 16,
-        color: COLORS.gray,
     },
-    selectedCheckItem: {
+    checkItemType: {
         fontSize: 16,
-        color: COLORS.primary,
-        fontWeight: 'bold',
+        color: 'gray',
     },
     calculateButton: {
+        padding: 15,
         backgroundColor: COLORS.primary,
-        borderRadius: 20,
-        width: '100%',
-        height: 'auto',
-        padding: 20,
+        borderRadius: 5,
         alignItems: 'center',
-        justifyContent: 'center'
     },
     calculateButtonText: {
-        fontFamily: FONT.bold,
-        fontSize: 18,
         color: COLORS.white,
+        fontSize: 18,
     },
 });
