@@ -51,11 +51,12 @@ const ExportData: React.FC = () => {
     };
 
     const fetchCategoryData = async () => {
-        console.log('category ids', selectedCategories);
         let { data, error } = await supabase
             .rpc('get_category_items', {
-                category_ids: selectedCategories
-            });
+                category_ids: selectedCategories,
+                end_date: endDate,
+                start_date: startDate
+            })
         if (error) console.error(error);
         else {
             exportToXLSX(data);
