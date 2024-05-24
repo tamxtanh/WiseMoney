@@ -1,10 +1,12 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { ProgressBar } from 'react-native-paper';
 import { COLORS, FONT, SIZES } from '../../constants';
 import { BudgetData } from './interface';
+import { useRouter } from 'expo-router';
 
 const BudgetComponent: React.FC<{ budget: BudgetData }> = ({ budget }) => {
+    const router = useRouter();
     const today = new Date();
     const totalDays = Math.floor((budget.end_date.getTime() - budget.start_date.getTime()) / (1000 * 60 * 60 * 24) + 1);
     let passedDays = Math.floor((today.getTime() - budget.start_date.getTime()) / (1000 * 60 * 60 * 24) + 1);
@@ -16,9 +18,14 @@ const BudgetComponent: React.FC<{ budget: BudgetData }> = ({ budget }) => {
     }
 
     const progress = Math.min(passedDays / totalDays, 1); // Ensure progress does not exceed 100%
+    const goToDetails = () => {
+        router.push('budget/' + budget.id)
+    }
 
     return (
-        <View style={[styles.container, { backgroundColor: budget.current > budget.amount ? COLORS.background : COLORS.gray2 }]}>
+        <TouchableOpacity
+            style={[styles.container, { backgroundColor: budget.current > budget.amount ? COLORS.background : COLORS.gray2 }]}
+            onPress={goToDetails}>
             <View style={styles.top}>
                 <View style={styles.imageContainer}>
                     <Image source={{ uri: budget.image_url }} style={styles.roundImage} />
@@ -38,7 +45,7 @@ const BudgetComponent: React.FC<{ budget: BudgetData }> = ({ budget }) => {
                     <Text style={styles.days}>{passedDays}/{totalDays} days</Text>
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 };
 
