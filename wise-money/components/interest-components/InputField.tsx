@@ -3,7 +3,7 @@ import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { COLORS, SIZES } from '../../constants';
 
-const InputField = ({ title, description, value, onChangeText, placeholder, keyboardType, inputIcon }) => {
+const InputField = ({ title, description, value, onChangeText, placeholder, keyboardType, inputIcon, disabled = false }) => {
     return (
         <View style={styles.component}>
             <Text style={styles.title}>{title}</Text>
@@ -15,6 +15,7 @@ const InputField = ({ title, description, value, onChangeText, placeholder, keyb
                     value={value}
                     onChangeText={onChangeText}
                     placeholder={placeholder}
+                    editable={!disabled}
                 />
                 <View style={styles.iconContainer}>
                     <Text style={styles.inputIcon}>{inputIcon}</Text>
