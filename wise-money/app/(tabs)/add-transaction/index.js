@@ -120,6 +120,7 @@ export default function Page() {
           .insert([
             {
               category: formData.categoryId,
+              wallet: formData.walletId,
               amount: formData.amount,
               date: formData.date,
               note: formData.note,
@@ -298,6 +299,7 @@ export default function Page() {
 
     let transactionData = {
       categoryId: Number(category?.id),
+      walletId: 1,
       amount: formatAmount(inputValue),
       date: formatDate(transactDate),
       note: noteContent,

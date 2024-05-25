@@ -27,9 +27,12 @@ export default function Page() {
 
   const [dataChart, setDataChart] = useState({
     height: 250,
-    color: COLORS.expenseChartLight,
+    defaultColor: COLORS.expenseChart,
     list: [
-      { name: "Last month", value: 10000 },
+      {
+        name: "Last month",
+        value: 10000,
+      },
       { name: "This month", value: 50000 },
     ],
   });
@@ -75,10 +78,14 @@ export default function Page() {
         setTopSpending(data?.top_transactions);
         setDataChart((prev) => ({
           ...prev,
-          list: [
-            { name: `Last ${typePeriod}`, value: data?.last_period_total },
-            { name: `This ${typePeriod}`, value: data?.current_period_total },
-          ],
+          list: prev.list.map((item, index) => ({
+            ...item,
+            name: index === 0 ? `Last ${typePeriod}` : `This ${typePeriod}`,
+            value:
+              index === 0
+                ? data?.last_period_total
+                : data?.current_period_total,
+          })),
         }));
         setPercentageIncrease(Number(data?.percentage_increase));
       }
@@ -89,10 +96,42 @@ export default function Page() {
 
   useEffect(() => {
     getRecentTransaction(1, 5);
+
+    const channelsExpense = supabase
+      .channel("custom-all-channel")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "Expense" },
+        (payload) => {
+          console.log("Change received!", payload);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      // Unsubscribe when the component unmounts
+      channelsExpense.unsubscribe();
+    };
   }, []);
 
   useEffect(() => {
     getPeriodExpenseSummary(periodValue, 3, 1);
+
+    const channelsExpense = supabase
+      .channel("custom-all-channel")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "Expense" },
+        (payload) => {
+          console.log("Change received!", payload);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      // Unsubscribe when the component unmounts
+      channelsExpense.unsubscribe();
+    };
   }, [periodValue]);
 
   return (
@@ -223,7 +262,6 @@ export default function Page() {
 
             <View
               style={{
-                flexDirection: "row",
                 justifyContent: "center",
                 backgroundColor: "white",
                 position: "relative",
@@ -237,7 +275,7 @@ export default function Page() {
                   width: "90%",
                   alignSelf: "center",
                   position: "absolute",
-                  bottom: 50,
+                  bottom: 29,
                 }}
               ></View>
             </View>

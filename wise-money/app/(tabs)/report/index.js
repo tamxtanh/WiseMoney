@@ -1,32 +1,35 @@
-import React, { useState } from "react";
-import { Stack } from "expo-router";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import React, { useState, useMemo, useEffect } from "react";
+import { Stack, useRouter } from "expo-router";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+  Modal,
+  Button,
+  ScrollView,
+} from "react-native";
 import { icons, COLORS } from "../../../constants";
-import CustomTabBar from "../../../components/tab-custom/CustomTabBar";
-import ReportContent from "../../../components/tab-custom/ReportContent";
+import MyBarChart from "../../../components/chart/MyBarChart";
 
 const Page = () => {
-  const currentDate = new Date();
+  const barChartData_2month = {
+    // title: "Monthly Sales",
+    height: 300,
+    list: [
+      { name: "Last month", value: 1000000 },
+      { name: "This month", value: 10898000 },
 
-  const currentMonth = currentDate.getMonth() + 1;
-  const currentYear = currentDate.getFullYear();
+      // more data...
+    ],
+  };
 
-  const nestedTabs = [];
+  const router = useRouter();
 
-  // Add months from this month of this year to this month of next year
-  for (let i = 0; i <= 12; i++) {
-    const month =
-      currentMonth - i > 0 ? currentMonth - i : 12 + (currentMonth - i);
-    const year = currentMonth - i > 0 ? currentYear : currentYear - 1;
-    const monthYearString = `${month <= 9 ? "0" : ""}${month}/${year}`;
-
-    nestedTabs.push({
-      key: `${i + 1}`,
-      title: `${monthYearString}`,
-      content: `Hello, I'm the nested tab ${monthYearString}`,
-    });
-  }
-
+  const handleRouter = (path) => {
+    router.push(path);
+  };
   return (
     <View style={styles.container}>
       <Stack.Screen
@@ -48,7 +51,9 @@ const Page = () => {
           headerRight: () => (
             <View style={{ flexDirection: "row", gap: 12 }}>
               <icons.share2 />
-              <icons.select fill="white" />
+              <TouchableOpacity>
+                <icons.calendar fill="white" />
+              </TouchableOpacity>
             </View>
           ),
           headerStyle: {
@@ -58,28 +63,71 @@ const Page = () => {
           headerTitleAlign: "center",
         }}
       />
-      <View
-        style={{
-          backgroundColor: "white",
-          paddingTop: 17,
-        }}
-      >
-        <Text
-          style={{
-            fontFamily: "InterSemiBold",
-            fontSize: 18,
-            textAlign: "center",
-          }}
-        >
-          Total amount: 5,000,000 VNĐ
-        </Text>
-      </View>
 
-      <CustomTabBar
-        widthOfPerTab={Dimensions.get("window").width / 3}
-        nestedTabs={nestedTabs}
-        TabContent={ReportContent}
-      />
+      <ScrollView style={styles.containerSv}>
+        <View style={styles.initReport}>
+          <View style={styles.itemReport}>
+            <Text style={styles.titleItemReport}>Opening balance </Text>
+            <Text style={styles.valueItemReport}>2,000,000</Text>
+          </View>
+
+          <View style={styles.itemReport}>
+            <Text style={styles.titleItemReport}>Ending balance</Text>
+            <Text style={styles.valueItemReport}>5,000,000</Text>
+          </View>
+        </View>
+
+        <View style={styles.initReport}>
+          <View style={styles.titleBox}>
+            <Text style={styles.lTitleBox}>Expense vs Income</Text>
+            <TouchableOpacity
+              onPress={() => handleRouter("/report/incomeExpense")}
+            >
+              <Text style={styles.rTitleBox}>See details</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
+            <Text style={styles.titleExpense}>7,000,000 </Text>
+            <Text style={styles.titleIncome}>2,000,000 </Text>
+          </View>
+
+          <MyBarChart data={barChartData_2month} />
+        </View>
+
+        <View style={styles.initReport}>
+          <View style={styles.titleBox}>
+            <View
+              style={{ flexDirection: "row", alignItems: "center", gap: 10 }}
+            >
+              <Text style={styles.lTitleBox}>Expense</Text>
+              <Text style={styles.titleExpense}>7,000,000 </Text>
+            </View>
+
+            <TouchableOpacity onPress={() => handleRouter("/report/expense")}>
+              <Text style={styles.rTitleBox}>See details</Text>
+            </TouchableOpacity>
+          </View>
+
+          <MyBarChart data={barChartData_2month} />
+        </View>
+
+        <View style={styles.initReport}>
+          <View style={styles.titleBox}>
+            <View
+              style={{ flexDirection: "row", alignItems: "center", gap: 10 }}
+            >
+              <Text style={styles.lTitleBox}>Income</Text>
+              <Text style={styles.titleIncome}>2,000,000 </Text>
+            </View>
+            <TouchableOpacity onPress={() => handleRouter("/report/income")}>
+              <Text style={styles.rTitleBox}>See details</Text>
+            </TouchableOpacity>
+          </View>
+
+          <MyBarChart data={barChartData_2month} />
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -87,6 +135,54 @@ const Page = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  containerSv: {
+    flex: 1,
+    backgroundColor: "#F3F2F7",
+  },
+  initReport: {
+    paddingHorizontal: 16,
+    paddingVertical: 15,
+    backgroundColor: "white",
+    marginBottom: 18,
+  },
+  itemReport: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 3,
+  },
+  titleItemReport: {
+    fontSize: 13,
+    color: COLORS.textColor3,
+    fontFamily: "InterBold",
+  },
+  valueItemReport: {
+    fontSize: 13,
+    color: "#000000",
+    fontFamily: "InterBold",
+  },
+
+  titleBox: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  lTitleBox: {
+    fontSize: 15,
+    fontFamily: "InterSemiBold",
+    color: "#000000",
+  },
+  rTitleBox: {
+    fontSize: 13,
+    fontFamily: "InterMedium",
+    color: COLORS.primary,
+  },
+  titleExpense: {
+    color: COLORS.expense,
+    fontFamily: "InterSemiBold",
+  },
+  titleIncome: {
+    color: COLORS.income,
+    fontFamily: "InterSemiBold",
   },
 });
 

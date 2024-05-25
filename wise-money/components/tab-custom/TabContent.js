@@ -14,7 +14,7 @@ import { useState, useEffect } from "react";
 import { err } from "react-native-svg";
 import { supabase } from "../../lib/supabase";
 
-const TabContent = ({ content, typeApi, index }) => {
+const TabContent = ({ content, typeApi }) => {
   const [transacDateList, setTransacDateList] = useState(null);
   const [transacCategList, setTransacCategList] = useState(null);
   useEffect(() => {
@@ -70,6 +70,22 @@ const TabContent = ({ content, typeApi, index }) => {
     } else if (typeApi === "viewByCateg") {
       fetchDataByCategory(content.walletId, content.startDate, content.endDate);
     }
+
+    const channelsExpense = supabase
+      .channel("custom-all-channel")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "Expense" },
+        (payload) => {
+          console.log("Change received!", payload);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      // Unsubscribe when the component unmounts
+      channelsExpense.unsubscribe();
+    };
   }, [typeApi, content]);
 
   // console.log(

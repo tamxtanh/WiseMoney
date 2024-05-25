@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import React from "react";
 import { COLORS, SIZES, icons } from "../../constants";
 import CurrencyPicker from "./currencyPicker";
@@ -25,6 +25,12 @@ const createWallet = () => {
       setImageSource(localParams.source);
     }
   }, [localParams.source]);
+
+  const handleClick = () => {
+    router.navigate({
+      pathname: "home",
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -202,7 +208,7 @@ const createWallet = () => {
         </View>
       </View>
 
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={handleClick}>
         <Text style={styles.buttonText}>CREATE WALLET</Text>
       </TouchableOpacity>
     </View>
