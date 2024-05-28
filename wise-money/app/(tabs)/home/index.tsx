@@ -1,4 +1,4 @@
-import { Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import {
   StyleSheet,
   Text,
@@ -24,6 +24,7 @@ export default function Page() {
   const [topSpending, setTopSpending] = useState();
   const [showBalance, setShowBalance] = useState(true);
   const [percentageIncrease, setPercentageIncrease] = useState(-25);
+  const router = useRouter();
 
   const [dataChart, setDataChart] = useState({
     height: 250,
@@ -113,7 +114,10 @@ export default function Page() {
               </Text>
             </View>
           ),
-          headerRight: () => <icons.notification fill="white" />,
+          headerRight: () =>
+            <TouchableOpacity onPress={() => router.push('/notification')}>
+              <icons.notification fill="white" />
+            </TouchableOpacity>,
           headerStyle: {
             backgroundColor: COLORS.primary,
           },
