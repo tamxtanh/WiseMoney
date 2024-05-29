@@ -1,7 +1,7 @@
 // app/budget/[id].tsx
 import React, { useEffect, useState } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import { COLORS, SIZES } from '../../constants';
 import DatePickerField from '../../components/interest-components/DatePickerField';
 import InputField from '../../components/interest-components/InputField';
@@ -41,8 +41,7 @@ const BudgetDetail: React.FC = () => {
     const parseCurrency = (value: string) => parseFloat(value.replace(/,/g, ''));
 
     useEffect(() => {
-        fetchCategories();
-        fetchBudgetById();
+        fetchBudgetById()
     }, [id]);
 
     useEffect(() => {
@@ -53,15 +52,6 @@ const BudgetDetail: React.FC = () => {
         fetchData();
     }, [userId]);
 
-    useEffect(() => {
-        navigation.setOptions({
-            headerTitle: 'Budget Details',
-            headerStyle: { backgroundColor: COLORS.primary },
-            headerTitleStyle: { fontSize: 20, fontFamily: 'InterSemiBold' },
-            headerShadowVisible: false,
-        });
-    }, [navigation]);
-
     const fetchCategories = async () => {
         const { data, error } = await supabase
             .rpc('get_user_categories_by_type', {
@@ -71,7 +61,6 @@ const BudgetDetail: React.FC = () => {
         if (error) console.error(error);
         else {
             setCategories(data);
-            // console.log('Category list', data);
         }
     };
 
@@ -123,10 +112,10 @@ const BudgetDetail: React.FC = () => {
         updateBudget();
     };
 
-    if (!budget) {
+    if (!budget && categories.length < 1) {
         return (
             <View style={styles.container}>
-                <Text>Loading...</Text>
+                <ActivityIndicator size="large" color={COLORS.primary} />
             </View>
         );
     }
