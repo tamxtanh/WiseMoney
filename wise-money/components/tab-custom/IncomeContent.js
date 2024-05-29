@@ -15,7 +15,7 @@ import TransactionReportListByCategory from "../transaction/TransactionReportLis
 import DonutChart from "../chart/DonutChart";
 import DefaultTabContent from "./DefaultTabContent";
 
-const ExpenseContent = ({ content, typeApi }) => {
+const IncomeContent = ({ content, typeApi }) => {
   const [apiExpenseReport, setApiExpenseReport] = useState();
   const [expenseReportCateg, setExpenseReportCateg] = useState();
 
@@ -27,10 +27,10 @@ const ExpenseContent = ({ content, typeApi }) => {
   ];
 
   useEffect(() => {
-    async function fetchReportExpense(walletId, startDate, endDate) {
+    async function fetchReportIncome(walletId, startDate, endDate) {
       try {
         let { data, error } = await supabase
-          .rpc("get_report_expense", {
+          .rpc("get_report_income", {
             end_date: endDate,
             start_date: startDate,
             wallet_id: walletId,
@@ -44,16 +44,13 @@ const ExpenseContent = ({ content, typeApi }) => {
       }
     }
 
-    async function fetchReportExpenseCateg(walletId, startDate, endDate) {
+    async function fetchReportIncomeCateg(walletId, startDate, endDate) {
       try {
-        let { data, error } = await supabase.rpc(
-          "get_report_expense_by_categ",
-          {
-            end_date: endDate,
-            start_date: startDate,
-            wallet_id: walletId,
-          }
-        );
+        let { data, error } = await supabase.rpc("get_report_income_by_categ", {
+          end_date: endDate,
+          start_date: startDate,
+          wallet_id: walletId,
+        });
 
         if (error) throw error;
         else
@@ -72,8 +69,8 @@ const ExpenseContent = ({ content, typeApi }) => {
       }
     }
 
-    fetchReportExpense(content.walletId, content.startDate, content.endDate);
-    fetchReportExpenseCateg(
+    fetchReportIncome(content.walletId, content.startDate, content.endDate);
+    fetchReportIncomeCateg(
       content.walletId,
       content.startDate,
       content.endDate
@@ -98,7 +95,7 @@ const ExpenseContent = ({ content, typeApi }) => {
 
   const dataChart = {
     height: 250,
-    defaultColor: COLORS.expenseChart,
+    defaultColor: COLORS.income,
     list: apiExpenseReport?.periods
       ?.filter((item) => item.value !== null && item.value !== undefined)
       .map((item, index) => {
@@ -239,7 +236,7 @@ const ExpenseContent = ({ content, typeApi }) => {
                       >
                         <Text
                           style={{
-                            color: COLORS.expense,
+                            color: COLORS.income,
                             fontFamily: "InterMedium",
                             fontSize: 15,
                           }}
@@ -271,7 +268,7 @@ const ExpenseContent = ({ content, typeApi }) => {
               <TransactionReportListByCategory
                 key={index}
                 data={dayTransactions}
-                colorValue={COLORS.expense}
+                colorValue={COLORS.income}
               />
             )
             // <Text>viewByCateg</Text>
@@ -284,7 +281,7 @@ const ExpenseContent = ({ content, typeApi }) => {
   );
 };
 
-export default ExpenseContent;
+export default IncomeContent;
 
 const styles = StyleSheet.create({
   containerSv: {
@@ -304,7 +301,7 @@ const styles = StyleSheet.create({
     color: "#000000",
   },
   titleExpense: {
-    color: COLORS.expense,
+    color: COLORS.income,
     fontFamily: "InterSemiBold",
   },
   separator: {

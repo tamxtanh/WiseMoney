@@ -17,9 +17,12 @@ import {
   generateCustomNestedTabs,
 } from "../../components/transaction-function/generateListTab";
 import TimRangePopup from "../../components/modal-popUp/TimRangePopup";
-import IncomeContent from "../../components/tab-custom/IncomeContent";
+import DebtLoanContent from "../../components/tab-custom/DebtLoanContent";
+import { useLocalSearchParams } from "expo-router";
 
 const Page = () => {
+  const { typeTransaction } = useLocalSearchParams();
+
   const [rangeOption, setRangeOption] = useState("month");
   const [customStartDate, setCustomStartDate] = useState(new Date());
   const [customEndDate, setCustomEndDate] = useState(new Date());
@@ -116,7 +119,10 @@ const Page = () => {
               />
             </View>
           </View>
-          <IncomeContent content={nestedTabs.content} />
+          <DebtLoanContent
+            content={nestedTabs.content}
+            typeApi={typeTransaction}
+          />
         </View>
       ) : (
         <CustomTabBar
@@ -126,7 +132,8 @@ const Page = () => {
               : Dimensions.get("window").width / 3
           }
           nestedTabs={nestedTabs}
-          TabContent={IncomeContent}
+          TabContent={DebtLoanContent}
+          selectedOption={typeTransaction}
           colorStyle={{
             backgroundColorTabBar: COLORS.primary,
             colorTabText: "white",
@@ -152,7 +159,7 @@ const Page = () => {
                   color: "white",
                 }}
               >
-                Income Report
+                Transaction List
               </Text>
             </View>
           ),

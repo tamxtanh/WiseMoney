@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { icons, COLORS } from "../../../constants";
 import MyBarChart from "../../../components/chart/MyBarChart";
+import ReportItem from "../../../components/report/ReportItem";
 
 const Page = () => {
   const barChartData_2month = {
@@ -27,14 +28,63 @@ const Page = () => {
 
   const router = useRouter();
 
-  const handleRouter = (path) => {
-    router.push(path);
+  const handleRouter = (title) => {
+    switch (title) {
+      case "Expense vs Income":
+        router.push("/report/incomeExpense");
+        break;
+      case "Expense":
+        router.push("/report/expense");
+        break;
+      case "Income":
+        router.push("/report/income");
+        break;
+      case "Debt":
+        router.navigate({
+          pathname: "/report/debtLoan",
+          params: {
+            typeTransaction: "debt",
+          },
+        });
+        break;
+      case "Loan":
+        router.navigate({
+          pathname: "/report/debtLoan",
+          params: {
+            typeTransaction: "loan",
+          },
+        });
+        break;
+    }
   };
+
+  const reportItemData = [
+    {
+      title: "Expense vs Income",
+      image_url: require("../../../assets/images/expense_income.png"),
+    },
+    {
+      title: "Expense",
+      image_url: require("../../../assets/images/expense.png"),
+    },
+    {
+      title: "Income",
+      image_url: require("../../../assets/images/income.png"),
+    },
+    {
+      title: "Debt",
+      image_url: require("../../../assets/images/debt.png"),
+    },
+    {
+      title: "Loan",
+      image_url: require("../../../assets/images/loan.png"),
+    },
+  ];
   return (
     <View style={styles.container}>
       <Stack.Screen
         options={{
-          headerLeft: () => <icons.searchIcon fill="white" />,
+          // headerLeft: () => <icons.searchIcon fill="white" />,
           headerTitle: () => (
             <View style={{ marginLeft: 0 }}>
               <Text
@@ -48,14 +98,14 @@ const Page = () => {
               </Text>
             </View>
           ),
-          headerRight: () => (
-            <View style={{ flexDirection: "row", gap: 12 }}>
-              <icons.share2 />
-              <TouchableOpacity>
-                <icons.calendar fill="white" />
-              </TouchableOpacity>
-            </View>
-          ),
+          // headerRight: () => (
+          //   <View style={{ flexDirection: "row", gap: 12 }}>
+          //     <icons.share2 />
+          //     {/* <TouchableOpacity>
+          //       <icons.calendar fill="white" />
+          //     </TouchableOpacity> */}
+          //   </View>
+          // ),
           headerStyle: {
             backgroundColor: COLORS.primary,
           },
@@ -64,7 +114,7 @@ const Page = () => {
         }}
       />
 
-      <ScrollView style={styles.containerSv}>
+      {/* <ScrollView style={styles.containerSv}>
         <View style={styles.initReport}>
           <View style={styles.itemReport}>
             <Text style={styles.titleItemReport}>Opening balance </Text>
@@ -126,6 +176,31 @@ const Page = () => {
           </View>
 
           <MyBarChart data={barChartData_2month} />
+        </View>
+      </ScrollView> */}
+
+      <ScrollView style={styles.containerSv}>
+        <View
+          style={{
+            flexDirection: "row",
+            flexWrap: "wrap",
+            justifyContent: "space-between",
+            paddingHorizontal: 12,
+            paddingVertical: 15,
+          }}
+        >
+          {reportItemData.map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              style={{
+                width: "48%", // Adjust width to ensure 2 items per row with some spacing
+                marginBottom: 15,
+              }}
+              onPress={() => handleRouter(item.title)}
+            >
+              <ReportItem imageUrl={item.image_url} title={item.title} />
+            </TouchableOpacity>
+          ))}
         </View>
       </ScrollView>
     </View>

@@ -5,7 +5,17 @@ import { COLORS, FONT, SIZES } from "../../constants/theme";
 
 const TransactionWithDateWithoutImage: React.FC<{
   transaction: DateTransactionWithoutImage;
-}> = ({ transaction }) => {
+  iconWidth?: number;
+  sizeTitle?: number;
+  sizeValue?: number;
+  containerHeight?: number;
+}> = ({
+  transaction,
+  iconWidth = 34, // default value
+  sizeTitle = 15, // default value
+  sizeValue = SIZES.h8, // default value
+  containerHeight = 65, // default value
+}) => {
   const handleClick = () => {
     // Handle click event here
     // Navigate to other page depending on type
@@ -25,19 +35,29 @@ const TransactionWithDateWithoutImage: React.FC<{
   };
 
   return (
-    <TouchableOpacity style={styles.container} onPress={handleClick}>
+    <TouchableOpacity
+      style={[styles.container, { height: containerHeight }]}
+      onPress={handleClick}
+    >
       <View style={styles.left}>
         <Image
           source={require("../../assets/images/wallet.png")}
-          style={styles.icon}
+          style={[styles.icon, { width: iconWidth, height: iconWidth }]}
         />
       </View>
       <View style={styles.center}>
-        <Text style={styles.title}>{formatDate(transaction.date)}</Text>
+        <Text style={[styles.title, { fontSize: sizeTitle }]}>
+          {formatDate(transaction.date)}
+        </Text>
         {/* <Text style={styles.subtitle}>{transaction.note}</Text> */}
       </View>
       <View style={styles.right}>
-        <Text style={transaction.value > 0 ? styles.blue : styles.red}>
+        <Text
+          style={[
+            transaction.value > 0 ? styles.blue : styles.red,
+            { fontSize: sizeValue },
+          ]}
+        >
           {transaction.value.toLocaleString("en-US", {
             // style: "currency",
             // currency: "VND",
@@ -82,7 +102,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   title: {
-    fontSize: 16,
+    fontSize: 15,
     fontFamily: FONT.regular,
   },
   subtitle: {

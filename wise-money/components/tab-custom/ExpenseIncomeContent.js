@@ -10,6 +10,7 @@ import { COLORS } from "../../constants";
 import DoubleBarChart from "../chart/DoubleBarChart";
 import { useState, useEffect } from "react";
 import { supabase } from "../../lib/supabase";
+import DefaultTabContent from "./DefaultTabContent";
 
 const ExpenseIncomeContent = ({ content, typeApi }) => {
   const [dataChart, setDataChart] = useState({
@@ -18,14 +19,14 @@ const ExpenseIncomeContent = ({ content, typeApi }) => {
     list: [
       {
         name: "Expense",
-        value: 10000,
+        value: 0,
         svg: {
           fill: COLORS.expense,
         },
       },
       {
         name: "Income",
-        value: 50000,
+        value: 0,
         svg: {
           fill: COLORS.income,
         },
@@ -88,7 +89,7 @@ const ExpenseIncomeContent = ({ content, typeApi }) => {
     };
   }, [content]);
 
-  return (
+  return dataChart.list.some((item) => item.value !== null) ? (
     <ScrollView style={styles.containerSv}>
       <View style={styles.initReport}>
         <DoubleBarChart data={dataChart} />
@@ -151,6 +152,11 @@ const ExpenseIncomeContent = ({ content, typeApi }) => {
         </View>
       </View>
     </ScrollView>
+  ) : (
+    <DefaultTabContent
+      imageUrl={require("../../assets/images/no_data.png")}
+      title="No data to display"
+    />
   );
 };
 

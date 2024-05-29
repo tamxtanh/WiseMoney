@@ -57,6 +57,5 @@ const styles = StyleSheet.create({
   rowContainer: {
     flexDirection: "row",
     marginTop: 15,
-    gap: 15,
   },
 });

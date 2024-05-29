@@ -23,7 +23,7 @@ class HomeChart extends React.PureComponent<{ data: FullChartData }> {
             alignmentBaseline={"middle"}
             textAnchor={"middle"}
           >
-            {item.value.toLocaleString("en-US", {
+            {item?.value?.toLocaleString("en-US", {
               minimumFractionDigits: 0,
               maximumFractionDigits: 2,
             })}

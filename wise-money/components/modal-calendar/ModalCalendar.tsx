@@ -15,7 +15,7 @@ const CustomArrow = ({ direction }) => {
   const icon =
     direction === "left"
       ? icons.arrowLeft({ fill: "#1C1B1F" })
-      : icons.arrowRight({ fill: "#1C1B1F" });
+      : icons.arrowRight({ fill: "#1C1B1F", width: 18, height: 18 });
   return <View>{icon}</View>;
 };
 
@@ -79,9 +79,9 @@ const ModalCalendar = ({ visible, close, selectedDate, setSelectedDate }) => {
     setInitialDate(formatYMD(temptSelectedDate));
   };
 
-  const yearItems = Array.from({ length: 100 }, (_, i) => ({
-    label: `${2024 - i}`,
-    value: 2024 - i,
+  const yearItems = Array.from({ length: 150 }, (_, i) => ({
+    label: `${2074 - i}`,
+    value: 2074 - i,
   }));
 
   return (
