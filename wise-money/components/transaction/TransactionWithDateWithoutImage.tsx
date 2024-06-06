@@ -5,7 +5,8 @@ import { COLORS, FONT, SIZES } from "../../constants/theme";
 
 const TransactionWithDateWithoutImage: React.FC<{
   transaction: DateTransactionWithoutImage;
-}> = ({ transaction }) => {
+  showSubtitle?: boolean;
+}> = ({ transaction, showSubtitle = false }) => {
   const handleClick = () => {
     // Handle click event here
     // Navigate to other page depending on type
@@ -34,7 +35,9 @@ const TransactionWithDateWithoutImage: React.FC<{
       </View>
       <View style={styles.center}>
         <Text style={styles.title}>{formatDate(transaction.date)}</Text>
-        {/* <Text style={styles.subtitle}>{transaction.note}</Text> */}
+        {showSubtitle && (
+          <Text style={styles.subtitle}>{transaction.note}</Text>
+        )}
       </View>
       <View style={styles.right}>
         <Text style={transaction.value > 0 ? styles.blue : styles.red}>
