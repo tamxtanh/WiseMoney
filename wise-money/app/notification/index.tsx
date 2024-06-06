@@ -48,6 +48,7 @@ const NotificationsScreen: React.FC = () => {
                 console.error(error);
                 setError(error.message);
             } else {
+
                 // Convert the time field to a Date object
                 const formattedData = data.map((notification: Notification) => ({
                     ...notification,
@@ -57,6 +58,10 @@ const NotificationsScreen: React.FC = () => {
             }
             setLoading(false);
         }
+    };
+
+    const handleDelete = (id: number) => {
+        setNotifications((prevNotifications) => prevNotifications.filter((notification) => notification.id !== id));
     };
 
     return (
@@ -82,7 +87,7 @@ const NotificationsScreen: React.FC = () => {
                     {error ? (
                         <Text style={styles.errorText}>{error}</Text>
                     ) : (
-                        <NotificationComponentList notifications={notifications} />
+                        <NotificationComponentList notifications={notifications} onDelete={handleDelete} />
                     )}
                 </View>
             }
@@ -93,12 +98,12 @@ const NotificationsScreen: React.FC = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: COLORS.background,
     },
     errorText: {
-        marginTop: 20,
-        fontSize: 18,
+        color: COLORS.red,
+        fontSize: 16,
         textAlign: 'center',
-        color: 'red',
     },
 });
 
