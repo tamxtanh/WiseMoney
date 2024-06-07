@@ -7,6 +7,8 @@ const TransactionWithDateWithoutImage: React.FC<{
   transaction: DateTransactionWithoutImage;
   showSubtitle?: boolean;
 }> = ({ transaction, showSubtitle = false }) => {
+  if (!transaction)
+    return <></>
   const handleClick = () => {
     // Handle click event here
     // Navigate to other page depending on type
@@ -34,7 +36,7 @@ const TransactionWithDateWithoutImage: React.FC<{
         />
       </View>
       <View style={styles.center}>
-        <Text style={styles.title}>{formatDate(transaction.date)}</Text>
+        <Text style={styles.title}>{formatDate(new Date(transaction.date))}</Text>
         {showSubtitle && (
           <Text style={styles.subtitle}>{transaction.note}</Text>
         )}
