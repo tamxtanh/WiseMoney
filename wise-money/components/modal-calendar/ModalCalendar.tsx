@@ -15,7 +15,7 @@ const CustomArrow = ({ direction }) => {
   const icon =
     direction === "left"
       ? icons.arrowLeft({ fill: "#1C1B1F" })
-      : icons.arrowRight({ fill: "#1C1B1F" });
+      : icons.arrowRight({ fill: "#1C1B1F", width: 18, height: 18 });
   return <View>{icon}</View>;
 };
 

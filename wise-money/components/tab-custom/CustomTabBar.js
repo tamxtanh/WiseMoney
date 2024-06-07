@@ -45,13 +45,7 @@ const CustomTabBar = React.memo(
     };
 
     const renderScene = ({ route }) => {
-      return (
-        <TabContent
-          content={route.content}
-          typeApi={selectedOption}
-          index={route.key}
-        />
-      );
+      return <TabContent content={route.content} typeApi={selectedOption} />;
     };
 
     const renderIndicator = (props) => {

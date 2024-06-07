@@ -13,8 +13,9 @@ import ListTransactionWithName from "../transaction/TransactionListWithName";
 import { useState, useEffect } from "react";
 import { err } from "react-native-svg";
 import { supabase } from "../../lib/supabase";
+import DefaultTabContent from "./DefaultTabContent";
 
-const TabContent = ({ content, typeApi, index }) => {
+const TabContent = ({ content, typeApi }) => {
   const [transacDateList, setTransacDateList] = useState(null);
   const [transacCategList, setTransacCategList] = useState(null);
   useEffect(() => {
@@ -70,6 +71,22 @@ const TabContent = ({ content, typeApi, index }) => {
     } else if (typeApi === "viewByCateg") {
       fetchDataByCategory(content.walletId, content.startDate, content.endDate);
     }
+
+    const channelsExpense = supabase
+      .channel("custom-all-channel")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "Expense" },
+        (payload) => {
+          console.log("Change received!", payload);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      // Unsubscribe when the component unmounts
+      channelsExpense.unsubscribe();
+    };
   }, [typeApi, content]);
 
   // console.log(
@@ -142,39 +159,16 @@ const TabContent = ({ content, typeApi, index }) => {
         )}
       </ScrollView>
     ) : (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: "#F3F2F7",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <View
-          style={{
-            marginTop: -100,
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Image
-            style={{ width: 70, height: 70 }}
-            source={require("../../assets/images/transactional.png")}
-          />
-          <Text
-            style={{
-              textAlign: "center",
-              fontSize: 16,
-              fontFamily: "InterRegular",
-              color: COLORS.textColor1,
-            }}
-          >
+      <DefaultTabContent
+        imageUrl={require("../../assets/images/transactional.png")}
+        title={
+          <>
             Tap{" "}
             <Text style={{ fontSize: 24, color: COLORS.textColor2 }}>+</Text> to
             add one
-          </Text>
-        </View>
-      </View>
+          </>
+        }
+      />
     );
   } else if (typeApi === "viewByCateg") {
     return transacCategList?.length > 0 ? (
@@ -240,39 +234,16 @@ const TabContent = ({ content, typeApi, index }) => {
         )}
       </ScrollView>
     ) : (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: "#F3F2F7",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <View
-          style={{
-            marginTop: -100,
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Image
-            style={{ width: 70, height: 70 }}
-            source={require("../../assets/images/transactional.png")}
-          />
-          <Text
-            style={{
-              textAlign: "center",
-              fontSize: 16,
-              fontFamily: "InterRegular",
-              color: COLORS.textColor1,
-            }}
-          >
+      <DefaultTabContent
+        imageUrl={require("../../assets/images/transactional.png")}
+        title={
+          <>
             Tap{" "}
             <Text style={{ fontSize: 24, color: COLORS.textColor2 }}>+</Text> to
             add one
-          </Text>
-        </View>
-      </View>
+          </>
+        }
+      />
     );
   }
 };

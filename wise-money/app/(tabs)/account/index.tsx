@@ -52,7 +52,7 @@ export default function Page() {
     },
     {
       title: "Loans",
-      icon: <icons.debts fill="white" />,
+      icon: <icons.loan fill="white" />,
       colorBox: "#FB6C23",
       pathName: "/loan",
     },
@@ -60,18 +60,19 @@ export default function Page() {
       title: " Suggestions",
       icon: <icons.spendingSuggestions fill="white" />,
       colorBox: "#0585FF",
+      pathName: "/suggestions-utility",
     },
 
     {
       title: "Calculate Tax",
-      icon: <icons.category fill="white" />,
+      icon: <icons.debts fill="white" />,
       colorBox: "#1BD6E2",
     },
 
     {
       title: "Exchange Rates",
       icon: <icons.exchangeRates fill="white" />,
-      colorBox: "#4445E8",
+      colorBox: "#F06292",
       pathName: "/exchange-rate",
     },
 
@@ -87,6 +88,18 @@ export default function Page() {
       colorBox: "#FFC75C",
       pathName: "/export-data",
     },
+    {
+      title: "Budget",
+      icon: <icons.budget />,
+      colorBox: "#B272FE",
+      pathName: "/export-data",
+    },
+    {
+      title: "Target",
+      icon: <icons.target />,
+      colorBox: "#4DB6AC",
+      pathName: "/target-utility",
+    },
   ];
 
   const functionList = [
@@ -100,22 +113,22 @@ export default function Page() {
     {
       icon: <icons.about fill="#919191" />,
       title: "About Us",
-      onPress: () => { },
+      onPress: () => {},
     },
     {
       icon: <icons.policy fill="#919191" />,
       title: "Policy",
-      onPress: () => { },
+      onPress: () => {},
     },
     {
       icon: <icons.feedBack fill="#919191" />,
       title: "Feedback",
-      onPress: () => { },
+      onPress: () => {},
     },
     {
       icon: <icons.rating fill="#919191" />,
       title: "Rate App",
-      onPress: () => { },
+      onPress: () => {},
     },
   ];
 
@@ -211,7 +224,7 @@ export default function Page() {
                     </View>
 
                     <View>
-                      <icons.arrowRight fill="#c0c0c2" />
+                      <icons.arrowRight fill="#c0c0c2" width={18} height={18} />
                     </View>
                   </TouchableOpacity>
 
