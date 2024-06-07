@@ -14,6 +14,7 @@ import IconRadioTabs from "../../components/radio-tabs/IconRadioTabs";
 import TransactionReportListByCategory from "../transaction/TransactionReportListByCategory";
 import DonutChart from "../chart/DonutChart";
 import DefaultTabContent from "./DefaultTabContent";
+import { formatStardEndDate } from "../../function/FormatDateNumber";
 
 const ExpenseContent = ({ content, typeApi }) => {
   const [apiExpenseReport, setApiExpenseReport] = useState();
@@ -102,26 +103,8 @@ const ExpenseContent = ({ content, typeApi }) => {
     list: apiExpenseReport?.periods
       ?.filter((item) => item.value !== null && item.value !== undefined)
       .map((item, index) => {
-        // Split the date strings
-        const startDateParts = item.start_date.split("-");
-        const endDateParts = item.end_date.split("-");
-
-        // Remove the century part (first two characters) from the year
-        const startTitle =
-          endDateParts[2] +
-          "/" +
-          endDateParts[1] +
-          "/" +
-          endDateParts[0].slice(2);
-        const endTitle =
-          startDateParts[2] +
-          "/" +
-          startDateParts[1] +
-          "/" +
-          startDateParts[0].slice(2);
-
         return {
-          name: startTitle + "-" + endTitle,
+          name: formatStardEndDate(item.start_date, item.end_date),
           value: item.value,
         };
       }),
@@ -193,23 +176,6 @@ const ExpenseContent = ({ content, typeApi }) => {
                 (item) => item.value !== null && item.value !== undefined
               )
               .map((item, index) => {
-                // Split the date strings
-                const startDateParts = item.start_date.split("-");
-                const endDateParts = item.end_date.split("-");
-
-                // Remove the century part (first two characters) from the year
-                const startTitle =
-                  endDateParts[2] +
-                  "/" +
-                  endDateParts[1] +
-                  "/" +
-                  endDateParts[0].slice(2);
-                const endTitle =
-                  startDateParts[2] +
-                  "/" +
-                  startDateParts[1] +
-                  "/" +
-                  startDateParts[0].slice(2);
                 return (
                   <View key={index}>
                     <View style={styles.separator} />
@@ -228,7 +194,7 @@ const ExpenseContent = ({ content, typeApi }) => {
                           fontSize: 15,
                         }}
                       >
-                        {startTitle + " - " + endTitle}
+                        {formatStardEndDate(item.start_date, item.end_date)}
                       </Text>
                       <View
                         style={{

@@ -60,6 +60,7 @@ export default function Page() {
       title: " Suggestions",
       icon: <icons.spendingSuggestions fill="white" />,
       colorBox: "#0585FF",
+      pathName: "/suggestions-utility",
     },
 
     {
@@ -97,7 +98,7 @@ export default function Page() {
       title: "Target",
       icon: <icons.target />,
       colorBox: "#4DB6AC",
-      pathName: "/export-data",
+      pathName: "/target-utility",
     },
   ];
 

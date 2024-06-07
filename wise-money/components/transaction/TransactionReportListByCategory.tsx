@@ -38,7 +38,14 @@ const TransactionReportListByCategory: React.FC<{
         >
           <View style={styles.top}>
             <View style={styles.left}>
-              <Image source={{ uri: data.image_url }} style={styles.image} />
+              <Image
+                source={
+                  data.image_url
+                    ? { uri: data.image_url }
+                    : require("../../assets/images/three-dots.png")
+                }
+                style={styles.image}
+              />
 
               <View style={styles.center}>
                 <Text style={styles.title}>{data.category_name}</Text>
@@ -73,7 +80,7 @@ const TransactionReportListByCategory: React.FC<{
         keyExtractor={(item) => item.id.toString()}
       /> */}
       {isDropDown &&
-        data.transactions.map((item, index) => (
+        data?.transactions?.map((item, index) => (
           <TransactionWithDateWithoutImage
             key={index}
             transaction={item}

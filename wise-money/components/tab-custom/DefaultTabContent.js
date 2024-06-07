@@ -2,12 +2,16 @@ import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import { COLORS, SIZES } from "../../constants";
 
-const DefaultTabContent = ({ imageUrl, title }) => {
+const DefaultTabContent = ({
+  imageUrl,
+  title,
+  backgroundColor = "#F3F2F7",
+}) => {
   return (
     <View
       style={{
         flex: 1,
-        backgroundColor: "#F3F2F7",
+        backgroundColor: backgroundColor,
         alignItems: "center",
         justifyContent: "center",
       }}

@@ -29,7 +29,7 @@ class DonutChart extends React.PureComponent<{ data: FullPieChartData }> {
     ]; // Add more dark colors if needed
 
     // Calculate the total
-    const total = data.list.reduce((sum, item) => sum + item.value, 0);
+    const total = data?.list?.reduce((sum, item) => sum + item.value, 0);
     const threshold = total * 0.1; // Ngưỡng là 10% của tổng giá trị
 
     let dataWithKeysAndColors;
