@@ -1,13 +1,11 @@
-import React, { useState, useMemo, useEffect } from "react";
-import { Stack, useRouter } from "expo-router";
+import React, { useState } from "react";
+import { Stack, router, useRouter } from "expo-router";
 import {
   View,
   Text,
   StyleSheet,
   Dimensions,
   TouchableOpacity,
-  Modal,
-  Button,
   ScrollView,
 } from "react-native";
 import { icons, COLORS } from "../../../constants";
@@ -84,7 +82,11 @@ const Page = () => {
     <View style={styles.container}>
       <Stack.Screen
         options={{
-          // headerLeft: () => <icons.searchIcon fill="white" />,
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => router.push("/search/food")}>
+              <icons.searchIcon fill="white" />
+            </TouchableOpacity>
+          ),
           headerTitle: () => (
             <View style={{ marginLeft: 0 }}>
               <Text

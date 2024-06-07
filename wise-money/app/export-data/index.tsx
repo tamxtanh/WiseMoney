@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, Alert, ActivityIndicator } from 'react-native';
 import { styles } from './styles';
 import { Stack } from 'expo-router';
 import DatePickerField from '../../components/interest-components/DatePickerField';
@@ -24,6 +24,7 @@ const ExportData: React.FC = () => {
     const [showStartDatePicker, setShowStartDatePicker] = useState<boolean>(false);
     const [showEndDatePicker, setShowEndDatePicker] = useState<boolean>(false);
     const [userId, setUserId] = useState<number | null>(null);
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -37,7 +38,10 @@ const ExportData: React.FC = () => {
         const { data, error } = await supabase
             .rpc('get_user_categories', { user_id: userId });
         if (error) console.error(error);
-        else setCategories(data);
+        else {
+            setCategories(data);
+            setLoading(false)
+        }
     };
 
     const fetchUserData = async () => {
@@ -189,21 +193,27 @@ const ExportData: React.FC = () => {
                         <Text style={styles.calculateButtonText}>Export</Text>
                     </TouchableOpacity>
 
-                    <View style={styles.checkList}>
-                        {categories.map((category) => (
-                            <View key={category.id} style={styles.checkItemContainer}>
-                                <TouchableOpacity
-                                    style={[styles.checkbox, selectedCategories.includes(category.id) && styles.checkboxSelected]}
-                                    onPress={() => toggleCategory(category.id)}>
-                                    {selectedCategories.includes(category.id) && <Text style={styles.checkboxText}>✔</Text>}
-                                </TouchableOpacity>
-                                <View style={styles.categoryTextContainer}>
-                                    <Text style={styles.checkItemText}>{category.name}</Text>
-                                    <Text style={styles.checkItemType}>{category.type}</Text>
-                                </View>
+                    {
+                        loading ?
+                            <ActivityIndicator size="large" color={COLORS.primary} />
+                            :
+                            <View style={styles.checkList}>
+                                {categories.map((category) => (
+                                    <View key={category.id} style={styles.checkItemContainer}>
+                                        <TouchableOpacity
+                                            style={[styles.checkbox, selectedCategories.includes(category.id) && styles.checkboxSelected]}
+                                            onPress={() => toggleCategory(category.id)}>
+                                            {selectedCategories.includes(category.id) && <Text style={styles.checkboxText}>✔</Text>}
+                                        </TouchableOpacity>
+                                        <View style={styles.categoryTextContainer}>
+                                            <Text style={styles.checkItemText}>{category.name}</Text>
+                                            <Text style={styles.checkItemType}>{category.type}</Text>
+                                        </View>
+                                    </View>
+                                ))}
                             </View>
-                        ))}
-                    </View>
+                    }
+
                 </View>
             </ScrollView>
         </View>

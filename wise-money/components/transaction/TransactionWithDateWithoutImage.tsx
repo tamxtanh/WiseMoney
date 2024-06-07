@@ -9,19 +9,27 @@ const TransactionWithDateWithoutImage: React.FC<{
   sizeTitle?: number;
   sizeValue?: number;
   containerHeight?: number;
+  showSubtitle?: boolean;
 }> = ({
   transaction,
+  showSubtitle = false,
   iconWidth = 34, // default value
   sizeTitle = 15, // default value
   sizeValue = SIZES.h8, // default value
   containerHeight = 65, // default value
 }) => {
+  if (!transaction) return <></>;
+
   const handleClick = () => {
     // Handle click event here
     // Navigate to other page depending on type
   };
 
   const formatDate = (date) => {
+    if (!(date instanceof Date)) {
+      date = new Date(date);
+    }
+
     const options: Intl.DateTimeFormatOptions = {
       weekday: "long",
       day: "numeric",
@@ -50,6 +58,10 @@ const TransactionWithDateWithoutImage: React.FC<{
           {formatDate(transaction.date)}
         </Text>
         {/* <Text style={styles.subtitle}>{transaction.note}</Text> */}
+
+        {showSubtitle && (
+          <Text style={styles.subtitle}>{transaction.note}</Text>
+        )}
       </View>
       <View style={styles.right}>
         <Text

@@ -6,6 +6,7 @@ import ExchangeCurrency from '../../components/exchange-rate/ExchangeCurrency';
 import SwapButton from '../../components/exchange-rate/SwapButton';
 import { Stack } from 'expo-router';
 import { COLORS, icons } from '../../constants';
+import { currencyData } from '../../constants/icons';
 
 const ExchangeRateScreen: React.FC = () => {
     const [fromCurrency, setFromCurrency] = useState('USD');
@@ -22,13 +23,16 @@ const ExchangeRateScreen: React.FC = () => {
 
     const fetchCurrencies = async () => {
         try {
-            const response = await axios.get('https://openexchangerates.org/api/currencies.json');
-            const currencies = Object.keys(response.data).map(key => ({
-                code: key,
-                name: response.data[key],
-                flag: key.slice(0, 2).toLowerCase(), // Assuming the first two letters of the currency code can represent the flag (not always accurate, but works for most)
-            }));
-            setCurrencyList(currencies);
+            // const response = await axios.get('https://openexchangerates.org/api/currencies.json');
+            // const currencies = Object.keys(response.data).map(key => ({
+            //     code: key,
+            //     name: response.data[key],
+            //     flag: key.slice(0, 2).toLowerCase(), // Assuming the first two letters of the currency code can represent the flag (not always accurate, but works for most)
+            // }));
+            // console.log(currencies)
+            // setCurrencyList(currencies);
+            setCurrencyList(currencyData)
+
         } catch (error) {
             console.error('Error fetching currencies:', error);
         }

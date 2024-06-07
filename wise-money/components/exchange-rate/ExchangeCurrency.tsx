@@ -1,7 +1,7 @@
 // app/components/ExchangeCurrency.tsx
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, FlatList, Modal } from 'react-native';
-import { currencyFlags } from '../../constants/icons';
+import { currencyData } from '../../constants/icons';
 import { COLORS, FONT, SIZES } from '../../constants';
 
 interface ExchangeCurrencyProps {
@@ -34,9 +34,10 @@ const ExchangeCurrency: React.FC<ExchangeCurrencyProps> = ({
         currency.code.toLowerCase().includes(query.toLowerCase())
     );
 
-    const getFlagEmoji = (currencyCode: string) => {
-        return currencyFlags[currencyCode] || "🏳️"; // Default to white flag if not found
-    };
+    function getFlag(currencyCode: string): string {
+        const currency = currencyData.find(curr => curr.code === currencyCode);
+        return currency ? currency.flag : "🏳️";
+    }
 
     return (
         <View style={styles.container}>
@@ -44,7 +45,7 @@ const ExchangeCurrency: React.FC<ExchangeCurrencyProps> = ({
             <View style={styles.main}>
                 <TouchableOpacity onPress={() => setShowDropdown(true)}>
                     <View style={styles.inputContainer}>
-                        <Text style={styles.flag}>{getFlagEmoji(currentCurrency)} {selected} 🔻</Text>
+                        <Text style={styles.flag}>{getFlag(currentCurrency)} {selected} 🔻</Text>
                     </View>
                 </TouchableOpacity>
                 <TextInput
@@ -76,7 +77,7 @@ const ExchangeCurrency: React.FC<ExchangeCurrencyProps> = ({
                                         setShowDropdown(false);
                                     }}>
                                         <View style={styles.currencyItem}>
-                                            <Text style={styles.flag}>{getFlagEmoji(item.code)}</Text>
+                                            <Text style={styles.flag}>{getFlag(item.code)}</Text>
                                             <Text style={styles.currencyText}>{item.name} ({item.code})</Text>
                                         </View>
                                     </TouchableOpacity>
