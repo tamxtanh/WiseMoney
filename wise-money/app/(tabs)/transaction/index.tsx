@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { Stack } from "expo-router";
+import { Stack, router } from "expo-router";
 import {
   View,
   Text,
@@ -162,7 +162,9 @@ const Page = () => {
     <View style={styles.container}>
       <Stack.Screen
         options={{
-          headerLeft: () => <icons.searchIcon fill="white" />,
+          headerLeft: () => <TouchableOpacity onPress={() => router.push('/search/food')}>
+            <icons.searchIcon fill="white" />
+          </TouchableOpacity>,
           headerTitle: () => (
             <View style={{ marginLeft: 0 }}>
               <Text

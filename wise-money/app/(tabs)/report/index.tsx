@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Stack } from "expo-router";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { Stack, router } from "expo-router";
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
 import { icons, COLORS } from "../../../constants";
 import CustomTabBar from "../../../components/tab-custom/CustomTabBar";
 import ReportContent from "../../../components/tab-custom/ReportContent";
@@ -31,7 +31,9 @@ const Page = () => {
     <View style={styles.container}>
       <Stack.Screen
         options={{
-          headerLeft: () => <icons.searchIcon fill="white" />,
+          headerLeft: () => <TouchableOpacity onPress={() => router.push('/search/food')}>
+            <icons.searchIcon fill="white" />
+          </TouchableOpacity>,
           headerTitle: () => (
             <View style={{ marginLeft: 0 }}>
               <Text

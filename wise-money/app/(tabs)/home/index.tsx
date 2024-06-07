@@ -115,9 +115,15 @@ export default function Page() {
             </View>
           ),
           headerRight: () =>
-            <TouchableOpacity onPress={() => router.push('/notification')}>
-              <icons.notification fill="white" />
-            </TouchableOpacity>,
+            <>
+              <TouchableOpacity style={{ marginRight: 10 }} onPress={() => router.push('/search/food')}>
+                <icons.searchIcon fill="white" />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => router.push('/notification')}>
+                <icons.notification fill="white" />
+              </TouchableOpacity>
+            </>
+          ,
           headerStyle: {
             backgroundColor: COLORS.primary,
           },

@@ -2,11 +2,11 @@ import React from 'react';
 import { FlatList } from 'react-native';
 import NotificationComponent from './NotificationComponent';
 import { Notification } from './interface';
-import { COLORS, SIZES } from '../../constants';
+import { COLORS } from '../../constants';
 
-const NotificationComponentList: React.FC<{ notifications: Notification[] }> = ({ notifications }) => {
+const NotificationComponentList: React.FC<{ notifications: Notification[], onDelete: (id: number) => void }> = ({ notifications, onDelete }) => {
     const renderItem = ({ item }: { item: Notification }) => {
-        return <NotificationComponent notification={item} />;
+        return <NotificationComponent notification={item} onDelete={onDelete} />;
     };
 
     return (
