@@ -8,7 +8,7 @@ import ModalCalendar from '../../../components/modal-calendar/ModalCalendar';
 import CategorySelector from '../CategorySelector';
 import { supabase } from '../../../lib/supabase';
 import { COLORS, SIZES } from '../../../constants';
-import { router } from 'expo-router';
+import { Stack, router } from 'expo-router';
 
 interface Category {
     id: number;
@@ -93,6 +93,21 @@ const AddBudget: React.FC = () => {
 
     return (
         <View style={{ flex: 1, backgroundColor: COLORS.white }}>
+            <Stack.Screen
+                options={{
+                    headerTitle: () => (
+                        <View style={{ marginLeft: 0 }}>
+                            <Text style={{ fontSize: 20, fontFamily: "InterSemiBold" }}>
+                                Create a new budget
+                            </Text>
+                        </View>
+                    ),
+                    headerShadowVisible: false,
+                    headerStyle: {
+                        backgroundColor: COLORS.primary,
+                    },
+                }}
+            />
             <ScrollView style={styles.scrollView}>
                 <View style={styles.container}>
                     <InputField

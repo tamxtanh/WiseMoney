@@ -8,6 +8,7 @@ import InputField from '../../components/interest-components/InputField';
 import ModalCalendar from '../../components/modal-calendar/ModalCalendar';
 import CategorySelector from './CategorySelector';
 import { supabase } from '../../lib/supabase';
+import { Stack } from 'expo-router';
 
 interface Category {
     id: number;
@@ -122,6 +123,21 @@ const BudgetDetail: React.FC = () => {
 
     return (
         <View style={{ flex: 1, backgroundColor: COLORS.white }}>
+            <Stack.Screen
+                options={{
+                    headerTitle: () => (
+                        <View style={{ marginLeft: 0 }}>
+                            <Text style={{ fontSize: 20, fontFamily: "InterSemiBold" }}>
+                                {budget.name}
+                            </Text>
+                        </View>
+                    ),
+                    headerShadowVisible: false,
+                    headerStyle: {
+                        backgroundColor: COLORS.primary,
+                    },
+                }}
+            />
             <ScrollView style={styles.scrollView}>
                 <View style={styles.container}>
                     <InputField
