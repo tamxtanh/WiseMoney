@@ -68,18 +68,14 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.background,
         borderRadius: 10,
         padding: 10,
-        marginBottom: 10,
+        margin: 5,
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
-        // shadowOpacity: 0.9,
-        shadowRadius: 5,
-        elevation: 6,
-        width: '100%'
+        elevation: 10,
     },
     container: {
         backgroundColor: 'white',
-        paddingHorizontal: 20,
-        paddingVertical: 12,
+        paddingHorizontal: 10,
+        paddingVertical: 10,
         width: '100%',
     },
     top: {
