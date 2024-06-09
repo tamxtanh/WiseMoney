@@ -137,7 +137,7 @@ const CategoryList = () => {
             </View>
           ),
           headerRight: () => (
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => router.push('/search/food')}>
               <icons.searchIcon fill="black" />
             </TouchableOpacity>
           ),

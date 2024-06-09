@@ -1,3 +1,4 @@
+//app/budget/index.tsx
 import React, { useEffect, useState } from 'react';
 import { View, Text, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { Stack, router } from 'expo-router';
