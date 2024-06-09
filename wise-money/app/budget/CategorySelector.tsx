@@ -101,8 +101,9 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     label: {
-        fontSize: 16,
-        marginBottom: 5,
+        fontSize: SIZES.h5,
+        fontWeight: 'bold',
+        marginBottom: 5
     },
     main: {
         width: '100%',
