@@ -1,7 +1,8 @@
+//app/budget/index.tsx
 import React, { useEffect, useState } from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
-import { Stack } from 'expo-router';
-import { COLORS } from '../../constants';
+import { View, Text, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { Stack, router } from 'expo-router';
+import { COLORS, icons } from '../../constants';
 import BudgetComponentList from '../../components/budget/BudgetComponentList';
 import { BudgetData } from '../../components/budget/interface';
 import { styles } from './styles';
@@ -99,7 +100,17 @@ const Budget = () => {
             {loading ? (
                 <ActivityIndicator size="large" color={COLORS.primary} />
             ) : (
-                <BudgetComponentList budgets={budgets} />
+                <>
+                    <BudgetComponentList budgets={budgets} />
+                    <TouchableOpacity
+                        activeOpacity={0.7}
+                        style={styles.fab}
+                        onPress={() => router.push("/budget/add")}
+                    >
+                        <icons.plus fill="white" />
+                    </TouchableOpacity>
+                </>
+
             )}
         </View>
     );

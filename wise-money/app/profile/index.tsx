@@ -32,7 +32,9 @@ export default function Profile() {
                     headerTitleAlign: "center",
                 }}
             />
-            <UpdateProfile></UpdateProfile>
+            <View style={{ backgroundColor: COLORS.background, flex: 1 }}>
+                <UpdateProfile></UpdateProfile>
+            </View>
         </>
     )
 }

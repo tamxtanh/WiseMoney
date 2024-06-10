@@ -1,13 +1,13 @@
-//app/saving/index.tsx
+// app/saving/index.tsx
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import ModalCalendar from '../../components/modal-calendar/ModalCalendar';
+import DateRangePicker from '../../components/modal-calendar/DateRangePicker'; // Import DateRangePicker
 import InputField from '../../components/interest-components/InputField';
-import DatePickerField from '../../components/interest-components/DatePickerField';
 import { styles } from './styles';
 import { Stack } from 'expo-router';
-import { COLORS } from '../../constants';
+import { COLORS, icons } from '../../constants';
 
 const Savings = () => {
     const [initialBalance, setInitialBalance] = useState('');
@@ -17,8 +17,7 @@ const Savings = () => {
     const [periodicAmount, setPeriodicAmount] = useState('');
     const [interest, setInterest] = useState('');
     const [tax, setTax] = useState('');
-    const [showStartDatePicker, setShowStartDatePicker] = useState(false);
-    const [showEndDatePicker, setShowEndDatePicker] = useState(false);
+    const [isCustomRange, setIsCustomRange] = useState(false); // State to handle date range picker visibility
     const [resultTable, setResultTable] = useState([]);
     const [summary, setSummary] = useState({
         finalBalance: '0',
@@ -141,6 +140,23 @@ const Savings = () => {
         });
     };
 
+    const closeRangeCustom = () => {
+        setIsCustomRange(false);
+    };
+
+    const openRangeCustom = () => {
+        setIsCustomRange(true);
+    };
+
+    const formatCustomDate = (startDate, endDate) => {
+        const dateOptions = { day: '2-digit', month: '2-digit', year: 'numeric' };
+
+        const formattedStartDate = startDate.toLocaleDateString('en-US', dateOptions).split('/');
+        const formattedEndDate = endDate.toLocaleDateString('en-US', dateOptions).split('/');
+
+        return `${formattedStartDate[1]}/${formattedStartDate[0]}/${formattedStartDate[2]} - ${formattedEndDate[1]}/${formattedEndDate[0]}/${formattedEndDate[2]}`;
+    };
+
     return (
         <View style={{ flex: 1, backgroundColor: COLORS.white }}>
             <Stack.Screen
@@ -171,21 +187,24 @@ const Savings = () => {
                         inputIcon="VND"
                     />
 
-                    <DatePickerField
-                        title="Deposit Date"
-                        description="The date you start saving"
-                        date={startDate}
-                        showPicker={showStartDatePicker}
-                        setShowPicker={setShowStartDatePicker}
-                    />
+                    <TouchableOpacity onPress={openRangeCustom}>
+                        <InputField
+                            title="Date Range"
+                            description="Select the date range for the savings"
+                            value={formatCustomDate(startDate, endDate)}
+                            disabled={true}
+                            inputIcon={<icons.calenderClock fill={'black'} />}
+                        />
+                    </TouchableOpacity>
 
-                    <DatePickerField
-                        title="Withdrawal Date"
-                        description="The expected date to receive money"
-                        date={endDate}
-                        showPicker={showEndDatePicker}
-                        setShowPicker={setShowEndDatePicker}
-                    />
+                    <DateRangePicker
+                        visible={isCustomRange}
+                        close={closeRangeCustom}
+                        startDate={startDate}
+                        setStartDate={setStartDate}
+                        endDate={endDate}
+                        setEndDate={setEndDate}
+                        setRangeOption={undefined} />
 
                     <View style={styles.component}>
                         <Text style={styles.title}>Periodic Deposit</Text>
@@ -278,20 +297,6 @@ const Savings = () => {
                     ) : (
                         <Text style={styles.summaryTitle}>There is no interest in this period!</Text>
                     )}
-
-                    <ModalCalendar
-                        visible={showStartDatePicker}
-                        close={() => setShowStartDatePicker(false)}
-                        selectedDate={startDate}
-                        setSelectedDate={setStartDate}
-                    />
-
-                    <ModalCalendar
-                        visible={showEndDatePicker}
-                        close={() => setShowEndDatePicker(false)}
-                        selectedDate={endDate}
-                        setSelectedDate={setEndDate}
-                    />
                 </View>
             </ScrollView>
         </View>

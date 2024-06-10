@@ -68,6 +68,7 @@ export default function Page() {
       title: "Calculate Tax",
       icon: <icons.debts fill="white" />,
       colorBox: "#1BD6E2",
+      pathName: "/tax",
     },
 
     {
@@ -93,7 +94,7 @@ export default function Page() {
       title: "Budget",
       icon: <icons.budget />,
       colorBox: "#B272FE",
-      pathName: "/export-data",
+      pathName: "/budget",
     },
     {
       title: "Target",
@@ -114,22 +115,22 @@ export default function Page() {
     {
       icon: <icons.about fill="#919191" />,
       title: "About Us",
-      onPress: () => {},
+      onPress: () => { },
     },
     {
       icon: <icons.policy fill="#919191" />,
       title: "Policy",
-      onPress: () => {},
+      onPress: () => { },
     },
     {
       icon: <icons.feedBack fill="#919191" />,
       title: "Feedback",
-      onPress: () => {},
+      onPress: () => { },
     },
     {
       icon: <icons.rating fill="#919191" />,
       title: "Rate App",
-      onPress: () => {},
+      onPress: () => { },
     },
   ];
 
