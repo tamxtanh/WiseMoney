@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { DateTransactionWithoutImage } from "./interface";
 import { COLORS, FONT, SIZES } from "../../constants/theme";
+import { router } from "expo-router";
 
 const TransactionWithDateWithoutImage: React.FC<{
   transaction: DateTransactionWithoutImage;
@@ -20,9 +21,25 @@ const TransactionWithDateWithoutImage: React.FC<{
 }) => {
   if (!transaction) return <></>;
 
+  let type;
+
+  if (transaction?.type === "debtLoan" && transaction?.value > 0) {
+    type = "debt";
+  } else if (transaction?.type === "debtLoan" && transaction?.value < 0) {
+    type = "loan";
+  } else {
+    type = transaction?.type;
+  }
+
   const handleClick = () => {
     // Handle click event here
     // Navigate to other page depending on type
+    router.navigate({
+      pathname: `/update-transaction/${transaction.id}`,
+      params: {
+        typeTransaction: type,
+      },
+    });
   };
 
   const formatDate = (date) => {
@@ -55,12 +72,12 @@ const TransactionWithDateWithoutImage: React.FC<{
       </View>
       <View style={styles.center}>
         <Text style={[styles.title, { fontSize: sizeTitle }]}>
-          {formatDate(transaction.date)}
+          {formatDate(transaction?.date)}
         </Text>
         {/* <Text style={styles.subtitle}>{transaction.note}</Text> */}
 
         {showSubtitle && (
-          <Text style={styles.subtitle}>{transaction.note}</Text>
+          <Text style={styles.subtitle}>{transaction?.note}</Text>
         )}
       </View>
       <View style={styles.right}>
@@ -70,7 +87,7 @@ const TransactionWithDateWithoutImage: React.FC<{
             { fontSize: sizeValue },
           ]}
         >
-          {transaction.value.toLocaleString("en-US", {
+          {transaction?.value?.toLocaleString("en-US", {
             // style: "currency",
             // currency: "VND",
             minimumFractionDigits: 0,

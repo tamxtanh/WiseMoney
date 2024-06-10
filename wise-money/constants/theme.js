@@ -55,7 +55,7 @@ const SIZES = {
   h10: 10,
   width,
   height,
-  heightBottomNavigation: 62,
+  heightBottomNavigation: 63,
 };
 
 const SHADOWS = {

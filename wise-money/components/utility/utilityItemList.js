@@ -32,6 +32,7 @@ const UtilityItemList = ({ itemData, qualityPerRow }) => {
               icon={utilityItem.icon}
               colorBox={utilityItem.colorBox}
               pathName={utilityItem.pathName}
+              previousPage={utilityItem?.previousPage}
             />
           ))}
         </View>

@@ -103,8 +103,9 @@ export default function Page() {
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "Expense" },
-        (payload) => {
+        async (payload) => {
           console.log("Change received!", payload);
+          await getRecentTransaction(1, 5);
         }
       )
       .subscribe();
@@ -123,8 +124,9 @@ export default function Page() {
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "Expense" },
-        (payload) => {
+        async (payload) => {
           console.log("Change received!", payload);
+          await getPeriodExpenseSummary(periodValue, 3, 1);
         }
       )
       .subscribe();
@@ -153,16 +155,19 @@ export default function Page() {
               </Text>
             </View>
           ),
-          headerRight: () =>
+          headerRight: () => (
             <>
-              <TouchableOpacity style={{ marginRight: 10 }} onPress={() => router.push('/search/food')}>
+              <TouchableOpacity
+                style={{ marginRight: 10 }}
+                onPress={() => router.push("/search/food")}
+              >
                 <icons.searchIcon fill="white" />
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => router.push('/notification')}>
+              <TouchableOpacity onPress={() => router.push("/notification")}>
                 <icons.notification fill="white" />
               </TouchableOpacity>
             </>
-          ,
+          ),
           headerStyle: {
             backgroundColor: COLORS.primary,
           },

@@ -6,8 +6,17 @@ import {
 } from "../../function/FormatDateNumber";
 import HorizontalProgressBar from "../progress-bar/HorizontalProgressBar";
 import { COLORS } from "../../constants";
+import { router } from "expo-router";
 
 const TargetItem = ({ targetData }) => {
+  const handleClick = () => {
+    // Handle click event here
+    // Navigate to other page depending on type
+    router.navigate({
+      pathname: `/update-target/${targetData.id}`,
+    });
+  };
+
   return (
     <View
       style={{
@@ -17,7 +26,7 @@ const TargetItem = ({ targetData }) => {
         marginBottom: 10,
       }}
     >
-      <TouchableOpacity>
+      <TouchableOpacity onPress={handleClick}>
         <View
           style={{
             flexDirection: "row",

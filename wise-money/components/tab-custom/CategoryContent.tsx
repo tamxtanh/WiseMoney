@@ -12,22 +12,45 @@ import GroupTree from "../group-tree/GroupTree";
 import { GroupTreeData } from "../group-tree/interface";
 import { Link, router } from "expo-router";
 
-const CategoryContent = ({ content }) => {
+const CategoryContent = ({ content, typeApi }) => {
   const data = [
     { id: "1", name: "createCategory" },
     { id: "2", name: "listCategory" },
   ];
 
   const handleOnPress = (item) => {
-    router.navigate({
-      pathname: "add-transaction",
-      params: {
-        categoryId: item.id,
-        categoryImg: item.image_url,
-        categoryName: item.name,
-        typeTransaction: content?.type,
-      },
-    });
+    if (content?.type === "debtLoan") return;
+    if (typeApi === "account") {
+      router.navigate({
+        pathname: `/update-category/${item.id}`,
+        params: {
+          previousPage: "/category-list/Categories",
+          type: content?.type,
+        },
+      });
+    } else {
+      let type;
+
+      if (content?.type === "debtLoan") {
+        if (item.name === "Debt") {
+          type = "debt";
+        } else if (item.name === "Loan") {
+          type = "loan";
+        }
+      } else {
+        type = content?.type;
+      }
+
+      router.navigate({
+        pathname: typeApi,
+        params: {
+          categoryId: item.id,
+          categoryImg: item.image_url,
+          categoryName: item.name,
+          typeCategory: type,
+        },
+      });
+    }
   };
 
   const renderItem = ({ item }) => {
@@ -37,7 +60,13 @@ const CategoryContent = ({ content }) => {
           <Link
             href={{
               pathname: "/newCategory",
-              params: { previousPage: "categoryList", type: content?.type },
+              params: {
+                previousPage:
+                  typeApi === "account"
+                    ? "/category-list/Categories"
+                    : "/category-list/Select category",
+                type: content?.type,
+              },
             }}
             style={{
               padding: 0,

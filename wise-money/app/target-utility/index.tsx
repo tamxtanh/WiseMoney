@@ -15,8 +15,10 @@ import { router, Stack } from "expo-router";
 import { COLORS, icons } from "../../constants";
 import { supabase } from "../../lib/supabase";
 import TargetItem from "../../components/target/TargetItem";
+import { useKeyboard } from "../../context/KeyboardContext";
 
 const Page = () => {
+  const { setInputValue } = useKeyboard();
   const [targetList, setTargetList] = useState(null);
   const getTargetList = async (walletId) => {
     try {
@@ -35,6 +37,24 @@ const Page = () => {
 
   useEffect(() => {
     getTargetList(1);
+
+    const channelsTarget = supabase
+      .channel("custom-all-channel")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "Target" },
+        async (payload) => {
+          console.log("Change received in Target!", payload);
+          // Fetch data again when a change is received
+          await getTargetList(1);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      // Unsubscribe when the component unmounts
+      channelsTarget.unsubscribe();
+    };
   }, []);
 
   return (
@@ -60,10 +80,11 @@ const Page = () => {
           },
           // headerShadowVisible: false,
           headerTitleAlign: "center",
+          headerTintColor: "white",
         }}
       />
       <View style={{ flex: 1 }}>
-        <ScrollView>
+        <ScrollView style={{ flex: 1, paddingTop: 10 }}>
           {targetList?.map((item, index) => (
             <TargetItem key={index} targetData={item} />
           ))}
@@ -73,7 +94,10 @@ const Page = () => {
       <TouchableOpacity
         activeOpacity={0.7}
         style={styles.fab}
-        onPress={() => router.push("add-target")}
+        onPress={() => {
+          setInputValue("");
+          router.push("add-target");
+        }}
       >
         <icons.plus fill="white" />
       </TouchableOpacity>

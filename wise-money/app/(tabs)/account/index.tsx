@@ -48,7 +48,8 @@ export default function Page() {
       title: "Categories",
       icon: <icons.category fill="white" />,
       colorBox: "#12C144",
-      pathName: "/categoryList",
+      pathName: "/category-list/Categories",
+      previousPage: "account",
     },
     {
       title: "Loans",

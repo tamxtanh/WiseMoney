@@ -18,19 +18,19 @@ const TransactionListWithDateWithoutImage: React.FC<{
     <View style={styles.container}>
       <View style={styles.top}>
         <View style={styles.left}>
-          <Image source={{ uri: data.image_url }} style={styles.image} />
+          <Image source={{ uri: data?.image_url }} style={styles.image} />
 
           <View style={styles.center}>
-            <Text style={styles.title}>{data.category_name}</Text>
+            <Text style={styles.title}>{data?.category_name}</Text>
             <Text style={styles.subtitle}>
-              {data.total_transaction} transactions
+              {data?.total_transaction} transactions
             </Text>
           </View>
         </View>
 
         <View style={styles.right}>
           <Text style={styles.total}>
-            {data.total.toLocaleString("en-US", {
+            {data?.total?.toLocaleString("en-US", {
               //   style: "currency",
               //   currency: "VND",
               minimumFractionDigits: 0,
@@ -45,7 +45,7 @@ const TransactionListWithDateWithoutImage: React.FC<{
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
       /> */}
-      {data.transactions.map((item, index) => (
+      {data?.transactions?.map((item, index) => (
         <TransactionWithDateWithoutImage key={index} transaction={item} />
       ))}
     </View>

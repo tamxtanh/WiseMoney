@@ -4,7 +4,7 @@ import { Dimensions } from "react-native";
 import { COLORS } from "../../constants";
 import { Animated, StyleSheet } from "react-native";
 
-const CustomTabBar = React.memo(
+const CustomTabBarTransaction = React.memo(
   ({
     widthOfPerTab = 100,
     nestedTabs,
@@ -44,7 +44,12 @@ const CustomTabBar = React.memo(
     };
 
     const renderScene = ({ route }) => {
-      return <TabContent content={route.content} typeApi={selectedOption} />;
+      return (
+        <TabContent
+          transactionList={route.transactionList}
+          typeApi={selectedOption}
+        />
+      );
     };
 
     const renderIndicator = (props) => {
@@ -104,4 +109,4 @@ const CustomTabBar = React.memo(
   }
 );
 
-export default CustomTabBar;
+export default CustomTabBarTransaction;

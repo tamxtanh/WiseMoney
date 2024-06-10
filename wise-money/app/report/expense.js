@@ -159,7 +159,7 @@ const Page = () => {
           ),
           headerRight: () => (
             <View style={{ flexDirection: "row", gap: 12 }}>
-              <icons.share2 />
+              {/* <icons.share2 /> */}
               <TouchableOpacity onPress={openTimeRange}>
                 <icons.calendar fill="white" />
               </TouchableOpacity>
@@ -170,6 +170,7 @@ const Page = () => {
           },
           headerShadowVisible: false,
           headerTitleAlign: "center",
+          headerTintColor: "white",
         }}
       />
 

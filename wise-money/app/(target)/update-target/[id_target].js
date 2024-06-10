@@ -13,6 +13,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
+  Alert,
 } from "react-native";
 import { icons, COLORS, SIZES } from "../../../constants";
 import InputTransaction from "../../../components/transaction/InputTransaction";
@@ -57,13 +58,6 @@ export default function Page() {
   const { openKeyboard, inputValue, setInputValue } = useKeyboard();
 
   const formatDate = (dateObj) => {
-    // const year = dateObj.getUTCFullYear();
-    // const month = dateObj.getUTCMonth();
-    // const date = dateObj.getUTCDate();
-
-    // // Create a new Date object with only the date components
-    // return new Date(Date.UTC(year, month, date));
-
     return `${dateObj.getFullYear()}-${(dateObj.getMonth() + 1)
       .toString()
       .padStart(2, "0")}-${dateObj.getDate().toString().padStart(2, "0")}`;
@@ -102,27 +96,59 @@ export default function Page() {
     }
   }, [localParams]);
 
-  const handleSave = () => {
-    const insertTargetRow = async (formData) => {
+  const addCommasToNumber = (number) => {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
+  const updateTargetDetail = (data) => {
+    setInputValue(addCommasToNumber(data.target));
+    setCategory({
+      id: data.icon_id,
+      img: data.icon_url,
+    });
+    setCustomStartDate(new Date(data.start_date));
+    setCustomEndDate(new Date(data.end_date));
+    setTargetName(data.name);
+  };
+
+  useEffect(() => {
+    async function fetchDetailTarget(targetId) {
+      try {
+        let { data, error } = await supabase.rpc("get_target_detail", {
+          target_id: targetId,
+        });
+
+        if (error) throw error;
+        else {
+          console.log(data);
+          updateTargetDetail(data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchDetailTarget(localParams.id_target);
+  }, []);
+
+  const handleUpdate = () => {
+    const updateTargetRow = async (formData) => {
       try {
         const { data, error } = await supabase
           .from("Target")
-          .insert([
-            {
-              icon: formData.iconId,
-              wallet: formData.walletId,
-              target: formData.target,
-              start_date: formData.startDate,
-              end_date: formData.endDate,
-              name: formData.name,
-            },
-          ])
-          .select("id")
-          .single();
+          .update({
+            icon: formData.iconId,
+            target: formData.target,
+            start_date: formData.startDate,
+            end_date: formData.endDate,
+            name: formData.name,
+          })
+          .eq("id", localParams.id_target)
+          .select();
 
         if (error) throw error;
 
-        return data.id;
+        return data;
       } catch (error) {
         console.error(error.message);
       }
@@ -130,15 +156,75 @@ export default function Page() {
 
     let transactionData = {
       iconId: Number(category?.id),
-      walletId: 1,
       target: formatAmount(inputValue),
       startDate: formatDate(customStartDate),
       endDate: formatDate(customEndDate),
       name: targetName,
     };
 
-    insertTargetRow(transactionData);
-    router.back();
+    const updateResult = updateTargetRow(transactionData);
+
+    if (updateResult) {
+      // Show success alert and navigate back after a short delay
+      Alert.alert(null, "Update successful!", [
+        {
+          text: "OK",
+          onPress: () => {
+            router.back();
+            // router.navigate({
+            //   pathname: "target-utility",
+            // });
+          },
+        },
+      ]);
+    }
+  };
+
+  const handleDelete = () => {
+    Alert.alert(
+      null,
+      "Are you sure you want to delete this target?",
+      [
+        {
+          text: "No",
+          style: "cancel",
+          onPress: () => console.log("Delete cancelled"),
+        },
+        {
+          text: "Yes",
+          onPress: async () => {
+            const result = await deleteTargetRow(localParams.id_target);
+            if (result) {
+              Alert.alert(null, "The target was successfully deleted!", [
+                {
+                  text: "OK",
+                  onPress: () => {
+                    // Perform navigation or any other action here
+                    router.navigate({
+                      pathname: "target-utility",
+                    });
+                  },
+                },
+              ]);
+            }
+          },
+        },
+      ],
+      { cancelable: true }
+    );
+  };
+
+  const deleteTargetRow = async (id) => {
+    try {
+      const { error } = await supabase.from("Target").delete().eq("id", id);
+
+      if (error) throw error;
+      else {
+        return true;
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
   return (
@@ -239,7 +325,9 @@ export default function Page() {
             <Link
               href={{
                 pathname: "/iconList",
-                params: { previousPage: "add-target" },
+                params: {
+                  previousPage: `/update-target/${localParams.id_target}`,
+                },
               }}
               style={{ padding: 0 }}
             >
@@ -309,34 +397,7 @@ export default function Page() {
           />
         </View>
 
-        <View style={styles.saveBtn}>
-          <TouchableOpacity
-            style={{
-              backgroundColor:
-                !inputValue || !category || !targetName
-                  ? "#dfdfdf"
-                  : COLORS.primary,
-              alignItems: "center",
-              justifyContent: "center",
-              padding: 14,
-              borderRadius: 7,
-            }}
-            disabled={!inputValue || !category}
-            onPress={handleSave}
-          >
-            <Text
-              style={{
-                color: !inputValue || !category ? COLORS.textColor3 : "#FCFCFC",
-                fontFamily: "InterSemiBold",
-                fontSize: 18,
-              }}
-            >
-              Save
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* <View style={styles.saveDeleteBtn}>
+        <View style={styles.saveDeleteBtn}>
           <TouchableOpacity
             style={{
               flex: 1,
@@ -348,6 +409,7 @@ export default function Page() {
               borderWidth: 1,
               borderColor: "#ED5D5D",
             }}
+            onPress={handleDelete}
           >
             <Text
               style={{
@@ -363,16 +425,19 @@ export default function Page() {
           <TouchableOpacity
             style={{
               flex: 1,
-              backgroundColor: COLORS.primary,
+              backgroundColor:
+                !inputValue || !category ? "#dfdfdf" : COLORS.primary,
               alignItems: "center",
               justifyContent: "center",
               padding: 14,
               borderRadius: 7,
             }}
+            disabled={!inputValue || !category}
+            onPress={handleUpdate}
           >
             <Text
               style={{
-                color: "#FCFCFC",
+                color: !inputValue || !category ? COLORS.textColor3 : "#FCFCFC",
                 fontFamily: "InterSemiBold",
                 fontSize: 18,
               }}
@@ -380,7 +445,7 @@ export default function Page() {
               Save
             </Text>
           </TouchableOpacity>
-        </View> */}
+        </View>
       </ScrollView>
     </View>
   );

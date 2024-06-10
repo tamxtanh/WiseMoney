@@ -3,6 +3,7 @@ import {
   useLocalSearchParams,
   Link,
   useGlobalSearchParams,
+  router,
 } from "expo-router";
 import {
   StyleSheet,
@@ -12,6 +13,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
+  Alert,
 } from "react-native";
 import { icons, COLORS, SIZES } from "../../../constants";
 import InputTransaction from "../../../components/transaction/InputTransaction";
@@ -32,7 +34,7 @@ export default function Page() {
   const [noteContent, setNoteContent] = useState("");
   const [contactContent, setContactContent] = useState("");
   const [category, setCategory] = useState();
-  const [typeTransaction, setTypeTransaction] = useState();
+  const [typeCategory, setTypeCategory] = useState();
 
   const [transactDate, setTransactDate] = useState(new Date());
   const [remindDate, setRemindDate] = useState();
@@ -44,12 +46,16 @@ export default function Page() {
   const { openKeyboard, inputValue, setInputValue } = useKeyboard();
 
   const formatDate = (dateObj) => {
-    const year = dateObj.getUTCFullYear();
-    const month = dateObj.getUTCMonth();
-    const date = dateObj.getUTCDate();
+    // const year = dateObj.getUTCFullYear();
+    // const month = dateObj.getUTCMonth();
+    // const date = dateObj.getUTCDate();
 
-    // Create a new Date object with only the date components
-    return new Date(Date.UTC(year, month, date));
+    // // Create a new Date object with only the date components
+    // return new Date(Date.UTC(year, month, date));
+
+    return `${dateObj.getFullYear()}-${(dateObj.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}-${dateObj.getDate().toString().padStart(2, "0")}`;
   };
 
   const formatAmount = (value) => {
@@ -106,9 +112,8 @@ export default function Page() {
       }));
     }
 
-    // Update contactContent
-    if (typeof localParams.typeTransaction === "string") {
-      setTypeTransaction(localParams.typeTransaction);
+    if (typeof localParams.typeCategory === "string") {
+      setTypeCategory(localParams.typeCategory);
     }
   }, [localParams.source, localParams.note, localParams.contact, localParams]);
 
@@ -147,6 +152,7 @@ export default function Page() {
           .insert([
             {
               category: formData.categoryId,
+              wallet: formData.walletId,
               amount: formData.amount,
               date: formData.date,
               note: formData.note,
@@ -172,6 +178,7 @@ export default function Page() {
           .insert([
             {
               category: formData.categoryId,
+              wallet: formData.walletId,
               amount: formData.amount,
               date: formData.date,
               note: formData.note,
@@ -197,6 +204,7 @@ export default function Page() {
           .insert([
             {
               category: formData.categoryId,
+              wallet: formData.walletId,
               amount: formData.amount,
               date: formData.date,
               note: formData.note,
@@ -307,48 +315,74 @@ export default function Page() {
     };
 
     const insertTransaction = async () => {
-      if (remindDate) {
-        const remindId = await insertRemindRow(remindDate, 1);
+      try {
+        if (remindDate) {
+          const remindId = await insertRemindRow(remindDate, 1);
 
-        transactionData = {
-          ...transactionData,
-          remind: remindId,
-        };
-      }
-
-      if (selectedImage) {
-        const imageName = transactDate.toISOString().substring(0, 10);
-        const urlImage = await uploadImage(selectedImage, "transaction");
-        const idImage = await insertImageRow(
-          imageName,
-          typeTransaction,
-          urlImage
-        );
-        transactionData = {
-          ...transactionData,
-          image: idImage,
-        };
-
-        console.log("transactionData", transactionData);
-      }
-
-      switch (typeTransaction) {
-        case "expense": {
-          const id = await insertExpenseRow(transactionData);
-          insertContact(id, typeTransaction, contactContent);
-          break;
+          transactionData = {
+            ...transactionData,
+            remind: remindId,
+          };
         }
-        case "income": {
-          const id = await insertIncomeRow(transactionData);
-          insertContact(id, typeTransaction, contactContent);
-          break;
+
+        if (selectedImage) {
+          const imageName = transactDate.toISOString().substring(0, 10);
+          const urlImage = await uploadImage(selectedImage, "transaction");
+          const idImage = await insertImageRow(
+            imageName,
+            typeCategory,
+            urlImage
+          );
+          transactionData = {
+            ...transactionData,
+            image: idImage,
+          };
         }
-        ///???
-        case "debtLoan": {
-          const id = await insertExpenseRow(transactionData);
-          insertContact(id, typeTransaction, contactContent);
-          break;
+
+        let id;
+        switch (typeCategory) {
+          case "expense":
+            id = await insertExpenseRow(transactionData);
+            insertContact(id, typeCategory, contactContent);
+            break;
+          case "income":
+            id = await insertIncomeRow(transactionData);
+            insertContact(id, typeCategory, contactContent);
+            break;
+          case "debt":
+            id = await insertDebtRow(transactionData);
+            insertContact(id, typeCategory, contactContent);
+            break;
+          case "loan":
+            id = await insertLoanRow(transactionData);
+            insertContact(id, typeCategory, contactContent);
+            break;
         }
+
+        if (id) {
+          setInputValue("");
+          setCategory(null);
+          setNoteContent("");
+          setTransactDate(new Date());
+          setTypeCategory(null);
+          setIsChecked(false);
+          setRemindDate(null);
+          setContactContent("");
+          setSelectedImage("");
+
+          Alert.alert(null, "Transaction recorded", [
+            {
+              text: "OK",
+              onPress: () => {
+                // Perform any additional actions, e.g., navigating to another screen
+                console.log("Transaction successfully recorded");
+              },
+            },
+          ]);
+        }
+      } catch (error) {
+        console.error("Error recording transaction: ", error.message);
+        Alert.alert(null, "Failed to record the transaction");
       }
     };
 
@@ -359,7 +393,11 @@ export default function Page() {
     <View style={styles.container}>
       <Stack.Screen
         options={{
-          headerLeft: () => <icons.close fill="white" width={26} height={26} />,
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => router.back()}>
+              <icons.close fill="white" width={26} height={26} />
+            </TouchableOpacity>
+          ),
           headerTitle: () => (
             <View style={{ marginLeft: 0 }}>
               <Text
@@ -443,7 +481,7 @@ export default function Page() {
         <View style={[styles.inforTransaction, styles.inputBox]}>
           <Link
             href={{
-              pathname: "/categoryList",
+              pathname: "/category-list/Select category",
               params: { previousPage: "add-transaction" },
             }}
             style={{ padding: 0 }}

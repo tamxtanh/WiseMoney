@@ -3,13 +3,13 @@ import React from "react";
 import { COLORS } from "../../constants";
 import { router } from "expo-router";
 
-const UtilityItem = ({ title, icon, colorBox, pathName }) => {
+const UtilityItem = ({ title, icon, colorBox, pathName, previousPage }) => {
   const handleOnPress = () => {
     router.navigate({
       pathname: pathName,
-      // params: {
-      //   contact: contactContent,
-      // },
+      params: {
+        previousPage: previousPage,
+      },
     });
   };
   return (
