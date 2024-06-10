@@ -26,12 +26,19 @@ const COLORS = {
   red: "red",
   income: "#30A0CC",
   expense: "#ED5D5D",
+  expenseChart: "#f15b5b",
+  expenseChartLight: "#ffabac",
+  background1: "#F3F2F7",
+  redTarget: "#ef5363",
+  greenTarget: "#2eb84b",
+  orangeTarget: "#FB6C23",
 };
 
 const FONT = {
   regular: "InterRegular",
   medium: "InterMedium",
   bold: "InterBold",
+  semiBold: "InterSemiBold",
 };
 
 const SIZES = {

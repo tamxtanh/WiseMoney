@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import AppIntroSlider from "react-native-app-intro-slider";
 import { COLORS, SIZES } from "../constants/theme";
+import { router } from "expo-router";
+import { supabase } from "../lib/supabase";
 
 const slides = [
   {
@@ -47,6 +49,46 @@ const Onboarding = () => {
       </View>
     );
   };
+
+  const handleSignUp = () => {
+    router.push("/auth");
+  };
+
+  const handleSignIn = () => {
+    router.push("/auth");
+  };
+
+  // Check if user is logged in
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        router.replace("/(tabs)/home");
+        // router.back()
+        // try {
+        //     router.back()
+        // }
+        // catch (error) {
+        //     router.push(`/(tabs)/home`);
+        // }
+      } else {
+        console.log("no user");
+      }
+    });
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      if (session) {
+        router.replace("/(tabs)/home");
+        // try {
+        //     router.back()
+        // }
+        // catch (error) {
+        //     router.push(`/(tabs)/home`);
+        // }
+      } else {
+        console.log("no user 2");
+      }
+    });
+  }, []);
 
   if (!showHomePage) {
     return (
@@ -109,10 +151,10 @@ const Onboarding = () => {
           }}
         />
         <View style={{ alignItems: "center", marginTop: 30, marginBottom: 80 }}>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity onPress={handleSignUp} style={styles.button}>
             <Text style={styles.buttonText}>SIGN UP FOR FREE</Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleSignIn}>
             <Text
               style={{
                 color: COLORS.primary,

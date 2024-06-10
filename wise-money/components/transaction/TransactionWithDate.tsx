@@ -1,39 +1,99 @@
-import React, { useEffect } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
-import styles from './style'
-import { DateTransaction } from './interface';
+import React, { useEffect } from "react";
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { DateTransaction } from "./interface";
+import { fonts } from "react-native-elements/dist/config";
+import { COLORS, FONT, SIZES } from "../../constants/theme";
 
+const TransactionWithDate: React.FC<{ transaction: DateTransaction }> = ({
+  transaction,
+}) => {
+  const handleClick = () => {
+    // Handle click event here
+    // Navigate to other page depending on type
+  };
 
-const TransactionWithDate: React.FC<{ transaction: DateTransaction }> = ({ transaction }) => {
-    const handleClick = () => {
-        // Handle click event here
-        // Navigate to other page depending on type
+  const formatDate = (date: Date) => {
+    const options: Intl.DateTimeFormatOptions = {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
     };
+    const formattedDate = new Date(date).toLocaleDateString("en-US", options);
+    const [month, day, year] = formattedDate.split(" ");
+    return `${day.replace(",", "")} ${month} ${year}`;
+  };
 
-    return (
-        <TouchableOpacity style={styles.container} onPress={handleClick}>
-            <View style={styles.left}>
+  return (
+    <TouchableOpacity style={styles.container} onPress={handleClick}>
+      <View style={styles.left}>
+        <Image source={{ uri: transaction.image_url }} style={styles.icon} />
+        <View style={styles.categoryName}>
+          <Text style={styles.title}>{transaction.category_name}</Text>
+          <Text style={styles.subtitle}>{formatDate(transaction.date)}</Text>
+        </View>
+      </View>
 
-                {/* <Image source={{ uri: transaction.image }} style={styles.icon} /> */}
-                <Image source={Number(transaction.image)} style={styles.icon} />
-
-            </View>
-            <View style={styles.center}>
-                <Text style={styles.title}>{transaction.name}</Text>
-                <Text style={styles.subtitle}>{transaction.date.toLocaleDateString()}</Text>
-            </View>
-            <View style={styles.right}>
-                <Text style={transaction.type === 'DEBT' || transaction.type === 'EXPENSE' ? styles.red : styles.green}>{transaction.value.toLocaleString('en-US', {
-                    style: 'currency',
-                    currency: 'VND',
-                    minimumFractionDigits: 0,
-                    maximumFractionDigits: 0,
-                })}</Text>
-            </View>
-        </TouchableOpacity>
-    );
+      <View style={styles.right}>
+        <Text style={transaction.value < 0 ? styles.red : styles.blue}>
+          {transaction.value.toLocaleString("en-US", {
+            // style: "currency",
+            // currency: "VND",
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2,
+          })}
+        </Text>
+      </View>
+    </TouchableOpacity>
+  );
 };
 
-
-
 export default TransactionWithDate;
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    height: 65,
+    width: "100%",
+    backgroundColor: COLORS.background,
+    paddingLeft: "1%",
+    paddingRight: "2%",
+    justifyContent: "space-between",
+  },
+  left: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 14,
+  },
+  categoryName: {
+    justifyContent: "center",
+  },
+  right: {
+    justifyContent: "center",
+    alignItems: "flex-end",
+  },
+  icon: {
+    width: 36,
+    height: 36,
+    borderRadius: 25,
+  },
+  title: {
+    fontSize: 15,
+    fontFamily: FONT.medium,
+  },
+  subtitle: {
+    color: COLORS.gray,
+    fontSize: 12,
+    fontFamily: FONT.regular,
+  },
+  red: {
+    color: COLORS.expense,
+    fontSize: SIZES.h8,
+    fontFamily: FONT.semiBold,
+  },
+  blue: {
+    color: COLORS.income,
+    fontSize: SIZES.h8,
+    fontFamily: FONT.regular,
+  },
+});

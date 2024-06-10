@@ -183,7 +183,7 @@ const taxCaculating = ({ fill }) => {
 
 const exchangeRates = ({ fill }) => {
   const svgXml = `
-  <svg width="22" height="21" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg width="24" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <mask id="mask0_361_951" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
   <rect x="0.333344" width="24" height="24" fill="#D9D9D9"/>
   </mask>
@@ -279,9 +279,9 @@ const select = ({ fill }) => {
   return <SvgXml xml={svgXml} />;
 };
 
-const close = ({ fill }) => {
+const close = ({ fill, width, height }) => {
   const svgXml = `
-  <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg width="${width}" height="${height}" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
   <mask id="mask0_164_1174" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="26" height="26">
   <rect width="26" height="26" fill="#D9D9D9"/>
   </mask>
@@ -425,7 +425,7 @@ const arrowDropDown = ({ fill }) => {
   <rect y="0.75" width="24" height="34.5" fill="#D9D9D9"/>
   </mask>
   <g mask="url(#mask0_164_1249)">
-  <path d="M12 22.3125L7 15.125H17L12 22.3125Z" fill="#43C85F"/>
+  <path d="M12 22.3125L7 15.125H17L12 22.3125Z" fill="${fill}"/>
   </g>
   </svg>
     `;
@@ -464,16 +464,340 @@ const arrowLeft = ({ fill }) => {
   return <SvgXml xml={svgXml} />;
 };
 
-const arrowRight = ({ fill }) => {
+const widgets = ({ fill }) => {
   const svgXml = `
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_479_704" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+<rect width="24" height="24" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_479_704)">
+<path d="M16.65 13L11 7.34995L16.65 1.69995L22.3 7.34995L16.65 13ZM3 11V2.99995H11V11H3ZM13 21V13H21V21H13ZM3 21V13H11V21H3Z" fill="#1C1B1F"/>
+</g>
+</svg>
+
+    `;
+
+  return <SvgXml xml={svgXml} />;
+};
+
+const categoryGroup = ({ fill }) => {
+  const svgXml = `
+  <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_479_710" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
+<rect x="0.224854" y="0.679077" width="24" height="24" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_479_710)">
+<path d="M8.97485 23.1041C8.20819 23.1041 7.52069 22.9041 6.91235 22.5041C6.30402 22.1041 5.83319 21.5541 5.49985 20.8541C5.23319 21.2041 4.89569 21.475 4.48735 21.6666C4.07902 21.8583 3.65819 21.9541 3.22485 21.9541C2.37485 21.9541 1.66235 21.6625 1.08735 21.0791C0.512354 20.4958 0.224854 19.7875 0.224854 18.9541C0.224854 18.2375 0.458187 17.5916 0.924854 17.0166C1.39152 16.4416 1.98319 16.1125 2.69985 16.0291C2.46652 15.6958 2.28735 15.3416 2.16235 14.9666C2.03735 14.5916 1.97485 14.1958 1.97485 13.7791C1.97485 13.1125 2.14569 12.4875 2.48735 11.9041C2.82902 11.3208 3.30819 10.8458 3.92485 10.4791C4.00819 10.7791 4.12069 11.1 4.26235 11.4416C4.40402 11.7833 4.56652 12.0791 4.74985 12.3291C4.51652 12.5125 4.33319 12.7333 4.19985 12.9916C4.06652 13.25 3.99985 13.5208 3.99985 13.8041C3.99985 14.7375 4.38319 15.3125 5.14985 15.5291C5.91652 15.7458 6.64152 15.9208 7.32485 16.0541L7.79985 16.8541C7.61652 17.3875 7.45819 17.8416 7.32485 18.2166C7.19152 18.5916 7.12485 18.9291 7.12485 19.2291C7.12485 19.7291 7.30402 20.1666 7.66235 20.5416C8.02069 20.9166 8.45819 21.1041 8.97485 21.1041C9.60819 21.1041 10.1332 20.8208 10.5499 20.2541C10.9665 19.6875 11.3082 19.0208 11.5749 18.2541C11.8415 17.4875 12.0457 16.7125 12.1874 15.9291C12.329 15.1458 12.4415 14.5458 12.5249 14.1291L14.4749 14.6541C14.3249 15.4041 14.1415 16.2625 13.9249 17.2291C13.7082 18.1958 13.404 19.1166 13.0124 19.9916C12.6207 20.8666 12.104 21.6041 11.4624 22.2041C10.8207 22.8041 9.99152 23.1041 8.97485 23.1041ZM10.3249 16.0041C9.55819 15.3208 8.86235 14.6833 8.23735 14.0916C7.61235 13.5 7.07485 12.925 6.62485 12.3666C6.17485 11.8083 5.82902 11.25 5.58735 10.6916C5.34569 10.1333 5.22485 9.55413 5.22485 8.95413C5.22485 7.87079 5.59569 6.95829 6.33735 6.21663C7.07902 5.47496 7.99152 5.10413 9.07485 5.10413C9.14152 5.10413 9.19985 5.10829 9.24985 5.11663C9.29985 5.12496 9.35819 5.12913 9.42485 5.12913C9.35819 4.96246 9.30819 4.79579 9.27485 4.62913C9.24152 4.46246 9.22485 4.28746 9.22485 4.10413C9.22485 3.27079 9.51652 2.56246 10.0999 1.97913C10.6832 1.39579 11.3915 1.10413 12.2249 1.10413C13.0582 1.10413 13.7665 1.39579 14.3499 1.97913C14.9332 2.56246 15.2249 3.27079 15.2249 4.10413C15.2249 4.28746 15.2082 4.45829 15.1749 4.61663C15.1415 4.77496 15.0915 4.93746 15.0249 5.10413H15.3749C16.3749 5.10413 17.2249 5.42496 17.9249 6.06663C18.6249 6.70829 19.0415 7.50413 19.1749 8.45413C18.8749 8.40413 18.5374 8.37913 18.1624 8.37913C17.7874 8.37913 17.4415 8.39579 17.1249 8.42913C17.0082 8.04579 16.7957 7.72913 16.4874 7.47913C16.179 7.22913 15.8082 7.10413 15.3749 7.10413C14.7915 7.10413 14.3374 7.27496 14.0124 7.61663C13.6874 7.95829 13.2415 8.45413 12.6749 9.10413H11.7499C11.1665 8.42079 10.7124 7.91663 10.3874 7.59163C10.0624 7.26663 9.62485 7.10413 9.07485 7.10413C8.54152 7.10413 8.09985 7.27913 7.74985 7.62913C7.39985 7.97913 7.22485 8.42079 7.22485 8.95413C7.22485 9.33746 7.33319 9.73329 7.54985 10.1416C7.76652 10.55 8.07069 10.9833 8.46235 11.4416C8.85402 11.9 9.32902 12.3875 9.88735 12.9041C10.4457 13.4208 11.0665 13.9791 11.7499 14.5791L10.3249 16.0041ZM15.4499 23.1041C15.0832 23.1041 14.7207 23.0541 14.3624 22.9541C14.004 22.8541 13.6582 22.6958 13.3249 22.4791C13.5082 22.2458 13.6915 21.9708 13.8749 21.6541C14.0582 21.3375 14.2249 21.0458 14.3749 20.7791C14.5582 20.8958 14.7415 20.9791 14.9249 21.0291C15.1082 21.0791 15.2915 21.1041 15.4749 21.1041C16.0082 21.1041 16.454 20.9166 16.8124 20.5416C17.1707 20.1666 17.3499 19.7208 17.3499 19.2041C17.3499 18.8875 17.2832 18.5458 17.1499 18.1791C17.0165 17.8125 16.8582 17.3625 16.6749 16.8291L17.1499 16.0291C17.8499 15.8958 18.579 15.7208 19.3374 15.5041C20.0957 15.2875 20.4749 14.7125 20.4749 13.7791C20.4749 13.1125 20.229 12.6291 19.7374 12.3291C19.2457 12.0291 18.7082 11.8791 18.1249 11.8791C17.4249 11.8791 16.6082 12.0125 15.6749 12.2791C14.7415 12.5458 13.6499 12.8875 12.3999 13.3041L11.8749 11.3541C13.1749 10.9375 14.3332 10.5875 15.3499 10.3041C16.3665 10.0208 17.2999 9.87913 18.1499 9.87913C19.2999 9.87913 20.3082 10.2208 21.1749 10.9041C22.0415 11.5875 22.4749 12.5458 22.4749 13.7791C22.4749 14.1958 22.4124 14.5916 22.2874 14.9666C22.1624 15.3416 21.9832 15.6958 21.7499 16.0291C22.4665 16.1125 23.0582 16.4416 23.5249 17.0166C23.9915 17.5916 24.2249 18.2375 24.2249 18.9541C24.2249 19.7875 23.9374 20.4958 23.3624 21.0791C22.7874 21.6625 22.0749 21.9541 21.2249 21.9541C20.7915 21.9541 20.3707 21.8583 19.9624 21.6666C19.554 21.475 19.2165 21.2041 18.9499 20.8541C18.6165 21.5541 18.1457 22.1041 17.5374 22.5041C16.929 22.9041 16.2332 23.1041 15.4499 23.1041Z" fill="#1C1B1F"/>
+</g>
+</svg>
+    `;
+
+  return <SvgXml xml={svgXml} />;
+};
+
+const arrowRight = ({ fill, width, height }) => {
+  const svgXml = `
+  <svg width="${width}" height="${height}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <mask id="mask0_454_759" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
 <rect width="24" height="24" fill="#D9D9D9"/>
 </mask>
 <g mask="url(#mask0_454_759)">
-<path d="M8.025 22L6.25 20.225L14.475 12L6.25 3.775L8.025 2L18.025 12L8.025 22Z" fill="#1C1B1F"/>
+<path d="M8.025 22L6.25 20.225L14.475 12L6.25 3.775L8.025 2L18.025 12L8.025 22Z" fill="${fill}"/>
 </g>
 </svg>
+
+    `;
+
+  return <SvgXml xml={svgXml} />;
+};
+
+const support = ({ fill }) => {
+  const svgXml = `
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_486_716" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+<rect width="24" height="24" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_486_716)">
+<path d="M12 22L11.75 19H11.5C9.13333 19 7.125 18.175 5.475 16.525C3.825 14.875 3 12.8667 3 10.5C3 8.13333 3.825 6.125 5.475 4.475C7.125 2.825 9.13333 2 11.5 2C12.6833 2 13.7875 2.22083 14.8125 2.6625C15.8375 3.10417 16.7375 3.7125 17.5125 4.4875C18.2875 5.2625 18.8958 6.1625 19.3375 7.1875C19.7792 8.2125 20 9.31667 20 10.5C20 11.75 19.7958 12.95 19.3875 14.1C18.9792 15.25 18.4208 16.3167 17.7125 17.3C17.0042 18.2833 16.1625 19.175 15.1875 19.975C14.2125 20.775 13.15 21.45 12 22ZM14 18.35C15.1833 17.35 16.1458 16.1792 16.8875 14.8375C17.6292 13.4958 18 12.05 18 10.5C18 8.68333 17.3708 7.14583 16.1125 5.8875C14.8542 4.62917 13.3167 4 11.5 4C9.68333 4 8.14583 4.62917 6.8875 5.8875C5.62917 7.14583 5 8.68333 5 10.5C5 12.3167 5.62917 13.8542 6.8875 15.1125C8.14583 16.3708 9.68333 17 11.5 17H14V18.35ZM11.475 15.975C11.7583 15.975 12 15.875 12.2 15.675C12.4 15.475 12.5 15.2333 12.5 14.95C12.5 14.6667 12.4 14.425 12.2 14.225C12 14.025 11.7583 13.925 11.475 13.925C11.1917 13.925 10.95 14.025 10.75 14.225C10.55 14.425 10.45 14.6667 10.45 14.95C10.45 15.2333 10.55 15.475 10.75 15.675C10.95 15.875 11.1917 15.975 11.475 15.975ZM10.75 12.8H12.25C12.25 12.3 12.3 11.95 12.4 11.75C12.5 11.55 12.8167 11.1833 13.35 10.65C13.65 10.35 13.9 10.025 14.1 9.675C14.3 9.325 14.4 8.95 14.4 8.55C14.4 7.7 14.1125 7.0625 13.5375 6.6375C12.9625 6.2125 12.2833 6 11.5 6C10.7667 6 10.15 6.20417 9.65 6.6125C9.15 7.02083 8.8 7.51667 8.6 8.1L10 8.65C10.0833 8.36667 10.2417 8.0875 10.475 7.8125C10.7083 7.5375 11.05 7.4 11.5 7.4C11.95 7.4 12.2875 7.525 12.5125 7.775C12.7375 8.025 12.85 8.3 12.85 8.6C12.85 8.88333 12.7667 9.1375 12.6 9.3625C12.4333 9.5875 12.2333 9.81667 12 10.05C11.4167 10.55 11.0625 10.9458 10.9375 11.2375C10.8125 11.5292 10.75 12.05 10.75 12.8Z" fill="${fill}"/>
+</g>
+</svg>
+
+    `;
+  return <SvgXml xml={svgXml} />;
+};
+const bank = ({ fill }) => {
+  const svgXml = `
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_164_1407" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+<rect width="24" height="24" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_164_1407)">
+<path d="M5 17V10H7V17H5ZM11 17V10H13V17H11ZM2 21V19H22V21H2ZM17 17V10H19V17H17ZM2 8V6L12 1L22 6V8H2ZM6.45 6H17.55L12 3.25L6.45 6Z" fill="white"/>
+</g>
+</svg>
+    `;
+  return <SvgXml xml={svgXml} />;
+};
+
+const wallet3 = ({ fill }) => {
+  const svgXml = `
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <mask id="mask0_488_734" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+  <rect width="24" height="24" fill="#D9D9D9"/>
+  </mask>
+  <g mask="url(#mask0_488_734)">
+  <path d="M5 21C4.45 21 3.97917 20.8042 3.5875 20.4125C3.19583 20.0208 3 19.55 3 19V5C3 4.45 3.19583 3.97917 3.5875 3.5875C3.97917 3.19583 4.45 3 5 3H19C19.55 3 20.0208 3.19583 20.4125 3.5875C20.8042 3.97917 21 4.45 21 5V7.5H19V5H5V19H19V16.5H21V19C21 19.55 20.8042 20.0208 20.4125 20.4125C20.0208 20.8042 19.55 21 19 21H5ZM13 17C12.45 17 11.9792 16.8042 11.5875 16.4125C11.1958 16.0208 11 15.55 11 15V9C11 8.45 11.1958 7.97917 11.5875 7.5875C11.9792 7.19583 12.45 7 13 7H20C20.55 7 21.0208 7.19583 21.4125 7.5875C21.8042 7.97917 22 8.45 22 9V15C22 15.55 21.8042 16.0208 21.4125 16.4125C21.0208 16.8042 20.55 17 20 17H13ZM20 15V9H13V15H20ZM16 13.5C16.4167 13.5 16.7708 13.3542 17.0625 13.0625C17.3542 12.7708 17.5 12.4167 17.5 12C17.5 11.5833 17.3542 11.2292 17.0625 10.9375C16.7708 10.6458 16.4167 10.5 16 10.5C15.5833 10.5 15.2292 10.6458 14.9375 10.9375C14.6458 11.2292 14.5 11.5833 14.5 12C14.5 12.4167 14.6458 12.7708 14.9375 13.0625C15.2292 13.3542 15.5833 13.5 16 13.5Z" fill="#FEFFFF"/>
+  </g>
+  </svg>
+    `;
+  return <SvgXml xml={svgXml} />;
+};
+
+const arrowDown = ({ fill }) => {
+  const svgXml = `
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_491_728" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+<rect width="24" height="24" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_491_728)">
+<path d="M12 18L6 12L7.4 10.6L11 14.2V5H13V14.2L16.6 10.6L18 12L12 18Z" fill="${fill}"/>
+</g>
+</svg>
+    `;
+  return <SvgXml xml={svgXml} />;
+};
+
+const arrowUp = ({ fill }) => {
+  const svgXml = `
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_491_704" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+<rect width="24" height="24" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_491_704)">
+<path d="M11 18V8.8L7.4 12.4L6 11L12 5L18 11L16.6 12.4L13 8.8V18H11Z" fill="${fill}"/>
+</g>
+</svg>
+
+    `;
+  return <SvgXml xml={svgXml} />;
+};
+
+const creditCard = ({ fill }) => {
+  const svgXml = `
+  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_164_1400" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
+<rect x="0.666748" width="24" height="24" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_164_1400)">
+<path d="M22.6667 6V18C22.6667 18.55 22.4709 19.0208 22.0792 19.4125C21.6876 19.8042 21.2167 20 20.6667 20H4.66675C4.11675 20 3.64591 19.8042 3.25425 19.4125C2.86258 19.0208 2.66675 18.55 2.66675 18V6C2.66675 5.45 2.86258 4.97917 3.25425 4.5875C3.64591 4.19583 4.11675 4 4.66675 4H20.6667C21.2167 4 21.6876 4.19583 22.0792 4.5875C22.4709 4.97917 22.6667 5.45 22.6667 6ZM4.66675 8H20.6667V6H4.66675V8ZM4.66675 12V18H20.6667V12H4.66675Z" fill="${fill}"/>
+</g>
+</svg>
+
+
+    `;
+  return <SvgXml xml={svgXml} />;
+};
+
+const rating = ({ fill }) => {
+  const svgXml = `
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_504_763" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+<rect width="24" height="24" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_504_763)">
+<path d="M18 21H8V8L15 1L16.25 2.25C16.3667 2.36667 16.4625 2.525 16.5375 2.725C16.6125 2.925 16.65 3.11667 16.65 3.3V3.65L15.55 8H21C21.5333 8 22 8.2 22.4 8.6C22.8 9 23 9.46667 23 10V12C23 12.1167 22.9875 12.2417 22.9625 12.375C22.9375 12.5083 22.9 12.6333 22.85 12.75L19.85 19.8C19.7 20.1333 19.45 20.4167 19.1 20.65C18.75 20.8833 18.3833 21 18 21ZM6 8V21H2V8H6Z" fill="${fill}"/>
+</g>
+</svg>
+
+
+
+    `;
+  return <SvgXml xml={svgXml} />;
+};
+
+const feedBack = ({ fill }) => {
+  const svgXml = `
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <mask id="mask0_504_739" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+  <rect width="24" height="24" fill="#D9D9D9"/>
+  </mask>
+  <g mask="url(#mask0_504_739)">
+  <path d="M4 20C3.45 20 2.97917 19.8042 2.5875 19.4125C2.19583 19.0208 2 18.55 2 18V6C2 5.45 2.19583 4.97917 2.5875 4.5875C2.97917 4.19583 3.45 4 4 4H20C20.55 4 21.0208 4.19583 21.4125 4.5875C21.8042 4.97917 22 5.45 22 6V18C22 18.55 21.8042 19.0208 21.4125 19.4125C21.0208 19.8042 20.55 20 20 20H4ZM12 13L20 8V6L12 11L4 6V8L12 13Z" fill="${fill}"/>
+  </g>
+  </svg>
+
+    `;
+  return <SvgXml xml={svgXml} />;
+};
+
+const policy = ({ fill }) => {
+  const svgXml = `
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_504_745" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+<rect width="24" height="24" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_504_745)">
+<path d="M9.2 15.6L12 13.5L14.75 15.6L13.7 12.2L16.5 10H13.1L12 6.6L10.9 10H7.5L10.25 12.2L9.2 15.6ZM12 22C9.68333 21.4167 7.77083 20.0875 6.2625 18.0125C4.75417 15.9375 4 13.6333 4 11.1V5L12 2L20 5V11.1C20 13.6333 19.2458 15.9375 17.7375 18.0125C16.2292 20.0875 14.3167 21.4167 12 22Z" fill="${fill}"/>
+</g>
+</svg>
+    `;
+  return <SvgXml xml={svgXml} />;
+};
+
+const user = ({ fill }) => {
+  const svgXml = `
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_504_751" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+<rect width="24" height="24" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_504_751)">
+<path d="M5.85 17.1C6.7 16.45 7.65 15.9375 8.7 15.5625C9.75 15.1875 10.85 15 12 15C13.15 15 14.25 15.1875 15.3 15.5625C16.35 15.9375 17.3 16.45 18.15 17.1C18.7333 16.4167 19.1875 15.6417 19.5125 14.775C19.8375 13.9083 20 12.9833 20 12C20 9.78333 19.2208 7.89583 17.6625 6.3375C16.1042 4.77917 14.2167 4 12 4C9.78333 4 7.89583 4.77917 6.3375 6.3375C4.77917 7.89583 4 9.78333 4 12C4 12.9833 4.1625 13.9083 4.4875 14.775C4.8125 15.6417 5.26667 16.4167 5.85 17.1ZM12 13C11.0167 13 10.1875 12.6625 9.5125 11.9875C8.8375 11.3125 8.5 10.4833 8.5 9.5C8.5 8.51667 8.8375 7.6875 9.5125 7.0125C10.1875 6.3375 11.0167 6 12 6C12.9833 6 13.8125 6.3375 14.4875 7.0125C15.1625 7.6875 15.5 8.51667 15.5 9.5C15.5 10.4833 15.1625 11.3125 14.4875 11.9875C13.8125 12.6625 12.9833 13 12 13ZM12 22C10.6167 22 9.31667 21.7375 8.1 21.2125C6.88333 20.6875 5.825 19.975 4.925 19.075C4.025 18.175 3.3125 17.1167 2.7875 15.9C2.2625 14.6833 2 13.3833 2 12C2 10.6167 2.2625 9.31667 2.7875 8.1C3.3125 6.88333 4.025 5.825 4.925 4.925C5.825 4.025 6.88333 3.3125 8.1 2.7875C9.31667 2.2625 10.6167 2 12 2C13.3833 2 14.6833 2.2625 15.9 2.7875C17.1167 3.3125 18.175 4.025 19.075 4.925C19.975 5.825 20.6875 6.88333 21.2125 8.1C21.7375 9.31667 22 10.6167 22 12C22 13.3833 21.7375 14.6833 21.2125 15.9C20.6875 17.1167 19.975 18.175 19.075 19.075C18.175 19.975 17.1167 20.6875 15.9 21.2125C14.6833 21.7375 13.3833 22 12 22Z" fill="${fill}"/>
+</g>
+</svg>
+
+    `;
+  return <SvgXml xml={svgXml} />;
+};
+
+const about = ({ fill }) => {
+  const svgXml = `
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_504_757" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+<rect width="24" height="24" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_504_757)">
+<path d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.5208 8.90417 12.7125 8.7125C12.9042 8.52083 13 8.28333 13 8C13 7.71667 12.9042 7.47917 12.7125 7.2875C12.5208 7.09583 12.2833 7 12 7C11.7167 7 11.4792 7.09583 11.2875 7.2875C11.0958 7.47917 11 7.71667 11 8C11 8.28333 11.0958 8.52083 11.2875 8.7125C11.4792 8.90417 11.7167 9 12 9ZM12 22C10.6167 22 9.31667 21.7375 8.1 21.2125C6.88333 20.6875 5.825 19.975 4.925 19.075C4.025 18.175 3.3125 17.1167 2.7875 15.9C2.2625 14.6833 2 13.3833 2 12C2 10.6167 2.2625 9.31667 2.7875 8.1C3.3125 6.88333 4.025 5.825 4.925 4.925C5.825 4.025 6.88333 3.3125 8.1 2.7875C9.31667 2.2625 10.6167 2 12 2C13.3833 2 14.6833 2.2625 15.9 2.7875C17.1167 3.3125 18.175 4.025 19.075 4.925C19.975 5.825 20.6875 6.88333 21.2125 8.1C21.7375 9.31667 22 10.6167 22 12C22 13.3833 21.7375 14.6833 21.2125 15.9C20.6875 17.1167 19.975 18.175 19.075 19.075C18.175 19.975 17.1167 20.6875 15.9 21.2125C14.6833 21.7375 13.3833 22 12 22Z" fill="${fill}"/>
+</g>
+</svg>
+
+    `;
+  return <SvgXml xml={svgXml} />;
+};
+
+const calendar = ({ fill }) => {
+  const svgXml = `
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_507_692" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+<rect width="24" height="24" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_507_692)">
+<path d="M5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V6C3 5.45 3.19583 4.97917 3.5875 4.5875C3.97917 4.19583 4.45 4 5 4H6V2H8V4H16V2H18V4H19C19.55 4 20.0208 4.19583 20.4125 4.5875C20.8042 4.97917 21 5.45 21 6V20C21 20.55 20.8042 21.0208 20.4125 21.4125C20.0208 21.8042 19.55 22 19 22H5ZM5 20H19V10H5V20ZM5 8H19V6H5V8ZM12 14C11.7167 14 11.4792 13.9042 11.2875 13.7125C11.0958 13.5208 11 13.2833 11 13C11 12.7167 11.0958 12.4792 11.2875 12.2875C11.4792 12.0958 11.7167 12 12 12C12.2833 12 12.5208 12.0958 12.7125 12.2875C12.9042 12.4792 13 12.7167 13 13C13 13.2833 12.9042 13.5208 12.7125 13.7125C12.5208 13.9042 12.2833 14 12 14ZM8 14C7.71667 14 7.47917 13.9042 7.2875 13.7125C7.09583 13.5208 7 13.2833 7 13C7 12.7167 7.09583 12.4792 7.2875 12.2875C7.47917 12.0958 7.71667 12 8 12C8.28333 12 8.52083 12.0958 8.7125 12.2875C8.90417 12.4792 9 12.7167 9 13C9 13.2833 8.90417 13.5208 8.7125 13.7125C8.52083 13.9042 8.28333 14 8 14ZM16 14C15.7167 14 15.4792 13.9042 15.2875 13.7125C15.0958 13.5208 15 13.2833 15 13C15 12.7167 15.0958 12.4792 15.2875 12.2875C15.4792 12.0958 15.7167 12 16 12C16.2833 12 16.5208 12.0958 16.7125 12.2875C16.9042 12.4792 17 12.7167 17 13C17 13.2833 16.9042 13.5208 16.7125 13.7125C16.5208 13.9042 16.2833 14 16 14ZM12 18C11.7167 18 11.4792 17.9042 11.2875 17.7125C11.0958 17.5208 11 17.2833 11 17C11 16.7167 11.0958 16.4792 11.2875 16.2875C11.4792 16.0958 11.7167 16 12 16C12.2833 16 12.5208 16.0958 12.7125 16.2875C12.9042 16.4792 13 16.7167 13 17C13 17.2833 12.9042 17.5208 12.7125 17.7125C12.5208 17.9042 12.2833 18 12 18ZM8 18C7.71667 18 7.47917 17.9042 7.2875 17.7125C7.09583 17.5208 7 17.2833 7 17C7 16.7167 7.09583 16.4792 7.2875 16.2875C7.47917 16.0958 7.71667 16 8 16C8.28333 16 8.52083 16.0958 8.7125 16.2875C8.90417 16.4792 9 16.7167 9 17C9 17.2833 8.90417 17.5208 8.7125 17.7125C8.52083 17.9042 8.28333 18 8 18ZM16 18C15.7167 18 15.4792 17.9042 15.2875 17.7125C15.0958 17.5208 15 17.2833 15 17C15 16.7167 15.0958 16.4792 15.2875 16.2875C15.4792 16.0958 15.7167 16 16 16C16.2833 16 16.5208 16.0958 16.7125 16.2875C16.9042 16.4792 17 16.7167 17 17C17 17.2833 16.9042 17.5208 16.7125 17.7125C16.5208 17.9042 16.2833 18 16 18Z" fill="${fill}"/>
+</g>
+</svg>
+
+
+    `;
+  return <SvgXml xml={svgXml} />;
+};
+
+const barChart = ({ fill }) => {
+  const svgXml = `
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_509_692" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+<rect width="24" height="24" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_509_692)">
+<path d="M5 21C4.45 21 3.97917 20.8042 3.5875 20.4125C3.19583 20.0208 3 19.55 3 19V3H5V19H21V21H5ZM6 18V9H10V18H6ZM11 18V4H15V18H11ZM16 18V13H20V18H16Z" fill="${fill}"/>
+</g>
+</svg>
+
+
+    `;
+  return <SvgXml xml={svgXml} />;
+};
+
+const pieChart = ({ fill }) => {
+  const svgXml = `
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_509_722" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+<rect width="24" height="24" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_509_722)">
+<path d="M14.8249 11C14.6749 10.5667 14.4457 10.1875 14.1374 9.86249C13.8291 9.53749 13.4582 9.29999 13.0249 9.14999V2.04999C15.4082 2.28332 17.4374 3.23749 19.1124 4.91249C20.7874 6.58749 21.7416 8.61665 21.9749 11H14.8249ZM11.0249 21.95C8.45824 21.7 6.31657 20.625 4.5999 18.725C2.88324 16.825 2.0249 14.5833 2.0249 12C2.0249 9.41665 2.88324 7.17499 4.5999 5.27499C6.31657 3.37499 8.45824 2.29999 11.0249 2.04999V9.14999C10.4249 9.36665 9.94157 9.73749 9.5749 10.2625C9.20824 10.7875 9.0249 11.3667 9.0249 12C9.0249 12.6333 9.20824 13.2042 9.5749 13.7125C9.94157 14.2208 10.4249 14.5833 11.0249 14.8V21.95ZM13.0249 21.95V14.8C13.4582 14.65 13.8291 14.4208 14.1374 14.1125C14.4457 13.8042 14.6749 13.4333 14.8249 13H21.9749C21.7416 15.3833 20.7874 17.4125 19.1124 19.0875C17.4374 20.7625 15.4082 21.7167 13.0249 21.95Z" fill="${fill}"/>
+</g>
+</svg>
+
+
+    `;
+  return <SvgXml xml={svgXml} />;
+};
+
+const arrowDropDown2 = ({ fill }) => {
+  const svgXml = `
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <mask id="mask0_512_692" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+  <rect width="24" height="24" fill="#D9D9D9"/>
+  </mask>
+  <g mask="url(#mask0_512_692)">
+  <path d="M12 15L7 10H17L12 15Z" fill="${fill}"/>
+  </g>
+  </svg>
+    `;
+
+  return <SvgXml xml={svgXml} />;
+};
+
+const arrowDropUp = ({ fill }) => {
+  const svgXml = `
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <mask id="mask0_512_698" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+  <rect width="24" height="24" fill="#D9D9D9"/>
+  </mask>
+  <g mask="url(#mask0_512_698)">
+  <path d="M7 14L12 9L17 14H7Z" fill="${fill}"/>
+  </g>
+  </svg>
+
+    `;
+
+  return <SvgXml xml={svgXml} />;
+};
+
+const budget = ({ fill = "white" }) => {
+  const svgXml = `
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_517_765" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+<rect width="24" height="24" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_517_765)">
+<path d="M14 13C13.1667 13 12.4583 12.7083 11.875 12.125C11.2917 11.5417 11 10.8333 11 10C11 9.16667 11.2917 8.45833 11.875 7.875C12.4583 7.29167 13.1667 7 14 7C14.8333 7 15.5417 7.29167 16.125 7.875C16.7083 8.45833 17 9.16667 17 10C17 10.8333 16.7083 11.5417 16.125 12.125C15.5417 12.7083 14.8333 13 14 13ZM7 16C6.45 16 5.97917 15.8042 5.5875 15.4125C5.19583 15.0208 5 14.55 5 14V6C5 5.45 5.19583 4.97917 5.5875 4.5875C5.97917 4.19583 6.45 4 7 4H21C21.55 4 22.0208 4.19583 22.4125 4.5875C22.8042 4.97917 23 5.45 23 6V14C23 14.55 22.8042 15.0208 22.4125 15.4125C22.0208 15.8042 21.55 16 21 16H7ZM9 14H19C19 13.45 19.1958 12.9792 19.5875 12.5875C19.9792 12.1958 20.45 12 21 12V8C20.45 8 19.9792 7.80417 19.5875 7.4125C19.1958 7.02083 19 6.55 19 6H9C9 6.55 8.80417 7.02083 8.4125 7.4125C8.02083 7.80417 7.55 8 7 8V12C7.55 12 8.02083 12.1958 8.4125 12.5875C8.80417 12.9792 9 13.45 9 14ZM20 20H3C2.45 20 1.97917 19.8042 1.5875 19.4125C1.19583 19.0208 1 18.55 1 18V7H3V18H20V20Z" fill="${fill}"/>
+</g>
+</svg>
+
+
+    `;
+
+  return <SvgXml xml={svgXml} />;
+};
+
+const loan = ({ fill = "white" }) => {
+  const svgXml = `
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_517_783" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+<rect width="24" height="24" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_517_783)">
+<path d="M19 14V7.5L14 4L9 7.5V9H7V6.5L14 1.5L21 6.5V14H19ZM14.5 8H15.5V7H14.5V8ZM12.5 8H13.5V7H12.5V8ZM14.5 10H15.5V9H14.5V10ZM12.5 10H13.5V9H12.5V10ZM7 18.5L13.95 20.4L19.9 18.55C19.8167 18.4 19.6958 18.2708 19.5375 18.1625C19.3792 18.0542 19.2 18 19 18H13.95C13.5 18 13.1417 17.9833 12.875 17.95C12.6083 17.9167 12.3333 17.85 12.05 17.75L9.725 16.975L10.275 15.025L12.3 15.7C12.5833 15.7833 12.9167 15.85 13.3 15.9C13.6833 15.95 14.25 15.9833 15 16C15 15.8167 14.9458 15.6417 14.8375 15.475C14.7292 15.3083 14.6 15.2 14.45 15.15L8.6 13H7V18.5ZM1 22V11H8.6C8.71667 11 8.83333 11.0125 8.95 11.0375C9.06667 11.0625 9.175 11.0917 9.275 11.125L15.15 13.3C15.7 13.5 16.1458 13.85 16.4875 14.35C16.8292 14.85 17 15.4 17 16H19C19.8333 16 20.5417 16.275 21.125 16.825C21.7083 17.375 22 18.1 22 19V20L14 22.5L7 20.55V22H1ZM3 20H5V13H3V20Z" fill="${fill}"/>
+</g>
+</svg>
+
+
+    `;
+
+  return <SvgXml xml={svgXml} />;
+};
+
+const target = ({ fill = "white" }) => {
+  const svgXml = `
+  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_517_714" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
+<rect x="0.666748" width="24" height="24" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_517_714)">
+<path d="M22.6667 6V18C22.6667 18.55 22.4709 19.0208 22.0792 19.4125C21.6876 19.8042 21.2167 20 20.6667 20H4.66675C4.11675 20 3.64591 19.8042 3.25425 19.4125C2.86258 19.0208 2.66675 18.55 2.66675 18V6C2.66675 5.45 2.86258 4.97917 3.25425 4.5875C3.64591 4.19583 4.11675 4 4.66675 4H20.6667C21.2167 4 21.6876 4.19583 22.0792 4.5875C22.4709 4.97917 22.6667 5.45 22.6667 6ZM4.66675 8H20.6667V6H4.66675V8ZM4.66675 12V18H20.6667V12H4.66675Z" fill="${fill}"/>
+</g>
+</svg>
+
 
     `;
 
@@ -522,4 +846,350 @@ export default {
   share2,
   arrowLeft,
   arrowRight,
+  widgets,
+  categoryGroup,
+  support,
+  bank,
+  wallet3,
+  arrowDown,
+  arrowUp,
+  creditCard,
+  rating,
+  feedBack,
+  about,
+  user,
+  policy,
+  calendar,
+  barChart,
+  pieChart,
+  arrowDropDown2,
+  arrowDropUp,
+  budget,
+  target,
+  loan,
 };
+export const currencyFlags = {
+  USD: "🇺🇸",
+  EUR: "🇪🇺",
+  GBP: "🇬🇧",
+  JPY: "🇯🇵",
+  AUD: "🇦🇺",
+  CHF: "🇨🇭",
+  CNY: "🇨🇳",
+  CAD: "🇨🇦",
+  INR: "🇮🇳",
+  AED: "🇦🇪",
+  AFN: "🇦🇫",
+  ALL: "🇦🇱",
+  AMD: "🇦🇲",
+  ANG: "🇳🇱",
+  AOA: "🇦🇴",
+  ARS: "🇦🇷",
+  AWG: "🇦🇼",
+  AZN: "🇦🇿",
+  BAM: "🇧🇦",
+  BBD: "🇧🇧",
+  BDT: "🇧🇩",
+  BGN: "🇧🇬",
+  BHD: "🇧🇭",
+  BIF: "🇧🇮",
+  BMD: "🇧🇲",
+  BND: "🇧🇳",
+  BOB: "🇧🇴",
+  BRL: "🇧🇷",
+  BSD: "🇧🇸",
+  BTN: "🇧🇹",
+  BWP: "🇧🇼",
+  BYN: "🇧🇾",
+  BZD: "🇧🇿",
+  CDF: "🇨🇩",
+  CLP: "🇨🇱",
+  COP: "🇨🇴",
+  CRC: "🇨🇷",
+  CUP: "🇨🇺",
+  CVE: "🇨🇻",
+  CZK: "🇨🇿",
+  DJF: "🇩🇯",
+  DKK: "🇩🇰",
+  DOP: "🇩🇴",
+  DZD: "🇩🇿",
+  EGP: "🇪🇬",
+  ERN: "🇪🇷",
+  ETB: "🇪🇹",
+  FJD: "🇫🇯",
+  FKP: "🇫🇰",
+  GEL: "🇬🇪",
+  GHS: "🇬🇭",
+  GIP: "🇬🇮",
+  GMD: "🇬🇲",
+  GNF: "🇬🇳",
+  GTQ: "🇬🇹",
+  GYD: "🇬🇾",
+  HKD: "🇭🇰",
+  HNL: "🇭🇳",
+  HRK: "🇭🇷",
+  HTG: "🇭🇹",
+  HUF: "🇭🇺",
+  IDR: "🇮🇩",
+  ILS: "🇮🇱",
+  IQD: "🇮🇶",
+  IRR: "🇮🇷",
+  ISK: "🇮🇸",
+  JMD: "🇯🇲",
+  JOD: "🇯🇴",
+  KES: "🇰🇪",
+  KGS: "🇰🇬",
+  KHR: "🇰🇭",
+  KMF: "🇰🇲",
+  KPW: "🇰🇵",
+  KRW: "🇰🇷",
+  KWD: "🇰🇼",
+  KYD: "🇰🇾",
+  KZT: "🇰🇿",
+  LAK: "🇱🇦",
+  LBP: "🇱🇧",
+  LKR: "🇱🇰",
+  LRD: "🇱🇷",
+  LSL: "🇱🇸",
+  LYD: "🇱🇾",
+  MAD: "🇲🇦",
+  MDL: "🇲🇩",
+  MGA: "🇲🇬",
+  MKD: "🇲🇰",
+  MMK: "🇲🇲",
+  MNT: "🇲🇳",
+  MOP: "🇲🇴",
+  MRU: "🇲🇷",
+  MUR: "🇲🇺",
+  MVR: "🇲🇻",
+  MWK: "🇲🇼",
+  MXN: "🇲🇽",
+  MYR: "🇲🇾",
+  MZN: "🇲🇿",
+  NAD: "🇳🇦",
+  NGN: "🇳🇬",
+  NIO: "🇳🇮",
+  NOK: "🇳🇴",
+  NPR: "🇳🇵",
+  NZD: "🇳🇿",
+  OMR: "🇴🇲",
+  PAB: "🇵🇦",
+  PEN: "🇵🇪",
+  PGK: "🇵🇬",
+  PHP: "🇵🇭",
+  PKR: "🇵🇰",
+  PLN: "🇵🇱",
+  PYG: "🇵🇾",
+  QAR: "🇶🇦",
+  RON: "🇷🇴",
+  RSD: "🇷🇸",
+  RUB: "🇷🇺",
+  RWF: "🇷🇼",
+  SAR: "🇸🇦",
+  SBD: "🇸🇧",
+  SCR: "🇸🇨",
+  SDG: "🇸🇩",
+  SEK: "🇸🇪",
+  SGD: "🇸🇬",
+  SHP: "🇸🇭",
+  SLL: "🇸🇱",
+  SOS: "🇸🇴",
+  SRD: "🇸🇷",
+  SSP: "🇸🇸",
+  STD: "🇸🇹",
+  SYP: "🇸🇾",
+  SZL: "🇸🇿",
+  THB: "🇹🇭",
+  TJS: "🇹🇯",
+  TMT: "🇹🇲",
+  TND: "🇹🇳",
+  TOP: "🇹🇴",
+  TRY: "🇹🇷",
+  TTD: "🇹🇹",
+  TWD: "🇹🇼",
+  TZS: "🇹🇿",
+  UAH: "🇺🇦",
+  UGX: "🇺🇬",
+  UYU: "🇺🇾",
+  UZS: "🇺🇿",
+  VES: "🇻🇪",
+  VND: "🇻🇳",
+  VUV: "🇻🇺",
+  WST: "🇼🇸",
+  XAF: "🇨🇲",
+  XCD: "🇰🇳",
+  XOF: "🇨🇲",
+  XPF: "🇵🇫",
+  YER: "🇾🇪",
+  ZAR: "🇿🇦",
+  ZMW: "🇿🇲",
+  ZWL: "🇿🇼",
+};
+
+export const currencyData = [
+  { "code": "AED", "flag": "🇦🇪", "name": "United Arab Emirates Dirham" },
+  { "code": "AFN", "flag": "🇦🇫", "name": "Afghan Afghani" },
+  { "code": "ALL", "flag": "🇦🇱", "name": "Albanian Lek" },
+  { "code": "AMD", "flag": "🇦🇲", "name": "Armenian Dram" },
+  { "code": "ANG", "flag": "🇳🇱", "name": "Netherlands Antillean Guilder" },
+  { "code": "AOA", "flag": "🇦🇴", "name": "Angolan Kwanza" },
+  { "code": "ARS", "flag": "🇦🇷", "name": "Argentine Peso" },
+  { "code": "AUD", "flag": "🇦🇺", "name": "Australian Dollar" },
+  { "code": "AWG", "flag": "🇦🇼", "name": "Aruban Florin" },
+  { "code": "AZN", "flag": "🇦🇿", "name": "Azerbaijani Manat" },
+  { "code": "BAM", "flag": "🇧🇦", "name": "Bosnia-Herzegovina Convertible Mark" },
+  { "code": "BBD", "flag": "🇧🇧", "name": "Barbadian Dollar" },
+  { "code": "BDT", "flag": "🇧🇩", "name": "Bangladeshi Taka" },
+  { "code": "BGN", "flag": "🇧🇬", "name": "Bulgarian Lev" },
+  { "code": "BHD", "flag": "🇧🇭", "name": "Bahraini Dinar" },
+  { "code": "BIF", "flag": "🇧🇮", "name": "Burundian Franc" },
+  { "code": "BMD", "flag": "🇧🇲", "name": "Bermudan Dollar" },
+  { "code": "BND", "flag": "🇧🇳", "name": "Brunei Dollar" },
+  { "code": "BOB", "flag": "🇧🇴", "name": "Bolivian Boliviano" },
+  { "code": "BRL", "flag": "🇧🇷", "name": "Brazilian Real" },
+  { "code": "BSD", "flag": "🇧🇸", "name": "Bahamian Dollar" },
+  { "code": "BTC", "flag": "🇧🇹", "name": "Bitcoin" },
+  { "code": "BTN", "flag": "🇧🇹", "name": "Bhutanese Ngultrum" },
+  { "code": "BWP", "flag": "🇧🇼", "name": "Botswanan Pula" },
+  { "code": "BYN", "flag": "🇧🇾", "name": "Belarusian Ruble" },
+  { "code": "BZD", "flag": "🇧🇿", "name": "Belize Dollar" },
+  { "code": "CAD", "flag": "🇨🇦", "name": "Canadian Dollar" },
+  { "code": "CDF", "flag": "🇨🇩", "name": "Congolese Franc" },
+  { "code": "CHF", "flag": "🇨🇭", "name": "Swiss Franc" },
+  { "code": "CLF", "flag": "🇨🇱", "name": "Chilean Unit of Account (UF)" },
+  { "code": "CLP", "flag": "🇨🇱", "name": "Chilean Peso" },
+  { "code": "CNH", "flag": "🇨🇳", "name": "Chinese Yuan (Offshore)" },
+  { "code": "CNY", "flag": "🇨🇳", "name": "Chinese Yuan" },
+  { "code": "COP", "flag": "🇨🇴", "name": "Colombian Peso" },
+  { "code": "CRC", "flag": "🇨🇷", "name": "Costa Rican Colón" },
+  { "code": "CUC", "flag": "🇨🇺", "name": "Cuban Convertible Peso" },
+  { "code": "CUP", "flag": "🇨🇺", "name": "Cuban Peso" },
+  { "code": "CVE", "flag": "🇨🇻", "name": "Cape Verdean Escudo" },
+  { "code": "CZK", "flag": "🇨🇿", "name": "Czech Republic Koruna" },
+  { "code": "DJF", "flag": "🇩🇯", "name": "Djiboutian Franc" },
+  { "code": "DKK", "flag": "🇩🇰", "name": "Danish Krone" },
+  { "code": "DOP", "flag": "🇩🇴", "name": "Dominican Peso" },
+  { "code": "DZD", "flag": "🇩🇿", "name": "Algerian Dinar" },
+  { "code": "EGP", "flag": "🇪🇬", "name": "Egyptian Pound" },
+  { "code": "ERN", "flag": "🇪🇷", "name": "Eritrean Nakfa" },
+  { "code": "ETB", "flag": "🇪🇹", "name": "Ethiopian Birr" },
+  { "code": "EUR", "flag": "🇪🇺", "name": "Euro" },
+  { "code": "FJD", "flag": "🇫🇯", "name": "Fijian Dollar" },
+  { "code": "FKP", "flag": "🇫🇰", "name": "Falkland Islands Pound" },
+  { "code": "GBP", "flag": "🇬🇧", "name": "British Pound Sterling" },
+  { "code": "GEL", "flag": "🇬🇪", "name": "Georgian Lari" },
+  { "code": "GGP", "flag": "🇬🇬", "name": "Guernsey Pound" },
+  { "code": "GHS", "flag": "🇬🇭", "name": "Ghanaian Cedi" },
+  { "code": "GIP", "flag": "🇬🇮", "name": "Gibraltar Pound" },
+  { "code": "GMD", "flag": "🇬🇲", "name": "Gambian Dalasi" },
+  { "code": "GNF", "flag": "🇬🇳", "name": "Guinean Franc" },
+  { "code": "GTQ", "flag": "🇬🇹", "name": "Guatemalan Quetzal" },
+  { "code": "GYD", "flag": "🇬🇾", "name": "Guyanaese Dollar" },
+  { "code": "HKD", "flag": "🇭🇰", "name": "Hong Kong Dollar" },
+  { "code": "HNL", "flag": "🇭🇳", "name": "Honduran Lempira" },
+  { "code": "HRK", "flag": "🇭🇷", "name": "Croatian Kuna" },
+  { "code": "HTG", "flag": "🇭🇹", "name": "Haitian Gourde" },
+  { "code": "HUF", "flag": "🇭🇺", "name": "Hungarian Forint" },
+  { "code": "IDR", "flag": "🇮🇩", "name": "Indonesian Rupiah" },
+  { "code": "ILS", "flag": "🇮🇱", "name": "Israeli New Shekel" },
+  { "code": "IMP", "flag": "🇮🇲", "name": "Isle of Man Pound" },
+  { "code": "INR", "flag": "🇮🇳", "name": "Indian Rupee" },
+  { "code": "IQD", "flag": "🇮🇶", "name": "Iraqi Dinar" },
+  { "code": "IRR", "flag": "🇮🇷", "name": "Iranian Rial" },
+  { "code": "ISK", "flag": "🇮🇸", "name": "Icelandic Króna" },
+  { "code": "JEP", "flag": "🇯🇪", "name": "Jersey Pound" },
+  { "code": "JMD", "flag": "🇯🇲", "name": "Jamaican Dollar" },
+  { "code": "JOD", "flag": "🇯🇴", "name": "Jordanian Dinar" },
+  { "code": "JPY", "flag": "🇯🇵", "name": "Japanese Yen" },
+  { "code": "KES", "flag": "🇰🇪", "name": "Kenyan Shilling" },
+  { "code": "KGS", "flag": "🇰🇬", "name": "Kyrgystani Som" },
+  { "code": "KHR", "flag": "🇰🇭", "name": "Cambodian Riel" },
+  { "code": "KID", "flag": "🇰🇮", "name": "Kiribati Dollar" },
+  { "code": "KMF", "flag": "🇰🇲", "name": "Comorian Franc" },
+  { "code": "KPW", "flag": "🇰🇵", "name": "North Korean Won" },
+  { "code": "KRW", "flag": "🇰🇷", "name": "South Korean Won" },
+  { "code": "KWD", "flag": "🇰🇼", "name": "Kuwaiti Dinar" },
+  { "code": "KYD", "flag": "🇰🇾", "name": "Cayman Islands Dollar" },
+  { "code": "KZT", "flag": "🇰🇿", "name": "Kazakhstani Tenge" },
+  { "code": "LAK", "flag": "🇱🇦", "name": "Laotian Kip" },
+  { "code": "LBP", "flag": "🇱🇧", "name": "Lebanese Pound" },
+  { "code": "LKR", "flag": "🇱🇰", "name": "Sri Lankan Rupee" },
+  { "code": "LRD", "flag": "🇱🇷", "name": "Liberian Dollar" },
+  { "code": "LSL", "flag": "🇱🇸", "name": "Lesotho Loti" },
+  { "code": "LYD", "flag": "🇱🇾", "name": "Libyan Dinar" },
+  { "code": "MAD", "flag": "🇲🇦", "name": "Moroccan Dirham" },
+  { "code": "MDL", "flag": "🇲🇩", "name": "Moldovan Leu" },
+  { "code": "MGA", "flag": "🇲🇬", "name": "Malagasy Ariary" },
+  { "code": "MKD", "flag": "🇲🇰", "name": "Macedonian Denar" },
+  { "code": "MMK", "flag": "🇲🇲", "name": "Myanma Kyat" },
+  { "code": "MNT", "flag": "🇲🇳", "name": "Mongolian Tugrik" },
+  { "code": "MOP", "flag": "🇲🇴", "name": "Macanese Pataca" },
+  { "code": "MRU", "flag": "🇲🇷", "name": "Mauritanian Ouguiya" },
+  { "code": "MUR", "flag": "🇲🇺", "name": "Mauritian Rupee" },
+  { "code": "MVR", "flag": "🇲🇻", "name": "Maldivian Rufiyaa" },
+  { "code": "MWK", "flag": "🇲🇼", "name": "Malawian Kwacha" },
+  { "code": "MXN", "flag": "🇲🇽", "name": "Mexican Peso" },
+  { "code": "MYR", "flag": "🇲🇾", "name": "Malaysian Ringgit" },
+  { "code": "MZN", "flag": "🇲🇿", "name": "Mozambican Metical" },
+  { "code": "NAD", "flag": "🇳🇦", "name": "Namibian Dollar" },
+  { "code": "NGN", "flag": "🇳🇬", "name": "Nigerian Naira" },
+  { "code": "NIO", "flag": "🇳🇮", "name": "Nicaraguan Córdoba" },
+  { "code": "NOK", "flag": "🇳🇴", "name": "Norwegian Krone" },
+  { "code": "NPR", "flag": "🇳🇵", "name": "Nepalese Rupee" },
+  { "code": "NZD", "flag": "🇳🇿", "name": "New Zealand Dollar" },
+  { "code": "OMR", "flag": "🇴🇲", "name": "Omani Rial" },
+  { "code": "PAB", "flag": "🇵🇦", "name": "Panamanian Balboa" },
+  { "code": "PEN", "flag": "🇵🇪", "name": "Peruvian Nuevo Sol" },
+  { "code": "PGK", "flag": "🇵🇬", "name": "Papua New Guinean Kina" },
+  { "code": "PHP", "flag": "🇵🇭", "name": "Philippine Peso" },
+  { "code": "PKR", "flag": "🇵🇰", "name": "Pakistani Rupee" },
+  { "code": "PLN", "flag": "🇵🇱", "name": "Polish Zloty" },
+  { "code": "PYG", "flag": "🇵🇾", "name": "Paraguayan Guarani" },
+  { "code": "QAR", "flag": "🇶🇦", "name": "Qatari Rial" },
+  { "code": "RON", "flag": "🇷🇴", "name": "Romanian Leu" },
+  { "code": "RSD", "flag": "🇷🇸", "name": "Serbian Dinar" },
+  { "code": "RUB", "flag": "🇷🇺", "name": "Russian Ruble" },
+  { "code": "RWF", "flag": "🇷🇼", "name": "Rwandan Franc" },
+  { "code": "SAR", "flag": "🇸🇦", "name": "Saudi Riyal" },
+  { "code": "SBD", "flag": "🇸🇧", "name": "Solomon Islands Dollar" },
+  { "code": "SCR", "flag": "🇸🇨", "name": "Seychellois Rupee" },
+  { "code": "SDG", "flag": "🇸🇩", "name": "Sudanese Pound" },
+  { "code": "SEK", "flag": "🇸🇪", "name": "Swedish Krona" },
+  { "code": "SGD", "flag": "🇸🇬", "name": "Singapore Dollar" },
+  { "code": "SHP", "flag": "🇸🇭", "name": "Saint Helena Pound" },
+  { "code": "SLL", "flag": "🇸🇱", "name": "Sierra Leonean Leone" },
+  { "code": "SOS", "flag": "🇸🇴", "name": "Somali Shilling" },
+  { "code": "SRD", "flag": "🇸🇷", "name": "Surinamese Dollar" },
+  { "code": "SSP", "flag": "🇸🇸", "name": "South Sudanese Pound" },
+  { "code": "STN", "flag": "🇸🇹", "name": "São Tomé and Príncipe Dobra" },
+  { "code": "SYP", "flag": "🇸🇾", "name": "Syrian Pound" },
+  { "code": "SZL", "flag": "🇸🇿", "name": "Swazi Lilangeni" },
+  { "code": "THB", "flag": "🇹🇭", "name": "Thai Baht" },
+  { "code": "TJS", "flag": "🇹🇯", "name": "Tajikistani Somoni" },
+  { "code": "TMT", "flag": "🇹🇲", "name": "Turkmenistani Manat" },
+  { "code": "TND", "flag": "🇹🇳", "name": "Tunisian Dinar" },
+  { "code": "TOP", "flag": "🇹🇴", "name": "Tongan Pa'anga" },
+  { "code": "TRY", "flag": "🇹🇷", "name": "Turkish Lira" },
+  { "code": "TTD", "flag": "🇹🇹", "name": "Trinidad and Tobago Dollar" },
+  { "code": "TVD", "flag": "🇹🇻", "name": "Tuvaluan Dollar" },
+  { "code": "TWD", "flag": "🇹🇼", "name": "New Taiwan Dollar" },
+  { "code": "TZS", "flag": "🇹🇿", "name": "Tanzanian Shilling" },
+  { "code": "UAH", "flag": "🇺🇦", "name": "Ukrainian Hryvnia" },
+  { "code": "UGX", "flag": "🇺🇬", "name": "Ugandan Shilling" },
+  { "code": "USD", "flag": "🇺🇸", "name": "United States Dollar" },
+  { "code": "UYU", "flag": "🇺🇾", "name": "Uruguayan Peso" },
+  { "code": "UZS", "flag": "🇺🇿", "name": "Uzbekistan Som" },
+  { "code": "VES", "flag": "🇻🇪", "name": "Venezuelan Bolívar" },
+  { "code": "VND", "flag": "🇻🇳", "name": "Vietnamese Dong" },
+  { "code": "VUV", "flag": "🇻🇺", "name": "Vanuatu Vatu" },
+  { "code": "WST", "flag": "🇼🇸", "name": "Samoan Tala" },
+  { "code": "XAF", "flag": "🇨🇫", "name": "Central African CFA Franc" },
+  { "code": "XCD", "flag": "🇦🇮", "name": "East Caribbean Dollar" },
+  { "code": "XDR", "flag": "🌐", "name": "Special Drawing Rights" },
+  { "code": "XOF", "flag": "🇧🇫", "name": "West African CFA Franc" },
+  { "code": "XPF", "flag": "🇵🇫", "name": "CFP Franc" },
+  { "code": "YER", "flag": "🇾🇪", "name": "Yemeni Rial" },
+  { "code": "ZAR", "flag": "🇿🇦", "name": "South African Rand" },
+  { "code": "ZMW", "flag": "🇿🇲", "name": "Zambian Kwacha" },
+  { "code": "ZWL", "flag": "🇿🇼", "name": "Zimbabwean Dollar" }]
+
