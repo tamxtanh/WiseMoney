@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useRoute, useNavigation } from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
-import { COLORS, SIZES } from '../../constants';
-import InputField from '../../components/interest-components/InputField';
-import CategorySelector from './CategorySelector';
-import { supabase } from '../../lib/supabase';
-import { Stack } from 'expo-router';
-import DateRangePicker from '../../components/modal-calendar/DateRangePicker';
-import { icons } from '../../constants'; // Ensure you have icons imported
+import InputField from '../../../components/interest-components/InputField';
+import CategorySelector from '../CategorySelector';
+import DateRangePicker from '../../../components/modal-calendar/DateRangePicker';
+import { supabase } from '../../../lib/supabase';
+import { COLORS, SIZES, icons } from '../../../constants';
+import { Stack, router } from 'expo-router';
 
 interface Category {
     id: number;
@@ -15,33 +14,21 @@ interface Category {
     url: string;
 }
 
-interface BudgetData {
-    id: number;
-    name: string;
-    start_date: Date;
-    end_date: Date;
-    amount: number;
-    current: number;
-    is_done: boolean;
-    category: number;
-}
-
-const BudgetDetail: React.FC = () => {
-    const route = useRoute();
-    const navigation = useNavigation();
-    const { id } = route.params as { id: number };
-
-    const [budget, setBudget] = useState<BudgetData | null>(null);
+const AddBudget: React.FC = () => {
     const [categories, setCategories] = useState<Category[]>([]);
     const [isCustomRange, setIsCustomRange] = useState(false);
     const [userId, setUserId] = useState<number | null>(null);
 
+    const [budget, setBudget] = useState({
+        name: '',
+        start_date: new Date(),
+        end_date: new Date(),
+        amount: 0,
+        category: 0,
+    });
+
     const formatCurrency = (value: number) => String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     const parseCurrency = (value: string) => parseFloat(value.replace(/,/g, ''));
-
-    useEffect(() => {
-        fetchBudgetById();
-    }, [id]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -73,42 +60,23 @@ const BudgetDetail: React.FC = () => {
         }
     };
 
-    const fetchBudgetById = async () => {
+    const createBudget = async () => {
         let { data, error } = await supabase
-            .from('Budget')
-            .select('*')
-            .eq('id', id)
-            .single();
-
-        if (error) {
-            console.error('Error fetching row:', error);
-        } else {
-            if (data) {
-                const budgetData = data;
-                setBudget({
-                    ...budgetData,
-                    start_date: new Date(budgetData.start_date),
-                    end_date: new Date(budgetData.end_date),
-                });
-            }
+            .rpc('add_budget', {
+                p_amount: budget.amount,
+                p_category: budget.category,
+                p_end_date: budget.end_date,
+                p_name: budget.name,
+                p_start_date: budget.start_date
+            })
+        if (error) console.error(error)
+        else {
+            router.back()
         }
     };
 
-    const updateBudget = async () => {
-        let { data, error } = await supabase
-            .rpc('update_budget', {
-                p_amount: budget.amount,
-                p_end_date: budget.end_date,
-                p_id: budget.id,
-                p_name: budget.name,
-                p_start_date: budget.start_date
-            });
-        if (error) console.error(error);
-        else console.log(data);
-    };
-
     const handleSave = () => {
-        updateBudget();
+        createBudget();
     };
 
     const closeRangeCustom = () => {
@@ -128,7 +96,7 @@ const BudgetDetail: React.FC = () => {
         return `${formattedStartDate[1]}/${formattedStartDate[0]}/${formattedStartDate[2]} - ${formattedEndDate[1]}/${formattedEndDate[0]}/${formattedEndDate[2]}`;
     };
 
-    if (!budget && categories.length < 1) {
+    if (categories.length < 1) {
         return (
             <View style={styles.container}>
                 <ActivityIndicator size="large" color={COLORS.primary} />
@@ -143,7 +111,7 @@ const BudgetDetail: React.FC = () => {
                     headerTitle: () => (
                         <View style={{ marginLeft: 0 }}>
                             <Text style={{ fontSize: 20, fontFamily: "InterSemiBold" }}>
-                                {budget.name}
+                                Create a new budget
                             </Text>
                         </View>
                     ),
@@ -170,7 +138,7 @@ const BudgetDetail: React.FC = () => {
                         categoryList={categories}
                         currentCategory={budget.category}
                         onCategoryChange={(categoryId) => setBudget({ ...budget, category: categoryId })}
-                        editable={false}
+                        editable={true}
                     />
 
                     <TouchableOpacity onPress={openRangeCustom}>
@@ -178,11 +146,11 @@ const BudgetDetail: React.FC = () => {
                             title="Date Range"
                             description="Select the date range for the budget"
                             value={formatCustomDate(budget.start_date, budget.end_date)}
-                            // onPress={openRangeCustom}
                             disabled={true}
                             inputIcon={<icons.calenderClock fill={'black'} />} // Adjust icon usage as needed
                         />
                     </TouchableOpacity>
+
                     <DateRangePicker
                         visible={isCustomRange}
                         close={closeRangeCustom}
@@ -190,7 +158,8 @@ const BudgetDetail: React.FC = () => {
                         setStartDate={(date) => setBudget({ ...budget, start_date: date })}
                         endDate={budget.end_date}
                         setEndDate={(date) => setBudget({ ...budget, end_date: date })}
-                        setRangeOption={undefined} />
+                        setRangeOption={undefined}
+                    />
 
                     <InputField
                         title="Amount"
@@ -200,17 +169,6 @@ const BudgetDetail: React.FC = () => {
                         placeholder="0"
                         keyboardType="numeric"
                         inputIcon="VND"
-                    />
-
-                    <InputField
-                        title="Current Spending"
-                        description="Current amount spent"
-                        value={formatCurrency(budget.current)}
-                        onChangeText={(text) => setBudget({ ...budget, current: parseCurrency(text) })}
-                        placeholder="0"
-                        keyboardType="numeric"
-                        inputIcon="VND"
-                        disabled={true}
                     />
 
                     <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
@@ -245,4 +203,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default BudgetDetail;
+export default AddBudget;
