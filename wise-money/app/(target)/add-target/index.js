@@ -164,6 +164,7 @@ export default function Page() {
           },
           //headerShadowVisible: false,
           headerTitleAlign: "center",
+          headerTintColor: "white",
         }}
       />
 
@@ -321,12 +322,15 @@ export default function Page() {
               padding: 14,
               borderRadius: 7,
             }}
-            disabled={!inputValue || !category}
+            disabled={!inputValue || !category || !targetName}
             onPress={handleSave}
           >
             <Text
               style={{
-                color: !inputValue || !category ? COLORS.textColor3 : "#FCFCFC",
+                color:
+                  !inputValue || !category || !targetName
+                    ? COLORS.textColor3
+                    : "#FCFCFC",
                 fontFamily: "InterSemiBold",
                 fontSize: 18,
               }}

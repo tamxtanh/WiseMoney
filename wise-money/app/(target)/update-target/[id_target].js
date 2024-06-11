@@ -241,7 +241,7 @@ export default function Page() {
                   color: "white",
                 }}
               >
-                Add Target
+                Update Target
               </Text>
             </View>
           ),
@@ -250,6 +250,7 @@ export default function Page() {
           },
           //headerShadowVisible: false,
           headerTitleAlign: "center",
+          headerTintColor: "white",
         }}
       />
 

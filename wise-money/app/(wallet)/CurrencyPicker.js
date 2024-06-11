@@ -16,7 +16,6 @@ import { COLORS } from "../../constants";
 export default CurrencyPicker = (props) => {
   const currencies = Object.values(dataCurrency);
 
-  const [currencyName, setCurrencyName] = useState("US Dollar");
   const [code, setCode] = useState("USD");
   // const [symbol, setSymbol] = useState("$");
   // const [symbolNative, setSymbolNative] = useState("$");
@@ -45,6 +44,8 @@ export default CurrencyPicker = (props) => {
     textEmpty,
     showCloseButton = true,
     showModalTitle = true,
+    currencyName,
+    setCurrencyName,
   } = props;
 
   const {
