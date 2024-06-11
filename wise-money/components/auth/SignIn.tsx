@@ -52,17 +52,34 @@ export default function SignIn({ switchToSignUp }) {
 
       if (error) Alert.alert(error.message);
       else {
-        router.navigate({
-          pathname: "create-wallet",
-        });
-        //router.push(`/(tabs)/home`);
-        // router.back()
-        // try {
-        //     router.back()
-        // }
-        // catch (error) {
-        //     router.push(`/(tabs)/home`);
-        // }
+        console.log("run2");
+        let { data: User, error } = await supabase
+          .from("User")
+          .select("id")
+          .eq("email", email)
+          .single();
+        if (error) throw error;
+        else {
+          console.log("run3");
+          let { data: Wallet, error } = await supabase
+            .from("Wallet")
+            .select("id")
+            .eq("user", User.id)
+            .single();
+          if (error) throw error;
+          else {
+            console.log("Wallet", Wallet);
+            if (Wallet.id) {
+              router.navigate({
+                pathname: "home",
+              });
+            } else {
+              router.navigate({
+                pathname: "create-wallet",
+              });
+            }
+          }
+        }
       }
     } else {
       // Form is invalid, display error message

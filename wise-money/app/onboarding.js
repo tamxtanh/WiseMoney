@@ -1,9 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  AppState,
+} from "react-native";
 import AppIntroSlider from "react-native-app-intro-slider";
 import { COLORS, SIZES } from "../constants/theme";
 import { router } from "expo-router";
 import { supabase } from "../lib/supabase";
+import { useKeyboard } from "../context/KeyboardContext";
+
+AppState.addEventListener("change", (state) => {
+  if (state === "active") {
+    supabase.auth.startAutoRefresh();
+  } else {
+    supabase.auth.stopAutoRefresh();
+  }
+});
 
 const slides = [
   {
@@ -28,8 +44,6 @@ const slides = [
 ];
 
 const Onboarding = () => {
-  const [showHomePage, setShowHomePage] = useState(false);
-
   const buttonLabel = (label) => {
     return (
       <View
@@ -50,138 +64,172 @@ const Onboarding = () => {
     );
   };
 
+  const { setUserId, setWalletId } = useKeyboard();
+
   const handleSignUp = () => {
-    router.push("/auth");
+    router.navigate({
+      pathname: "/auth",
+      params: {
+        authType: "false",
+      },
+    });
   };
 
   const handleSignIn = () => {
-    router.push("/auth");
+    router.navigate({
+      pathname: "/auth",
+      params: {
+        authType: "true",
+      },
+    });
+  };
+
+  const setIdUserAndWallet = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    let { data: User, error } = await supabase
+      .from("User")
+      .select("id")
+      .eq("email", user.email)
+      .single();
+
+    if (error) throw error;
+    else {
+      setUserId(User.id);
+      let { data: Wallet, error } = await supabase
+        .from("Wallet")
+        .select("id")
+        .eq("user", User.id)
+        .single();
+
+      if (error) throw error;
+      else {
+        setWalletId(Wallet.id);
+      }
+    }
   };
 
   // Check if user is logged in
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    const checkSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
       if (session) {
+        setIdUserAndWallet();
         router.replace("/(tabs)/home");
-        // router.back()
-        // try {
-        //     router.back()
-        // }
-        // catch (error) {
-        //     router.push(`/(tabs)/home`);
-        // }
       } else {
         console.log("no user");
       }
-    });
+    };
+
+    checkSession();
 
     supabase.auth.onAuthStateChange((_event, session) => {
       if (session) {
+        setIdUserAndWallet();
         router.replace("/(tabs)/home");
-        // try {
-        //     router.back()
-        // }
-        // catch (error) {
-        //     router.push(`/(tabs)/home`);
-        // }
       } else {
         console.log("no user 2");
       }
     });
   }, []);
 
-  if (!showHomePage) {
-    return (
-      <View style={{ flex: 1, backgroundColor: "#ffffff" }}>
-        <AppIntroSlider
-          data={slides}
-          renderItem={({ item }) => {
-            return (
-              <View
-                style={{
-                  flex: 1,
-                  alignItems: "center",
-                  padding: 15,
-                  paddingTop: 70,
-                  backgroundColor: "#ffffff",
-                }}
-              >
-                <Image
-                  source={item.image}
-                  style={{
-                    width: SIZES.width - 80,
-                    height: 300,
-                    marginBottom: 30,
-                  }}
-                  resizeMode="contain"
-                />
-                <Text
-                  style={{
-                    fontFamily: "InterBold",
-                    textAlign: "center",
-                    color: COLORS.textColor2,
-                    fontSize: SIZES.title,
-                    marginLeft: 20,
-                    marginRight: 20,
-                  }}
-                >
-                  {item.title}
-                </Text>
-                <Text
-                  style={{
-                    fontFamily: "InterRegular",
-                    textAlign: "center",
-                    color: COLORS.textColor1,
-                    fontSize: SIZES.h7,
-                    marginTop: 12,
-                    marginLeft: 20,
-                    marginRight: 20,
-                  }}
-                >
-                  {item.description}
-                </Text>
-              </View>
-            );
-          }}
-          activeDotStyle={{
-            backgroundColor: COLORS.primary,
-          }}
-          dotStyle={{
-            backgroundColor: "#EEE5FF",
-          }}
-        />
-        <View style={{ alignItems: "center", marginTop: 30, marginBottom: 80 }}>
-          <TouchableOpacity onPress={handleSignUp} style={styles.button}>
-            <Text style={styles.buttonText}>SIGN UP FOR FREE</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={handleSignIn}>
-            <Text
+  return (
+    <View style={{ flex: 1, backgroundColor: "#ffffff" }}>
+      <AppIntroSlider
+        data={slides}
+        renderItem={({ item }) => {
+          return (
+            <View
               style={{
-                color: COLORS.primary,
-                marginTop: 30,
-                fontFamily: "InterSemiBold",
-                fontSize: 15,
+                flex: 1,
+                alignItems: "center",
+                padding: 15,
+                paddingTop: 70,
+                backgroundColor: "#ffffff",
               }}
             >
-              SIGN IN
-            </Text>
-          </TouchableOpacity>
-        </View>
+              <Image
+                source={item.image}
+                style={{
+                  width: SIZES.width - 80,
+                  height: 300,
+                  marginBottom: 30,
+                }}
+                resizeMode="contain"
+              />
+              <Text
+                style={{
+                  fontFamily: "InterBold",
+                  textAlign: "center",
+                  color: COLORS.textColor2,
+                  fontSize: SIZES.title,
+                  marginLeft: 20,
+                  marginRight: 20,
+                }}
+              >
+                {item.title}
+              </Text>
+              <Text
+                style={{
+                  fontFamily: "InterRegular",
+                  textAlign: "center",
+                  color: COLORS.textColor1,
+                  fontSize: SIZES.h7,
+                  marginTop: 12,
+                  marginLeft: 20,
+                  marginRight: 20,
+                }}
+              >
+                {item.description}
+              </Text>
+            </View>
+          );
+        }}
+        activeDotStyle={{
+          backgroundColor: COLORS.primary,
+        }}
+        dotStyle={{
+          backgroundColor: "#EEE5FF",
+        }}
+      />
+      <View style={{ alignItems: "center", marginTop: 30, marginBottom: 80 }}>
+        <TouchableOpacity onPress={handleSignUp} style={styles.button}>
+          <Text style={styles.buttonText}>SIGN UP FOR FREE</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleSignIn}>
+          <Text
+            style={{
+              color: COLORS.primary,
+              marginTop: 30,
+              fontFamily: "InterSemiBold",
+              fontSize: 15,
+            }}
+          >
+            SIGN IN
+          </Text>
+        </TouchableOpacity>
       </View>
-    );
-  }
-
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Home Screen</Text>
     </View>
   );
+  // if (!showHomePage) {
+  // }
+
+  // return (
+  //   <View
+  //     style={{
+  //       flex: 1,
+  //       justifyContent: "center",
+  //       alignItems: "center",
+  //     }}
+  //   >
+  //     <Text>Home Screen</Text>
+  //   </View>
+  // );
 };
 
 export default Onboarding;
