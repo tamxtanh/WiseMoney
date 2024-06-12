@@ -12,7 +12,7 @@ import { COLORS, SIZES } from "../../constants";
 import InputField from "../../components/interest-components/InputField";
 import CategorySelector from "./CategorySelector";
 import { supabase } from "../../lib/supabase";
-import { Stack } from "expo-router";
+import { Stack, router } from "expo-router";
 import DateRangePicker from "../../components/modal-calendar/DateRangePicker";
 import { icons } from "../../constants"; // Ensure you have icons imported
 import DatePickerField from "../../components/interest-components/DatePickerField";
@@ -116,7 +116,10 @@ const BudgetDetail: React.FC = () => {
       p_start_date: budget.start_date,
     });
     if (error) console.error(error);
-    else console.log(data);
+    else {
+      console.log(data);
+      router.back()
+    }
   };
 
   const handleSave = () => {

@@ -74,6 +74,7 @@ const AddBudget: React.FC = () => {
   };
 
   const createBudget = async () => {
+    // console.log('This is budget to be created', budget)
     let { data, error } = await supabase.rpc("add_budget", {
       p_amount: budget.amount,
       p_category: budget.category,

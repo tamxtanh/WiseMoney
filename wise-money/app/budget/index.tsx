@@ -80,10 +80,10 @@ const Budget = () => {
     }
   }, [categories]);
 
-  const onDeleteBudget = (budgetId: number) => {
-    const updatedBudgets = budgets.filter(budget => budget.id !== budgetId);
-    setBudgets(updatedBudgets);
-  };
+  // const onDeleteBudget = (budgetId: number) => {
+  //   const updatedBudgets = budgets.filter(budget => budget.id !== budgetId);
+  //   setBudgets(updatedBudgets);
+  // };
 
   return (
     <View style={styles.container}>
