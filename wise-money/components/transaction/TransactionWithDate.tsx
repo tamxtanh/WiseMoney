@@ -3,13 +3,30 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { DateTransaction } from "./interface";
 import { fonts } from "react-native-elements/dist/config";
 import { COLORS, FONT, SIZES } from "../../constants/theme";
+import { router } from "expo-router";
 
 const TransactionWithDate: React.FC<{ transaction: DateTransaction }> = ({
   transaction,
 }) => {
+  let type;
+
+  if (transaction?.type === "debtLoan" && transaction?.value > 0) {
+    type = "debt";
+  } else if (transaction?.type === "debtLoan" && transaction?.value < 0) {
+    type = "loan";
+  } else {
+    type = transaction?.type;
+  }
+
   const handleClick = () => {
     // Handle click event here
     // Navigate to other page depending on type
+    router.navigate({
+      pathname: `/update-transaction/${transaction.id}`,
+      params: {
+        typeTransaction: type,
+      },
+    });
   };
 
   const formatDate = (date: Date) => {
@@ -35,7 +52,8 @@ const TransactionWithDate: React.FC<{ transaction: DateTransaction }> = ({
 
       <View style={styles.right}>
         <Text style={transaction.value < 0 ? styles.red : styles.blue}>
-          {transaction.value.toLocaleString("en-US", {
+          {Math.abs(transaction.value).toLocaleString("en-US", {
+            // If you want to display the value as a currency, uncomment the lines below
             // style: "currency",
             // currency: "VND",
             minimumFractionDigits: 0,

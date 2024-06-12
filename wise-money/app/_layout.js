@@ -30,8 +30,8 @@ const Layout = () => {
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen name="onboarding" options={{ headerShown: false }} />
             <Stack.Screen
-              name="create-wallet/index"
-              options={{ headerShown: false }}
+              name="(wallet)/create-wallet/index"
+              options={{ headerShown: false, headerTitle: "" }}
             />
             <Stack.Screen
               name="iconList"

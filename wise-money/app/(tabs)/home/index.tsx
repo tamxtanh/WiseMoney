@@ -17,6 +17,7 @@ import { useEffect, useState } from "react";
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 import { supabase } from "../../../lib/supabase";
 import MyBarChart from "../../../components/chart/MyBarChart";
+import { useKeyboard } from "../../../context/KeyboardContext";
 
 export default function Page() {
   const [recentTransacList, setRecentTransacList] = useState([]);
@@ -24,6 +25,11 @@ export default function Page() {
   const [topSpending, setTopSpending] = useState();
   const [showBalance, setShowBalance] = useState(true);
   const [percentageIncrease, setPercentageIncrease] = useState(-25);
+  const [totalBalance, setTotalBalance] = useState();
+  const [userNameText, setUserNameText] = useState();
+
+  const { userId, walletId } = useKeyboard();
+
   const router = useRouter();
 
   const [dataChart, setDataChart] = useState({
@@ -42,6 +48,10 @@ export default function Page() {
     { title: "Week", value: "week" },
     { title: "Month", value: "month" },
   ];
+
+  const addCommasToNumber = (number) => {
+    return number?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
 
   const getRecentTransaction = async (walletId, quantily) => {
     try {
@@ -95,27 +105,103 @@ export default function Page() {
     }
   };
 
+  const getTotalBalance = async (walletId) => {
+    try {
+      let { data, error } = await supabase.rpc("get_total_balance", {
+        wallet_id: walletId,
+      });
+      if (error) throw error;
+      else {
+        setTotalBalance(data);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getUserName = async (userId) => {
+    try {
+      let { data: User, error } = await supabase
+        .from("User")
+        .select("username")
+        .eq("id", userId)
+        .single();
+
+      if (error) throw error;
+      else {
+        setUserNameText(User.username);
+      }
+    } catch (error) {}
+  };
+
   useEffect(() => {
+    // getRecentTransaction(walletId, 5);
+
+    // getTotalBalance(walletId);
+
+    // getUserName(userId);
+
     getRecentTransaction(1, 5);
+
+    getTotalBalance(1);
+
+    getUserName(1);
 
     const channelsExpense = supabase
       .channel("custom-all-channel")
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "Expense" },
-        (payload) => {
-          console.log("Change received!", payload);
+        async (payload) => {
+          console.log("Change received in Expense!", payload);
+          // await getRecentTransaction(walletId, 5);
+          // await getTotalBalance(walletId);
+          await getRecentTransaction(1, 5);
+          await getTotalBalance(1);
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "Income" },
+        async (payload) => {
+          console.log("Change received in Income!", payload);
+          // await getRecentTransaction(walletId, 5);
+          // await getTotalBalance(walletId);
+          await getRecentTransaction(1, 5);
+          await getTotalBalance(1);
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "Debt" },
+        async (payload) => {
+          console.log("Change received in Debt!", payload);
+          // await getRecentTransaction(walletId, 5);
+          // await getTotalBalance(walletId);
+          await getRecentTransaction(1, 5);
+          await getTotalBalance(1);
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "Loan" },
+        async (payload) => {
+          console.log("Change received in Loan!", payload);
+          // await getRecentTransaction(walletId, 5);
+          // await getTotalBalance(walletId);
+          await getRecentTransaction(1, 5);
+          await getTotalBalance(1);
         }
       )
       .subscribe();
 
     return () => {
-      // Unsubscribe when the component unmounts
       channelsExpense.unsubscribe();
     };
   }, []);
 
   useEffect(() => {
+    //getPeriodExpenseSummary(periodValue, 3, walletId);
     getPeriodExpenseSummary(periodValue, 3, 1);
 
     const channelsExpense = supabase
@@ -123,8 +209,10 @@ export default function Page() {
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "Expense" },
-        (payload) => {
+        async (payload) => {
           console.log("Change received!", payload);
+          //await getPeriodExpenseSummary(periodValue, 3, walletId);
+          await getPeriodExpenseSummary(periodValue, 3, 1);
         }
       )
       .subscribe();
@@ -149,20 +237,23 @@ export default function Page() {
                   color: "white",
                 }}
               >
-                Hi tam16121612@gmail.com
+                Hi {userNameText}
               </Text>
             </View>
           ),
-          headerRight: () =>
+          headerRight: () => (
             <>
-              <TouchableOpacity style={{ marginRight: 10 }} onPress={() => router.push('/search/food')}>
+              <TouchableOpacity
+                style={{ marginRight: 10 }}
+                onPress={() => router.push("/search/food")}
+              >
                 <icons.searchIcon fill="white" />
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => router.push('/notification')}>
+              <TouchableOpacity onPress={() => router.push("/notification")}>
                 <icons.notification fill="white" />
               </TouchableOpacity>
             </>
-          ,
+          ),
           headerStyle: {
             backgroundColor: COLORS.primary,
           },
@@ -179,7 +270,7 @@ export default function Page() {
               </View>
               <Text style={styles.valueBalance}>
                 {" "}
-                {showBalance ? "5,000,000" : "***00"}{" "}
+                {showBalance ? addCommasToNumber(totalBalance) : "***00"}
               </Text>
             </View>
             <TouchableOpacity
@@ -197,9 +288,9 @@ export default function Page() {
         <View style={styles.spendingReport}>
           <View style={styles.titleBox}>
             <Text style={styles.lTitleBox}>Spending Report</Text>
-            <TouchableOpacity>
+            {/* <TouchableOpacity>
               <Text style={styles.rTitleBox}>See reports</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
 
           <View style={styles.tabsSpReport}>
@@ -310,9 +401,9 @@ export default function Page() {
         <View style={styles.recentTransactions}>
           <View style={styles.titleBox}>
             <Text style={styles.lTitleBox}>Recent transactions</Text>
-            <TouchableOpacity>
+            {/* <TouchableOpacity>
               <Text style={styles.rTitleBox}>See all</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           <View style={styles.listReTrans}>
             {recentTransacList?.map((item, index) => (

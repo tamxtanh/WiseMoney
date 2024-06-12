@@ -10,18 +10,14 @@ import {
 } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { router, Stack } from "expo-router";
-import { COLORS, icons } from "../constants";
+import { COLORS, icons } from "../../constants";
 import * as Contacts from "expo-contacts";
-import CustomTabBar from "../components/tab-custom/CustomTabBar";
-import CategoryContent from "../components/tab-custom/CategoryContent";
-import { supabase } from "../lib/supabase";
+import CustomTabBar from "../../components/tab-custom/CustomTabBar";
+import CategoryContent from "../../components/tab-custom/CategoryContent";
+import { supabase } from "../../lib/supabase";
 
 const CategoryList = () => {
-  const { previousPage, oldContent } = useLocalSearchParams();
-
-  const [contactContent, setContactContent] = useState(oldContent);
-
-  const [contacts, setContacts] = useState([]);
+  const { previousPage, type_page } = useLocalSearchParams();
 
   const [expenseData, setExpenseData] = useState({
     type: "expense",
@@ -132,7 +128,7 @@ const CategoryList = () => {
           headerTitle: () => (
             <View style={{ marginLeft: 0 }}>
               <Text style={{ fontSize: 20, fontFamily: "InterSemiBold" }}>
-                Select category
+                {type_page ? type_page : "Categories"}
               </Text>
             </View>
           ),
@@ -150,6 +146,7 @@ const CategoryList = () => {
           widthOfPerTab={Dimensions.get("window").width / 3}
           nestedTabs={nestedTabs}
           TabContent={CategoryContent}
+          selectedOption={previousPage}
         />
       </View>
     </View>

@@ -47,7 +47,7 @@ const Page = () => {
           ),
           headerRight: () => (
             <View style={{ flexDirection: "row", gap: 12 }}>
-              <icons.share2 />
+              {/* <icons.share2 /> */}
               <icons.select fill="white" />
             </View>
           ),

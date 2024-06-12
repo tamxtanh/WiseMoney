@@ -42,13 +42,14 @@ export default function Page() {
       title: "Wallets",
       icon: <icons.wallet3 fill="white" />,
       colorBox: "#4445E8",
-      pathName: "/categoryList",
+      pathName: "/update-wallet/1",
     },
     {
       title: "Categories",
       icon: <icons.category fill="white" />,
       colorBox: "#12C144",
-      pathName: "/categoryList",
+      pathName: "/category-list/Categories",
+      previousPage: "account",
     },
     {
       title: "Loans",
@@ -114,22 +115,22 @@ export default function Page() {
     {
       icon: <icons.about fill="#919191" />,
       title: "About Us",
-      onPress: () => { },
+      onPress: () => {},
     },
     {
       icon: <icons.policy fill="#919191" />,
       title: "Policy",
-      onPress: () => { },
+      onPress: () => {},
     },
     {
       icon: <icons.feedBack fill="#919191" />,
       title: "Feedback",
-      onPress: () => { },
+      onPress: () => {},
     },
     {
       icon: <icons.rating fill="#919191" />,
       title: "Rate App",
-      onPress: () => { },
+      onPress: () => {},
     },
   ];
 

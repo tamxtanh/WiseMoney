@@ -1,5 +1,5 @@
 import { Modal, StyleSheet, TouchableOpacity, View, Text } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DateTimePickerCustom from "./DateTimePickerCustom";
 import { COLORS, icons } from "../../constants";
 
@@ -14,6 +14,14 @@ const DateRangePicker = ({
 }) => {
   const [temptStartDate, setTemptStartDate] = useState(startDate);
   const [temptEndDate, setTemptEndDate] = useState(endDate);
+
+  useEffect(() => {
+    setTemptStartDate(startDate);
+  }, [startDate]);
+
+  useEffect(() => {
+    setTemptEndDate(endDate);
+  }, [endDate]);
 
   const handleCancel = () => {
     close();

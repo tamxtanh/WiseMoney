@@ -1,11 +1,12 @@
 import { Tabs } from "expo-router";
 import { View, TouchableNativeFeedback, Platform, Image } from "react-native"; // Import TouchableNativeFeedback
-import { icons, COLORS } from "../../constants";
+import { icons, COLORS, SIZES } from "../../constants";
+import { useKeyboard } from "../../context/KeyboardContext";
 
 export default function TabsLayout() {
   const TouchableComponent =
     Platform.OS === "android" ? TouchableNativeFeedback : TouchableOpacity; // Determine the Touchable component based on the platform
-
+  const { setInputValue } = useKeyboard();
   return (
     <Tabs
       screenOptions={{
@@ -13,7 +14,7 @@ export default function TabsLayout() {
         tabBarActiveTintColor: COLORS.primary,
         tabBarInactiveTintColor: "#ABABAB",
         tabBarStyle: {
-          height: 62,
+          height: SIZES.heightBottomNavigation,
           paddingTop: 5,
           paddingBottom: 9,
           position: "absolute",
@@ -65,10 +66,10 @@ export default function TabsLayout() {
                   alignItems: "center",
                   justifyContent: "center",
                   backgroundColor: COLORS.primary,
-                  width: Platform.OS == "ios" ? 40 : 50,
-                  height: Platform.OS == "ios" ? 40 : 50,
+                  width: Platform.OS == "ios" ? 40 : 48,
+                  height: Platform.OS == "ios" ? 40 : 48,
                   borderRadius: Platform.OS == "ios" ? 25 : 30,
-                  top: Platform.OS == "ios" ? 2 : 5,
+                  top: Platform.OS == "ios" ? 2 : 4,
                 }}
               >
                 <icons.plus />
@@ -78,6 +79,17 @@ export default function TabsLayout() {
           // tabBarButton: (props) => (
           //   <TabBarButton {...props} TouchableComponent={TouchableComponent} />
           // ), // Pass TouchableComponent to TabBarButton
+
+          tabBarButton: (props) => (
+            <TabBarButton
+              {...props}
+              TouchableComponent={TouchableComponent}
+              onPress={() => {
+                setInputValue("");
+                props.onPress();
+              }}
+            />
+          ),
         }}
       />
 

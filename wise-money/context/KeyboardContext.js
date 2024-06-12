@@ -6,6 +6,8 @@ const KeyboardContext = createContext();
 export const KeyboardProvider = ({ children }) => {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const [userId, setUserId] = useState();
+  const [walletId, setWalletId] = useState();
 
   const openKeyboard = () => {
     setKeyboardVisible(true);
@@ -23,6 +25,10 @@ export const KeyboardProvider = ({ children }) => {
         setInputValue,
         openKeyboard,
         closeKeyboard,
+        userId,
+        walletId,
+        setUserId,
+        setWalletId,
       }}
     >
       {children}

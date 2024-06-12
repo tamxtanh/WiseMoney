@@ -7,13 +7,23 @@ import { router } from "expo-router";
 const TransactionWithName: React.FC<{ transaction: CategoryTransaction }> = ({
   transaction,
 }) => {
+  let type;
+
+  if (transaction?.type === "debtLoan" && transaction?.value > 0) {
+    type = "debt";
+  } else if (transaction?.type === "debtLoan" && transaction?.value < 0) {
+    type = "loan";
+  } else {
+    type = transaction?.type;
+  }
+
   const handleClick = () => {
     // Handle click event here
     // Navigate to other page depending on type
     router.navigate({
-      pathname: "updateTransaction",
+      pathname: `/update-transaction/${transaction.id}`,
       params: {
-        idTransaction: transaction?.id,
+        typeTransaction: type,
       },
     });
   };

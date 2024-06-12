@@ -57,6 +57,8 @@ const NewCategory = () => {
     }
   }, [localParams]);
 
+  console.log("categoryImgId", categoryImgId);
+
   const handleSave = () => {
     const insertGroupRow = async (categoryId) => {
       try {
@@ -155,12 +157,10 @@ const NewCategory = () => {
       insertDataAndCreateNewGroup();
     }
 
-    router.navigate({
-      pathname: previousPage,
-      // params: {
-      //   contact: contactContent,
-      // },
-    });
+    router.back();
+    // router.navigate({
+    //   pathname: previousPage,
+    // });
   };
 
   return (
@@ -206,7 +206,7 @@ const NewCategory = () => {
 
           <TextInput
             style={styles.textInputTransaction}
-            placeholder="Select category"
+            placeholder="Name category"
             value={categoryName}
             onChangeText={(text) => setCategoryName(text)}
           />
