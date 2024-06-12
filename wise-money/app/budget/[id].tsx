@@ -15,6 +15,8 @@ import { supabase } from "../../lib/supabase";
 import { Stack } from "expo-router";
 import DateRangePicker from "../../components/modal-calendar/DateRangePicker";
 import { icons } from "../../constants"; // Ensure you have icons imported
+import DatePickerField from "../../components/interest-components/DatePickerField";
+import ModalCalendar from "../../components/modal-calendar/ModalCalendar";
 
 interface Category {
   id: number;
@@ -40,7 +42,8 @@ const BudgetDetail: React.FC = () => {
 
   const [budget, setBudget] = useState<BudgetData | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [isCustomRange, setIsCustomRange] = useState(false);
+  const [showStartDatePicker, setShowStartDatePicker] = useState(false);
+  const [showEndDatePicker, setShowEndDatePicker] = useState(false);
   const [userId, setUserId] = useState<number | null>(null);
 
   const formatCurrency = (value: number) =>
@@ -120,27 +123,6 @@ const BudgetDetail: React.FC = () => {
     updateBudget();
   };
 
-  const closeRangeCustom = () => {
-    setIsCustomRange(false);
-  };
-
-  const openRangeCustom = () => {
-    setIsCustomRange(true);
-  };
-
-  const formatCustomDate = (startDate, endDate) => {
-    const dateOptions = { day: "2-digit", month: "2-digit", year: "numeric" };
-
-    const formattedStartDate = startDate
-      .toLocaleDateString("en-US", dateOptions)
-      .split("/");
-    const formattedEndDate = endDate
-      .toLocaleDateString("en-US", dateOptions)
-      .split("/");
-
-    return `${formattedStartDate[1]}/${formattedStartDate[0]}/${formattedStartDate[2]} - ${formattedEndDate[1]}/${formattedEndDate[0]}/${formattedEndDate[2]}`;
-  };
-
   if (!budget && categories.length < 1) {
     return (
       <View style={styles.container}>
@@ -196,24 +178,20 @@ const BudgetDetail: React.FC = () => {
             editable={false}
           />
 
-          <TouchableOpacity onPress={openRangeCustom}>
-            <InputField
-              title="Date Range"
-              description="Select the date range for the budget"
-              value={formatCustomDate(budget.start_date, budget.end_date)}
-              // onPress={openRangeCustom}
-              disabled={true}
-              inputIcon={<icons.calenderClock fill={"black"} />} // Adjust icon usage as needed
-            />
-          </TouchableOpacity>
-          <DateRangePicker
-            visible={isCustomRange}
-            close={closeRangeCustom}
-            startDate={budget.start_date}
-            setStartDate={(date) => setBudget({ ...budget, start_date: date })}
-            endDate={budget.end_date}
-            setEndDate={(date) => setBudget({ ...budget, end_date: date })}
-            setRangeOption={undefined}
+          <DatePickerField
+            title="Start Date"
+            description="The start date of the budget"
+            date={budget.start_date}
+            showPicker={showStartDatePicker}
+            setShowPicker={setShowStartDatePicker}
+          />
+
+          <DatePickerField
+            title="End Date"
+            description="The end date of the budget"
+            date={budget.end_date}
+            showPicker={showEndDatePicker}
+            setShowPicker={setShowEndDatePicker}
           />
 
           <InputField
@@ -244,6 +222,19 @@ const BudgetDetail: React.FC = () => {
           <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
             <Text style={styles.saveButtonText}>Save</Text>
           </TouchableOpacity>
+          <ModalCalendar
+            visible={showStartDatePicker}
+            close={() => setShowStartDatePicker(false)}
+            selectedDate={budget.start_date}
+            setSelectedDate={(date) => setBudget({ ...budget, start_date: date })}
+          />
+
+          <ModalCalendar
+            visible={showEndDatePicker}
+            close={() => setShowEndDatePicker(false)}
+            selectedDate={budget.end_date}
+            setSelectedDate={(date) => setBudget({ ...budget, end_date: date })}
+          />
         </View>
       </ScrollView>
     </View>

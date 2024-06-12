@@ -17,6 +17,7 @@ import * as XLSX from "xlsx";
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
 import InputField from "../../components/interest-components/InputField";
+import DatePickerField from "../../components/interest-components/DatePickerField";
 
 interface Category {
   id: number;
@@ -29,7 +30,8 @@ const ExportData: React.FC = () => {
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date());
-  const [isCustomRange, setIsCustomRange] = useState<boolean>(false);
+  const [showStartDatePicker, setShowStartDatePicker] = useState<boolean>(false);
+  const [showEndDatePicker, setShowEndDatePicker] = useState<boolean>(false);
   const [userId, setUserId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -138,27 +140,6 @@ const ExportData: React.FC = () => {
     setSelectedCategories([]);
   };
 
-  const closeRangeCustom = () => {
-    setIsCustomRange(false);
-  };
-
-  const openRangeCustom = () => {
-    setIsCustomRange(true);
-  };
-
-  const formatCustomDate = (startDate: Date, endDate: Date) => {
-    const dateOptions = { day: "2-digit", month: "2-digit", year: "numeric" };
-
-    const formattedStartDate = startDate
-      .toLocaleDateString("en-US", dateOptions)
-      .split("/");
-    const formattedEndDate = endDate
-      .toLocaleDateString("en-US", dateOptions)
-      .split("/");
-
-    return `${formattedStartDate[1]}/${formattedStartDate[0]}/${formattedStartDate[2]} - ${formattedEndDate[1]}/${formattedEndDate[0]}/${formattedEndDate[2]}`;
-  };
-
   return (
     <View style={{ flex: 1, backgroundColor: COLORS.white }}>
       <Stack.Screen
@@ -187,33 +168,37 @@ const ExportData: React.FC = () => {
       <ScrollView style={styles.scrollView}>
         <View style={styles.container}>
           <Text style={styles.title}>Select Date Range</Text>
-          <TouchableOpacity onPress={openRangeCustom}>
-            {/* <View style={styles.datePickerField}>
-                            <Text style={styles.datePickerTitle}>Date Range</Text>
-                            <Text style={styles.datePickerDescription}>
-                                Select the date range for the data range
-                            </Text>
-                            <Text style={styles.datePickerValue}>
-                                {formatCustomDate(startDate, endDate)}
-                            </Text>
-                        </View> */}
-            <InputField
-              title="Date Range"
-              description="Select the date range for the data export"
-              value={formatCustomDate(startDate, endDate)}
-              disabled={true}
-              inputIcon={<icons.calenderClock fill={"black"} />}
+          <TouchableOpacity onPress={() => setShowStartDatePicker(true)}>
+            <DatePickerField
+              title="Start Date"
+              description="Select the start date for the data range"
+              date={startDate}
+              showPicker={showStartDatePicker}
+              setShowPicker={setShowStartDatePicker}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => setShowEndDatePicker(true)}>
+            <DatePickerField
+              title="End Date"
+              description="Select the end date for the data range"
+              date={endDate}
+              showPicker={showEndDatePicker}
+              setShowPicker={setShowEndDatePicker}
             />
           </TouchableOpacity>
 
-          <DateRangePicker
-            visible={isCustomRange}
-            close={closeRangeCustom}
-            startDate={startDate}
-            setStartDate={setStartDate}
-            endDate={endDate}
-            setEndDate={setEndDate}
-            setRangeOption={undefined}
+          <ModalCalendar
+            visible={showStartDatePicker}
+            close={() => setShowStartDatePicker(false)}
+            selectedDate={startDate}
+            setSelectedDate={setStartDate}
+          />
+
+          <ModalCalendar
+            visible={showEndDatePicker}
+            close={() => setShowEndDatePicker(false)}
+            selectedDate={endDate}
+            setSelectedDate={setEndDate}
           />
 
           <Text style={styles.title}>Select Categories</Text>
@@ -249,7 +234,7 @@ const ExportData: React.FC = () => {
                     style={[
                       styles.checkbox,
                       selectedCategories.includes(category.id) &&
-                        styles.checkboxSelected,
+                      styles.checkboxSelected,
                     ]}
                     onPress={() => toggleCategory(category.id)}
                   >
