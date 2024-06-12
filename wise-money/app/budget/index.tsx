@@ -1,4 +1,3 @@
-//app/budget/index.tsx
 import React, { useEffect, useState } from "react";
 import { View, Text, ActivityIndicator, TouchableOpacity } from "react-native";
 import { Stack, router } from "expo-router";
@@ -15,9 +14,7 @@ const Budget = () => {
   const [categories, setCategories] = useState<number[]>([]);
 
   const getIdByEmail = async () => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    const { data: { user } } = await supabase.auth.getUser();
     if (user) {
       const { data, error } = await supabase.rpc("get_user_id_by_email", {
         user_email: user.email,
@@ -83,6 +80,11 @@ const Budget = () => {
     }
   }, [categories]);
 
+  const onDeleteBudget = (budgetId: number) => {
+    const updatedBudgets = budgets.filter(budget => budget.id !== budgetId);
+    setBudgets(updatedBudgets);
+  };
+
   return (
     <View style={styles.container}>
       <Stack.Screen
@@ -112,7 +114,7 @@ const Budget = () => {
         <ActivityIndicator size="large" color={COLORS.primary} />
       ) : (
         <>
-          <BudgetComponentList budgets={budgets} />
+          <BudgetComponentList budgets={budgets} setBudgets={setBudgets} />
           <TouchableOpacity
             activeOpacity={0.7}
             style={styles.fab}
