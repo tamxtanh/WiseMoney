@@ -13,13 +13,13 @@ import { router } from "expo-router";
 import { supabase } from "../lib/supabase";
 import { useKeyboard } from "../context/KeyboardContext";
 
-AppState.addEventListener("change", (state) => {
-  if (state === "active") {
-    supabase.auth.startAutoRefresh();
-  } else {
-    supabase.auth.stopAutoRefresh();
-  }
-});
+// AppState.addEventListener("change", (state) => {
+//   if (state === "active") {
+//     supabase.auth.startAutoRefresh();
+//   } else {
+//     supabase.auth.stopAutoRefresh();
+//   }
+// });
 
 const slides = [
   {

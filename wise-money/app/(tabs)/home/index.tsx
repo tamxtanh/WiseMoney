@@ -135,11 +135,17 @@ export default function Page() {
   };
 
   useEffect(() => {
-    getRecentTransaction(walletId, 5);
+    // getRecentTransaction(walletId, 5);
 
-    getTotalBalance(walletId);
+    // getTotalBalance(walletId);
 
-    getUserName(userId);
+    // getUserName(userId);
+
+    getRecentTransaction(1, 5);
+
+    getTotalBalance(1);
+
+    getUserName(1);
 
     const channelsExpense = supabase
       .channel("custom-all-channel")
@@ -148,8 +154,10 @@ export default function Page() {
         { event: "*", schema: "public", table: "Expense" },
         async (payload) => {
           console.log("Change received in Expense!", payload);
-          await getRecentTransaction(walletId, 5);
-          await getTotalBalance(walletId);
+          // await getRecentTransaction(walletId, 5);
+          // await getTotalBalance(walletId);
+          await getRecentTransaction(1, 5);
+          await getTotalBalance(1);
         }
       )
       .on(
@@ -157,8 +165,10 @@ export default function Page() {
         { event: "*", schema: "public", table: "Income" },
         async (payload) => {
           console.log("Change received in Income!", payload);
-          await getRecentTransaction(walletId, 5);
-          await getTotalBalance(walletId);
+          // await getRecentTransaction(walletId, 5);
+          // await getTotalBalance(walletId);
+          await getRecentTransaction(1, 5);
+          await getTotalBalance(1);
         }
       )
       .on(
@@ -166,8 +176,10 @@ export default function Page() {
         { event: "*", schema: "public", table: "Debt" },
         async (payload) => {
           console.log("Change received in Debt!", payload);
-          await getRecentTransaction(walletId, 5);
-          await getTotalBalance(walletId);
+          // await getRecentTransaction(walletId, 5);
+          // await getTotalBalance(walletId);
+          await getRecentTransaction(1, 5);
+          await getTotalBalance(1);
         }
       )
       .on(
@@ -175,8 +187,10 @@ export default function Page() {
         { event: "*", schema: "public", table: "Loan" },
         async (payload) => {
           console.log("Change received in Loan!", payload);
-          await getRecentTransaction(walletId, 5);
-          await getTotalBalance(walletId);
+          // await getRecentTransaction(walletId, 5);
+          // await getTotalBalance(walletId);
+          await getRecentTransaction(1, 5);
+          await getTotalBalance(1);
         }
       )
       .subscribe();
@@ -187,7 +201,8 @@ export default function Page() {
   }, []);
 
   useEffect(() => {
-    getPeriodExpenseSummary(periodValue, 3, walletId);
+    //getPeriodExpenseSummary(periodValue, 3, walletId);
+    getPeriodExpenseSummary(periodValue, 3, 1);
 
     const channelsExpense = supabase
       .channel("custom-all-channel")
@@ -196,7 +211,8 @@ export default function Page() {
         { event: "*", schema: "public", table: "Expense" },
         async (payload) => {
           console.log("Change received!", payload);
-          await getPeriodExpenseSummary(periodValue, 3, walletId);
+          //await getPeriodExpenseSummary(periodValue, 3, walletId);
+          await getPeriodExpenseSummary(periodValue, 3, 1);
         }
       )
       .subscribe();
