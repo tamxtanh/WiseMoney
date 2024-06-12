@@ -1,14 +1,36 @@
-//components/budget/BudgetComponentList.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import BudgetComponent from './BudgetComponent';
 import { BudgetData } from './interface';
+import { supabase } from '../../lib/supabase';
 
-const BudgetComponentList: React.FC<{ budgets: BudgetData[] }> = ({ budgets }) => {
+interface Props {
+    budgets: BudgetData[];
+    setBudgets: React.Dispatch<React.SetStateAction<BudgetData[]>>;
+}
+
+const BudgetComponentList: React.FC<Props> = ({ budgets, setBudgets }) => {
+    const [refreshKey, setRefreshKey] = useState(0); // State to force refresh the list
+
+    const onDeleteBudget = async (budgetId: number) => {
+
+        let { data, error } = await supabase
+            .rpc('delete_budget', {
+                budget_id: budgetId
+            })
+        if (error) console.error(error)
+        else {
+            const updatedBudgets = budgets.filter(budget => budget.id !== budgetId);
+            setBudgets(updatedBudgets);
+            // Force re-render the list by updating refreshKey
+            setRefreshKey(prevKey => prevKey + 1);
+        }
+    };
+
     const renderItem = ({ item }: { item: BudgetData }) => {
         return (
             <View style={styles.cardContainer}>
-                <BudgetComponent budget={item} />
+                <BudgetComponent key={item.id} budget={item} onDelete={() => onDeleteBudget(item.id)} />
             </View>
         );
     };
@@ -19,6 +41,7 @@ const BudgetComponentList: React.FC<{ budgets: BudgetData[] }> = ({ budgets }) =
             data={budgets}
             renderItem={renderItem}
             keyExtractor={(item) => item.id.toString()}
+            extraData={refreshKey} // Ensure re-render when refreshKey changes
             contentContainerStyle={styles.listContainer}
         />
     );
