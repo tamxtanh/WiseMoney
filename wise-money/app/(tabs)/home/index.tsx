@@ -18,6 +18,8 @@ import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 import { supabase } from "../../../lib/supabase";
 import MyBarChart from "../../../components/chart/MyBarChart";
 import { useKeyboard } from "../../../context/KeyboardContext";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
 
 export default function Page() {
   const [recentTransacList, setRecentTransacList] = useState([]);
@@ -134,13 +136,7 @@ export default function Page() {
     } catch (error) {}
   };
 
-  useEffect(() => {
-    // getRecentTransaction(walletId, 5);
-
-    // getTotalBalance(walletId);
-
-    // getUserName(userId);
-
+  const fetchData = useCallback(() => {
     getRecentTransaction(1, 5);
 
     getTotalBalance(1);
@@ -200,6 +196,106 @@ export default function Page() {
     };
   }, []);
 
+  useFocusEffect(
+    useCallback(() => {
+      fetchData();
+    }, [fetchData])
+  );
+
+  const fetchExpenseSummary = useCallback(() => {
+    getPeriodExpenseSummary(periodValue, 3, 1);
+
+    const channelsExpense = supabase
+      .channel("custom-all-channel")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "Expense" },
+        async (payload) => {
+          console.log("Change received!", payload);
+          //await getPeriodExpenseSummary(periodValue, 3, walletId);
+          await getPeriodExpenseSummary(periodValue, 3, 1);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      // Unsubscribe when the component unmounts
+      channelsExpense.unsubscribe();
+    };
+  }, [periodValue]);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchExpenseSummary();
+    }, [fetchExpenseSummary])
+  );
+
+  // useEffect(() => {
+  //   // getRecentTransaction(walletId, 5);
+
+  //   // getTotalBalance(walletId);
+
+  //   // getUserName(userId);
+
+  //   getRecentTransaction(1, 5);
+
+  //   getTotalBalance(1);
+
+  //   getUserName(1);
+
+  //   const channelsExpense = supabase
+  //     .channel("custom-all-channel")
+  //     .on(
+  //       "postgres_changes",
+  //       { event: "*", schema: "public", table: "Expense" },
+  //       async (payload) => {
+  //         console.log("Change received in Expense!", payload);
+  //         // await getRecentTransaction(walletId, 5);
+  //         // await getTotalBalance(walletId);
+  //         await getRecentTransaction(1, 5);
+  //         await getTotalBalance(1);
+  //       }
+  //     )
+  //     .on(
+  //       "postgres_changes",
+  //       { event: "*", schema: "public", table: "Income" },
+  //       async (payload) => {
+  //         console.log("Change received in Income!", payload);
+  //         // await getRecentTransaction(walletId, 5);
+  //         // await getTotalBalance(walletId);
+  //         await getRecentTransaction(1, 5);
+  //         await getTotalBalance(1);
+  //       }
+  //     )
+  //     .on(
+  //       "postgres_changes",
+  //       { event: "*", schema: "public", table: "Debt" },
+  //       async (payload) => {
+  //         console.log("Change received in Debt!", payload);
+  //         // await getRecentTransaction(walletId, 5);
+  //         // await getTotalBalance(walletId);
+  //         await getRecentTransaction(1, 5);
+  //         await getTotalBalance(1);
+  //       }
+  //     )
+  //     .on(
+  //       "postgres_changes",
+  //       { event: "*", schema: "public", table: "Loan" },
+  //       async (payload) => {
+  //         console.log("Change received in Loan!", payload);
+  //         // await getRecentTransaction(walletId, 5);
+  //         // await getTotalBalance(walletId);
+  //         await getRecentTransaction(1, 5);
+  //         await getTotalBalance(1);
+  //       }
+  //     )
+  //     .subscribe();
+
+  //   return () => {
+  //     channelsExpense.unsubscribe();
+  //   };
+  // }, []);
+
   useEffect(() => {
     //getPeriodExpenseSummary(periodValue, 3, walletId);
     getPeriodExpenseSummary(periodValue, 3, 1);
@@ -243,12 +339,12 @@ export default function Page() {
           ),
           headerRight: () => (
             <>
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 style={{ marginRight: 10 }}
                 onPress={() => router.push("/search/food")}
               >
                 <icons.searchIcon fill="white" />
-              </TouchableOpacity>
+              </TouchableOpacity> */}
               <TouchableOpacity onPress={() => router.push("/notification")}>
                 <icons.notification fill="white" />
               </TouchableOpacity>
