@@ -19,8 +19,8 @@ const CategoryContent = ({ content, typeApi }) => {
   ];
 
   const handleOnPress = (item) => {
-    if (content?.type === "debtLoan") return;
     if (typeApi === "account") {
+      if (content?.type === "debtLoan") return;
       router.navigate({
         pathname: `/update-category/${item.id}`,
         params: {

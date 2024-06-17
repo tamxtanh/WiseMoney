@@ -22,6 +22,8 @@ import {
 import TransactionPopup from "../../../components/modal-popUp/TransactionPopup";
 import TimRangePopup from "../../../components/modal-popUp/TimRangePopup";
 import { supabase } from "../../../lib/supabase";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
 
 const Page = () => {
   const [popupOption, setPopupOption] = useState("viewByTransac");
@@ -179,7 +181,7 @@ const Page = () => {
     setTransactionsData(updatedTabsData);
   };
 
-  useEffect(() => {
+  const fetchData = useCallback(() => {
     updateTabsWithTransactions();
 
     const channelsExpense = supabase
@@ -222,6 +224,56 @@ const Page = () => {
       channelsExpense.unsubscribe();
     };
   }, [nestedTabs, popupOption]);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchData();
+    }, [fetchData])
+  );
+
+  // useEffect(() => {
+  //   updateTabsWithTransactions();
+
+  //   const channelsExpense = supabase
+  //     .channel("custom-all-channel")
+  //     .on(
+  //       "postgres_changes",
+  //       { event: "*", schema: "public", table: "Expense" },
+  //       async (payload) => {
+  //         console.log("Change received in Expense!", payload);
+  //         await updateTabsWithTransactions();
+  //       }
+  //     )
+  //     .on(
+  //       "postgres_changes",
+  //       { event: "*", schema: "public", table: "Income" },
+  //       async (payload) => {
+  //         console.log("Change received in Income!", payload);
+  //         await updateTabsWithTransactions();
+  //       }
+  //     )
+  //     .on(
+  //       "postgres_changes",
+  //       { event: "*", schema: "public", table: "Debt" },
+  //       async (payload) => {
+  //         console.log("Change received in Debt!", payload);
+  //         await updateTabsWithTransactions();
+  //       }
+  //     )
+  //     .on(
+  //       "postgres_changes",
+  //       { event: "*", schema: "public", table: "Loan" },
+  //       async (payload) => {
+  //         console.log("Change received in Loan!", payload);
+  //         await updateTabsWithTransactions();
+  //       }
+  //     )
+  //     .subscribe();
+
+  //   return () => {
+  //     channelsExpense.unsubscribe();
+  //   };
+  // }, [nestedTabs, popupOption]);
 
   // Memoized CustomTabBar component instance
   const memoizedTabBar = useMemo(() => {
