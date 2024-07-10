@@ -132,11 +132,11 @@ const CategoryList = () => {
               </Text>
             </View>
           ),
-          headerRight: () => (
-            <TouchableOpacity onPress={() => router.push('/search/food')}>
-              <icons.searchIcon fill="black" />
-            </TouchableOpacity>
-          ),
+          // headerRight: () => (
+          //   <TouchableOpacity onPress={() => router.push('/search/food')}>
+          //     <icons.searchIcon fill="black" />
+          //   </TouchableOpacity>
+          // ),
 
           headerShadowVisible: false,
         }}
