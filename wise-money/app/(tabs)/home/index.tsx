@@ -133,7 +133,7 @@ export default function Page() {
       else {
         setUserNameText(User.username);
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const fetchData = useCallback(() => {
@@ -404,10 +404,10 @@ export default function Page() {
                 marginTop: 10,
               }}
             >
-              {dataChart?.list[1]?.value.toLocaleString("en-US", {
+              {/* {dataChart?.list[1]?.value.toLocaleString("en-US", {
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 2,
-              })}
+              })} */}
             </Text>
 
             <View
@@ -464,7 +464,7 @@ export default function Page() {
                 position: "relative",
               }}
             >
-              <HomeChart data={dataChart} />
+              {/* <HomeChart data={dataChart} /> */}
               <View
                 style={{
                   height: 1,
@@ -477,7 +477,7 @@ export default function Page() {
               ></View>
             </View>
           </View>
-          <View style={styles.topSpReport}>
+          {/* <View style={styles.topSpReport}>
             <Text
               style={{
                 fontSize: 14,
@@ -492,7 +492,7 @@ export default function Page() {
                 <TransactionWithPercentage key={index} transaction={item} />
               ))}
             </View>
-          </View>
+          </View> */}
         </View>
         <View style={styles.recentTransactions}>
           <View style={styles.titleBox}>
