@@ -85,6 +85,12 @@ export default function Page() {
       pathName: "/saving",
     },
     {
+      title: "New Calculate Interest",
+      icon: <icons.bank fill="white" />,
+      colorBox: "#FF4133",
+      pathName: "/savings",
+    },
+    {
       title: "Export Data",
       icon: <icons.exportData fill="white" />,
       colorBox: "#FFC75C",
@@ -115,22 +121,22 @@ export default function Page() {
     {
       icon: <icons.about fill="#919191" />,
       title: "About Us",
-      onPress: () => {},
+      onPress: () => { },
     },
     {
       icon: <icons.policy fill="#919191" />,
       title: "Policy",
-      onPress: () => {},
+      onPress: () => { },
     },
     {
       icon: <icons.feedBack fill="#919191" />,
       title: "Feedback",
-      onPress: () => {},
+      onPress: () => { },
     },
     {
       icon: <icons.rating fill="#919191" />,
       title: "Rate App",
-      onPress: () => {},
+      onPress: () => { },
     },
   ];
 
