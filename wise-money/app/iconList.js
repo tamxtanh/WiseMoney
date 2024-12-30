@@ -11,10 +11,11 @@ import { router } from "expo-router";
 
 import { SIZES } from "../constants";
 import darkColors from "react-native-elements/dist/config/colorsDark";
-import { supabase } from "../lib/supabase";
+import SupabaseSingleton from "../lib/supabaseSingleton";
 import { useState } from "react";
 
 const IconList = () => {
+  const supabase = SupabaseSingleton.getInstance().getClient();
   const [imageList, setImageList] = useState([]);
 
   useEffect(() => {

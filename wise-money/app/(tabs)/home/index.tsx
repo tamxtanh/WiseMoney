@@ -15,13 +15,15 @@ import { icons, COLORS, SIZES } from "../../../constants";
 import RadioTabList from "../../../components/home/radioTabList";
 import { useEffect, useState } from "react";
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
-import { supabase } from "../../../lib/supabase";
+import SupabaseSingleton from "../../../lib/supabaseSingleton";
 import MyBarChart from "../../../components/chart/MyBarChart";
 import { useKeyboard } from "../../../context/KeyboardContext";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
 
 export default function Page() {
+  const supabase = SupabaseSingleton.getInstance().getClient();
+
   const [recentTransacList, setRecentTransacList] = useState([]);
   const [periodValue, setPeriodValue] = useState("month");
   const [topSpending, setTopSpending] = useState();

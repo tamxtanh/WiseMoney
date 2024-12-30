@@ -13,9 +13,10 @@ import { router, Stack } from "expo-router";
 import { COLORS, icons } from "../../constants";
 import InputTransaction from "../../components/transaction/InputTransaction";
 import { Link } from "expo-router";
-import { supabase } from "../../lib/supabase";
+import SupabaseSingleton from "../../lib/supabaseSingleton";
 
 const NewCategory = () => {
+  const supabase = SupabaseSingleton.getInstance().getClient();
   const localParams = useLocalSearchParams();
 
   const [previousPage, setPreviousPage] = useState("");

@@ -11,7 +11,7 @@ import {
 import { COLORS, SIZES } from "../../constants";
 import InputField from "../../components/interest-components/InputField";
 import CategorySelector from "./CategorySelector";
-import { supabase } from "../../lib/supabase";
+import SupabaseSingleton from "../../lib/supabaseSingleton";
 import { Stack, router } from "expo-router";
 import DateRangePicker from "../../components/modal-calendar/DateRangePicker";
 import { icons } from "../../constants"; // Ensure you have icons imported
@@ -36,6 +36,7 @@ interface BudgetData {
 }
 
 const BudgetDetail: React.FC = () => {
+  const supabase = SupabaseSingleton.getInstance().getClient();
   const route = useRoute();
   const navigation = useNavigation();
   const { id } = route.params as { id: number };

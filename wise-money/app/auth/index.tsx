@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { View, AppState, Text } from "react-native";
-import { supabase } from "../../lib/supabase";
+import SupabaseSingleton from "../../lib/supabaseSingleton";
 import SignIn from "../../components/auth/SignIn";
 import SignUp from "../../components/auth/SignUp";
 import { Stack, useRouter, useLocalSearchParams } from "expo-router";
 import { COLORS } from "../../constants";
 
+const supabase = SupabaseSingleton.getInstance().getClient();
 // Tells Supabase Auth to continuously refresh the session automatically if
 // the app is in the foreground. When this is added, you will continue to receive
 // `onAuthStateChange` events with the `TOKEN_REFRESHED` or `SIGNED_OUT` event

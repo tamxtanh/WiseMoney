@@ -13,13 +13,14 @@ import {
 } from "react-native";
 import { icons, COLORS } from "../../constants";
 import { Stack, useRouter } from "expo-router";
-import { supabase } from "../../lib/supabase";
+import SupabaseSingleton from "../../lib/supabaseSingleton";
 import { DateTransactionWithoutImage } from "../../components/transaction/interface";
 import TransactionWithDateWithoutImage from "../../components/transaction/TransactionWithDateWithoutImage";
 
 const SearchPage = () => {
   const router = useRouter();
   const route = useRoute();
+  const supabase = SupabaseSingleton.getInstance().getClient();
   const { keyword } = route.params; //This has compile error but can run without problem
   const decodedKeyword = decodeURIComponent(keyword);
   const [searchValue, setSearchValue] = useState("");
