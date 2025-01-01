@@ -15,12 +15,13 @@ import { supabase } from "../../lib/supabase";
 const ParentCategory = () => {
   const [groupData, setGroupData] = useState([]);
 
-  const { previousPage, type } = useLocalSearchParams();
+  const { previousPage, type, categoryId } = useLocalSearchParams();
 
   useEffect(() => {
-    const getGroupTreeData = async (type, userId) => {
+    const getGroupTreeData = async (type, userId, categoryId) => {
       try {
-        let { data: tempt, error } = await supabase.rpc("get_group_data", {
+        let { data: tempt, error } = await supabase.rpc("get_parent_category", {
+          category_id: categoryId,
           group_type: type,
           user_id: userId,
         });
@@ -37,7 +38,7 @@ const ParentCategory = () => {
 
     const fetchData = async () => {
       try {
-        const data = await getGroupTreeData(type, 1);
+        const data = await getGroupTreeData(type, 1, categoryId);
 
         setGroupData(data);
       } catch (error) {

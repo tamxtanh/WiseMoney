@@ -11,6 +11,7 @@ import { COLORS, icons } from "../../constants";
 import GroupTree from "../group-tree/GroupTree";
 import { GroupTreeData } from "../group-tree/interface";
 import { Link, router } from "expo-router";
+import RenderTree from "../group-tree/RenderTree";
 
 const CategoryContent = ({ content, typeApi }) => {
   const data = [
@@ -51,6 +52,37 @@ const CategoryContent = ({ content, typeApi }) => {
         },
       });
     }
+  };
+
+  const buildCategoryTree = (categories) => {
+    const map = {};
+    const roots = [];
+
+    categories.forEach((category) => {
+      map[category.id] = { ...category, children: [] };
+    });
+
+    categories.forEach((category) => {
+      if (category.parent_category_id === null) {
+        roots.push(map[category.id]);
+      } else {
+        map[category.parent_category_id]?.children.push(map[category.id]);
+      }
+    });
+
+    return roots;
+  };
+
+  // Recursive Render Function
+  const renderTree = (nodes) => {
+    return nodes.map((node) => (
+      <View key={node.id} style={styles.node}>
+        <Text style={styles.nodeText}>{node.name}</Text>
+        {node.children.length > 0 && (
+          <View style={styles.childContainer}>{renderTree(node.children)}</View>
+        )}
+      </View>
+    ));
   };
 
   const renderItem = ({ item }) => {
@@ -101,9 +133,16 @@ const CategoryContent = ({ content, typeApi }) => {
               marginTop: content?.type === "debtLoan" ? 10 : 0,
             }}
           >
-            {content?.groupTree?.map((item, index) => (
+            {/* {content?.groupTree?.map((item, index) => (
               <GroupTree key={index} data={item} handlePress={handleOnPress} />
-            ))}
+            ))} */}
+            {/* {renderTree(buildCategoryTree(content?.groupTree))} */}
+            {
+              <RenderTree
+                data={buildCategoryTree(content?.groupTree)}
+                handlePress={handleOnPress}
+              />
+            }
           </View>
         );
       // Add more cases for other item types
@@ -162,5 +201,19 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: COLORS.primary,
     fontFamily: "InterSemiBold",
+  },
+
+  node: {
+    marginVertical: 4,
+  },
+  nodeText: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  childContainer: {
+    marginLeft: 16,
+    borderLeftWidth: 1,
+    borderLeftColor: "#ccc",
+    paddingLeft: 8,
   },
 });
