@@ -96,11 +96,17 @@ export default function Page() {
       colorBox: "#FF4133",
       pathName: "/savings",
     },
+    // {
+    //   title: "Export Data",
+    //   icon: <icons.exportData fill="white" />,
+    //   colorBox: "#FFC75C",
+    //   pathName: "/export-data",
+    // },
     {
-      title: "Export Data",
+      title: "Export",
       icon: <icons.exportData fill="white" />,
       colorBox: "#FFC75C",
-      pathName: "/export-data",
+      pathName: "/export",
     },
     {
       title: "Budget",
