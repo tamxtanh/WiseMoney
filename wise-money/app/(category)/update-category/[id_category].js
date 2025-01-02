@@ -72,7 +72,7 @@ const Page = () => {
   useEffect(() => {
     async function fetchDetailCategory(categoryId) {
       try {
-        let { data, error } = await supabase.rpc("get_category_detail", {
+        let { data, error } = await supabase.rpc("get_category_details", {
           category_id: categoryId,
         });
 
@@ -115,6 +115,31 @@ const Page = () => {
       }
     };
 
+    const updateCategoryRow2 = async (
+      id,
+      category_name,
+      category_icon,
+      category_group
+    ) => {
+      try {
+        const { data, error } = await supabase
+          .from("Category")
+          .update({
+            name: category_name,
+            icon: category_icon,
+            parent_category_id: category_group,
+          })
+          .eq("id", id)
+          .select();
+
+        if (error) throw error;
+
+        return data;
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
     const insertGroupRow = async (categoryId) => {
       try {
         const { data, error } = await supabase
@@ -133,30 +158,35 @@ const Page = () => {
     };
 
     let result;
-
-    if (parentId !== categoryDetails.group_id) {
-      if (parentId === null) {
-        result = insertGroupRow(localParams.id_category);
-        result = updateCategoryRow(
+    console.log("parentId", parentId);
+    console.log("localParams.id_category", localParams.id_category);
+    if (parentId != localParams.id_category) {
+      if (parentId !== categoryDetails.group_id) {
+        if (parentId === null) {
+          // result = insertGroupRow(localParams.id_category);
+          result = updateCategoryRow2(
+            localParams.id_category,
+            categoryName,
+            categoryImgId,
+            null
+          );
+        } else if (parentId !== null) {
+          result = updateCategoryRow2(
+            localParams.id_category,
+            categoryName,
+            categoryImgId,
+            parentId
+          );
+        }
+      } else {
+        result = updateCategoryRow2(
           localParams.id_category,
           categoryName,
-          categoryImgId,
-          null
-        );
-      } else if (parentId !== null) {
-        result = updateCategoryRow(
-          localParams.id_category,
-          categoryName,
-          categoryImgId,
-          parentId
+          categoryImgId
         );
       }
     } else {
-      result = updateCategoryRow(
-        localParams.id_category,
-        categoryName,
-        categoryImgId
-      );
+      result = false;
     }
 
     if (result) {
@@ -167,6 +197,14 @@ const Page = () => {
           onPress: () => {
             router.back();
           },
+        },
+      ]);
+    } else {
+      // Show success alert and navigate back after a short delay
+      Alert.alert(null, "Update failed!", [
+        {
+          text: "OK",
+          onPress: () => {},
         },
       ]);
     }
@@ -299,6 +337,7 @@ const Page = () => {
               params: {
                 previousPage: `/update-category/${localParams.id_category}`,
                 type: typeGroup,
+                categoryId: localParams.id_category,
               },
             }}
             style={[{ padding: 0 }, parentUrl ? styles.iconImageBox : null]}

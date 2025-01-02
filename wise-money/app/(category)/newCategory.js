@@ -110,6 +110,40 @@ const NewCategory = () => {
       }
     };
 
+    const insertCategoryRow2 = async (
+      name,
+      iconId,
+      type,
+      userId,
+      parentCategoryId,
+      walletId = 1
+    ) => {
+      try {
+        const { data, error } = await supabase
+          .from("Category")
+          .insert([
+            {
+              name: name,
+              icon: iconId,
+              wallet: walletId,
+              parent_category_id: parentCategoryId,
+              type: type,
+              user: userId,
+            },
+          ])
+          .select("id")
+          .single();
+
+        if (error) {
+          throw error;
+        }
+
+        return data.id;
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
     // const filterGroupRow = async (categoryId) => {
     //   let { data: groudId, error } = await supabase
     //     .from("Group")
@@ -121,42 +155,44 @@ const NewCategory = () => {
     //   setGroupId(groudId.id);
     // };
 
-    if (parentId) {
-      // console.log("categoryName", categoryName);
-      // console.log("categoryImgId", categoryImgId);
-      // console.log("typeGroup", typeGroup);
-      // console.log("parentId", parentId);
-      const insertDataWithGroupId = async () => {
-        let { data: groudId, error } = await supabase
-          .from("Group")
-          .select("id")
-          .eq("category", parentId)
-          .single();
+    // if (parentId) {
+    //   // console.log("categoryName", categoryName);
+    //   // console.log("categoryImgId", categoryImgId);
+    //   // console.log("typeGroup", typeGroup);
+    //   // console.log("parentId", parentId);
+    //   const insertDataWithGroupId = async () => {
+    //     let { data: groudId, error } = await supabase
+    //       .from("Group")
+    //       .select("id")
+    //       .eq("category", parentId)
+    //       .single();
 
-        insertCategoryRow(
-          categoryName,
-          categoryImgId,
-          typeGroup,
-          1,
-          groudId.id
-        );
-      };
+    //     insertCategoryRow(
+    //       categoryName,
+    //       categoryImgId,
+    //       typeGroup,
+    //       1,
+    //       groudId.id
+    //     );
+    //   };
 
-      insertDataWithGroupId();
-    } else {
-      const insertDataAndCreateNewGroup = async () => {
-        const categoryId = await insertCategoryRow(
-          categoryName,
-          categoryImgId,
-          typeGroup,
-          1
-        );
+    //   insertDataWithGroupId();
+    // } else {
+    //   const insertDataAndCreateNewGroup = async () => {
+    //     const categoryId = await insertCategoryRow(
+    //       categoryName,
+    //       categoryImgId,
+    //       typeGroup,
+    //       1
+    //     );
 
-        insertGroupRow(categoryId);
-      };
+    //     insertGroupRow(categoryId);
+    //   };
 
-      insertDataAndCreateNewGroup();
-    }
+    //   insertDataAndCreateNewGroup();
+    // }
+
+    insertCategoryRow2(categoryName, categoryImgId, typeGroup, 1, parentId);
 
     router.back();
     // router.navigate({
@@ -225,6 +261,7 @@ const NewCategory = () => {
             params: {
               previousPage: "newCategory",
               type: typeGroup,
+              categoryId: null,
             },
           }}
           style={[{ padding: 0 }, parentUrl ? styles.iconImageBox : null]}
