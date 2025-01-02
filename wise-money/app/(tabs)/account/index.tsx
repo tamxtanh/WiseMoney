@@ -52,11 +52,17 @@ export default function Page() {
       pathName: "/category-list/Categories",
       previousPage: "account",
     },
+    // {
+    //   title: "Loans",
+    //   icon: <icons.loan fill="white" />,
+    //   colorBox: "#FB6C23",
+    //   pathName: "/loan",
+    // },
     {
-      title: "Loans",
+      title: "Borrow Calculator",
       icon: <icons.loan fill="white" />,
       colorBox: "#FB6C23",
-      pathName: "/loan",
+      pathName: "/borrow",
     },
     {
       title: " Suggestions",
@@ -79,17 +85,29 @@ export default function Page() {
       pathName: "/exchange-rate",
     },
 
+    // {
+    //   title: "Calculate Interest",
+    //   icon: <icons.bank fill="white" />,
+    //   colorBox: "#FF4133",
+    //   pathName: "/saving",
+    // },
     {
-      title: "Calculate Interest",
+      title: "Savings Calculator",
       icon: <icons.bank fill="white" />,
       colorBox: "#FF4133",
-      pathName: "/saving",
+      pathName: "/savings",
     },
+    // {
+    //   title: "Export Data",
+    //   icon: <icons.exportData fill="white" />,
+    //   colorBox: "#FFC75C",
+    //   pathName: "/export-data",
+    // },
     {
-      title: "Export Data",
+      title: "Export",
       icon: <icons.exportData fill="white" />,
       colorBox: "#FFC75C",
-      pathName: "/export-data",
+      pathName: "/export",
     },
     {
       title: "Budget",
