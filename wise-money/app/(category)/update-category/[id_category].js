@@ -13,10 +13,11 @@ import { useLocalSearchParams } from "expo-router";
 import { router, Stack } from "expo-router";
 import InputTransaction from "../../../components/transaction/InputTransaction";
 import { Link } from "expo-router";
-import { supabase } from "../../../lib/supabase";
+import SupabaseSingleton from "../../../lib/supabaseSingleton";
 import { COLORS, icons } from "../../../constants";
 
 const Page = () => {
+  const supabase = SupabaseSingleton.getInstance().getClient();
   const localParams = useLocalSearchParams();
 
   const [previousPage, setPreviousPage] = useState("");

@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { Button } from "react-native-elements";
-import { supabase } from "../../../lib/supabase";
+import SupabaseSingleton from "../../../lib/supabaseSingleton";
 import UpdateProfile from "../../../components/profile/UpdateProfile";
 import { COLORS, icons, SIZES } from "../../../constants";
 import UtilityItemList from "../../../components/utility/utilityItemList";
@@ -19,6 +19,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./styles";
 
 export default function Page() {
+  const supabase = SupabaseSingleton.getInstance().getClient();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
 

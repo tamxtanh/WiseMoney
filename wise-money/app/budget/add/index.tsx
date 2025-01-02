@@ -11,7 +11,7 @@ import {
 import InputField from "../../../components/interest-components/InputField";
 import CategorySelector from "../CategorySelector";
 import DateRangePicker from "../../../components/modal-calendar/DateRangePicker";
-import { supabase } from "../../../lib/supabase";
+import SupabaseSingleton from "../../../lib/supabaseSingleton";
 import { COLORS, SIZES, icons } from "../../../constants";
 import { Stack, router } from "expo-router";
 import DatePickerField from "../../../components/interest-components/DatePickerField";
@@ -24,6 +24,7 @@ interface Category {
 }
 
 const AddBudget: React.FC = () => {
+  const supabase = SupabaseSingleton.getInstance().getClient();
   const [categories, setCategories] = useState<Category[]>([]);
   const [showStartDatePicker, setShowStartDatePicker] = useState(false);
   const [showEndDatePicker, setShowEndDatePicker] = useState(false);
