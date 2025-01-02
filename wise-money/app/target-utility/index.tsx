@@ -13,11 +13,12 @@ import {
 import { useLocalSearchParams } from "expo-router";
 import { router, Stack } from "expo-router";
 import { COLORS, icons } from "../../constants";
-import { supabase } from "../../lib/supabase";
+import SupabaseSingleton from "../../lib/supabaseSingleton";
 import TargetItem from "../../components/target/TargetItem";
 import { useKeyboard } from "../../context/KeyboardContext";
 
 const Page = () => {
+  const supabase = SupabaseSingleton.getInstance().getClient();
   const { setInputValue } = useKeyboard();
   const [targetList, setTargetList] = useState(null);
   const getTargetList = async (walletId) => {

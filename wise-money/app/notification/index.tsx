@@ -4,9 +4,10 @@ import { Stack } from "expo-router";
 import NotificationComponentList from "../../components/notification/NotificationComponentList";
 import { COLORS } from "../../constants";
 import { Notification } from "../../components/notification/interface";
-import { supabase } from "../../lib/supabase";
+import SupabaseSingleton from "../../lib/supabaseSingleton";
 
 const NotificationsScreen: React.FC = () => {
+  const supabase = SupabaseSingleton.getInstance().getClient();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [userId, setUserId] = useState<number | null>(null);

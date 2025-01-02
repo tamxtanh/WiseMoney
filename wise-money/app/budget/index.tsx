@@ -5,9 +5,10 @@ import { COLORS, icons } from "../../constants";
 import BudgetComponentList from "../../components/budget/BudgetComponentList";
 import { BudgetData } from "../../components/budget/interface";
 import { styles } from "./styles";
-import { supabase } from "../../lib/supabase";
+import SupabaseSingleton from "../../lib/supabaseSingleton";
 
 const Budget = () => {
+  const supabase = SupabaseSingleton.getInstance().getClient();
   const [budgets, setBudgets] = useState<BudgetData[]>([]);
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState(0);

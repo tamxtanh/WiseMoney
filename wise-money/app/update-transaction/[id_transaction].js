@@ -26,10 +26,11 @@ import {
 import DateTimePickerCustom from "../../components/modal-calendar/DateTimePickerCustom";
 import { useKeyboard } from "../../context/KeyboardContext";
 import ListSmallContact from "../../components/contact/ListSmallContact";
-import { supabase } from "../../lib/supabase";
+import SupabaseSingleton from "../../lib/supabaseSingleton";
 import { CheckBox } from "react-native-elements";
 
 export default function Page() {
+  const supabase = SupabaseSingleton.getInstance().getClient();
   const [selectedImage, setSelectedImage] = useState(null);
   const [noteContent, setNoteContent] = useState("");
   const [contactContent, setContactContent] = useState("");

@@ -10,7 +10,7 @@ import {
 import { styles } from "./styles";
 import { Stack } from "expo-router";
 import { COLORS, FONT, icons } from "../../constants";
-import { supabase } from "../../lib/supabase";
+import SupabaseSingleton from "../../lib/supabaseSingleton";
 import ModalCalendar from "../../components/modal-calendar/ModalCalendar";
 import DateRangePicker from "../../components/modal-calendar/DateRangePicker";
 import * as XLSX from "xlsx";
@@ -26,6 +26,7 @@ interface Category {
 }
 
 const ExportData: React.FC = () => {
+  const supabase = SupabaseSingleton.getInstance().getClient();
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
   const [startDate, setStartDate] = useState<Date>(new Date());

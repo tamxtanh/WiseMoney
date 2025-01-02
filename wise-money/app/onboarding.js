@@ -10,7 +10,7 @@ import {
 import AppIntroSlider from "react-native-app-intro-slider";
 import { COLORS, SIZES } from "../constants/theme";
 import { router } from "expo-router";
-import { supabase } from "../lib/supabase";
+import SupabaseSingleton from "../lib/supabaseSingleton";
 import { useKeyboard } from "../context/KeyboardContext";
 
 // AppState.addEventListener("change", (state) => {
@@ -44,6 +44,7 @@ const slides = [
 ];
 
 const Onboarding = () => {
+  const supabase = SupabaseSingleton.getInstance().getClient();
   const buttonLabel = (label) => {
     return (
       <View

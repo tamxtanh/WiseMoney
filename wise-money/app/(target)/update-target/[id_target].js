@@ -19,10 +19,11 @@ import { icons, COLORS, SIZES } from "../../../constants";
 import InputTransaction from "../../../components/transaction/InputTransaction";
 import { useState, useEffect, useRef } from "react";
 import { useKeyboard } from "../../../context/KeyboardContext";
-import { supabase } from "../../../lib/supabase";
+import SupabaseSingleton from "../../../lib/supabaseSingleton";
 import DateRangePicker from "../../../components/modal-calendar/DateRangePicker";
 
 export default function Page() {
+  const supabase = SupabaseSingleton.getInstance().getClient();
   const [category, setCategory] = useState();
   const [targetName, setTargetName] = useState();
 

@@ -15,9 +15,10 @@ import CurrencyPicker from "../CurrencyPicker";
 import { useLocalSearchParams, Stack } from "expo-router";
 import { useState, useEffect } from "react";
 import { useHeaderHeight } from "@react-navigation/elements";
-import { supabase } from "../../../lib/supabase";
+import SupabaseSingleton from "../../../lib/supabaseSingleton";
 
 const Page = () => {
+  const supabase = SupabaseSingleton.getInstance().getClient();
   const localParams = useLocalSearchParams();
   const [iconId, setIconId] = useState();
   const [imageSource, setImageSource] = useState(

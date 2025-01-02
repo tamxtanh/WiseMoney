@@ -14,9 +14,10 @@ import { COLORS, icons } from "../../constants";
 import * as Contacts from "expo-contacts";
 import CustomTabBar from "../../components/tab-custom/CustomTabBar";
 import CategoryContent from "../../components/tab-custom/CategoryContent";
-import { supabase } from "../../lib/supabase";
+import SupabaseSingleton from "../../lib/supabaseSingleton";
 
 const CategoryList = () => {
+  const supabase = SupabaseSingleton.getInstance().getClient();
   const { previousPage, type_page } = useLocalSearchParams();
 
   const [expenseData, setExpenseData] = useState({

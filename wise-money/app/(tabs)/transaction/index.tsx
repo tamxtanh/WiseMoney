@@ -21,11 +21,12 @@ import {
 } from "../../../components/transaction-function/generateListTab";
 import TransactionPopup from "../../../components/modal-popUp/TransactionPopup";
 import TimRangePopup from "../../../components/modal-popUp/TimRangePopup";
-import { supabase } from "../../../lib/supabase";
+import SupabaseSingleton from "../../../lib/supabaseSingleton";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
 
 const Page = () => {
+  const supabase = SupabaseSingleton.getInstance().getClient();
   const [popupOption, setPopupOption] = useState("viewByTransac");
   const [rangeOption, setRangeOption] = useState("month");
   const [customStartDate, setCustomStartDate] = useState(new Date());

@@ -10,9 +10,10 @@ import {
 import { COLORS, icons } from "../../constants";
 import GroupTree from "../../components/group-tree/GroupTree";
 import { Stack, useLocalSearchParams, router } from "expo-router";
-import { supabase } from "../../lib/supabase";
+import SupabaseSingleton from "../../lib/supabaseSingleton";
 
 const ParentCategory = () => {
+  const supabase = SupabaseSingleton.getInstance().getClient();
   const [groupData, setGroupData] = useState([]);
 
   const { previousPage, type } = useLocalSearchParams();
