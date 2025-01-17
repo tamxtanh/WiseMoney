@@ -102,6 +102,12 @@ export default function Page() {
       colorBox: "#4DB6AC",
       pathName: "/target-utility",
     },
+    {
+      title: "Import Files",
+      icon: <icons.importFiles />,
+      colorBox: "#7E9ABF",
+      pathName: "/import-files",
+    },
   ];
 
   const functionList = [
