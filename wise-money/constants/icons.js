@@ -819,6 +819,20 @@ const bin = ({ fill = "white" }) => {
   return <SvgXml xml={svgXml} />;
 };
 
+const importFiles = ({ fill = "white" }) => {
+  const svgXml = `
+  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M14.6665 2H6.6665C6.13607 2 5.62736 2.21071 5.25229 2.58579C4.87722 2.96086 4.6665 3.46957 4.6665 4V20C4.6665 20.5304 4.87722 21.0391 5.25229 21.4142C5.62736 21.7893 6.13607 22 6.6665 22H18.6665C19.1969 22 19.7056 21.7893 20.0807 21.4142C20.4558 21.0391 20.6665 20.5304 20.6665 20V8L14.6665 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M14.6665 2V8H20.6665" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M16.6665 13H8.6665" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M16.6665 17H8.6665" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M10.6665 9H9.6665H8.6665" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+    `;
+
+  return <SvgXml xml={svgXml} />;
+};
+
 export default {
   heart,
   menu,
@@ -883,6 +897,7 @@ export default {
   target,
   loan,
   bin,
+  importFiles,
 };
 export const currencyFlags = {
   USD: "🇺🇸",
