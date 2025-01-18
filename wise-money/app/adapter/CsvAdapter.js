@@ -6,8 +6,15 @@ export default class CsvAdapter extends FileAdapter {
         const fileContent = await FileSystem.readAsStringAsync(fileUri);
         const rows = fileContent.split("\n");
         const transactions = rows.map((row) => {
-            const [category, name, amount, note, type] = row.split(",");
-            return { category: parseInt(category.trim()), name: name ? name.trim() : null, amount: parseInt(amount.trim()), note: note ? note.trim() : null, type: type ? parseInt(type.trim()) : null };
+            const [category, name, amount, note, type, date] = row.split(",");
+            return {
+                category: parseInt(category.trim()),
+                name: name ? name.trim() : null,
+                amount: parseInt(amount.trim()),
+                note: note ? note.trim() : null,
+                type: type ? parseInt(type.trim()) : null,
+                date: date.trim()
+            };
         });
         return transactions;
     }

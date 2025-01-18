@@ -14,7 +14,8 @@ export default class XlsAdapter extends FileAdapter {
             name: row.name ? row.name : null,
             amount: parseInt(row.amount),
             note: row.note ? row.note : null,
-            type: row.type ? parseInt(row.type) : null
+            type: row.type ? parseInt(row.type) : null,
+            date: row.date
         }));
         return transactions;
     }

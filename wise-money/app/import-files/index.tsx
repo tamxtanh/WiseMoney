@@ -26,6 +26,7 @@ const Page = () => {
   const [transactionList, setTransactionList] = useState([])
   const [file, setFile] = useState(undefined)
 
+
   const chooseFile = async () => {
     try {
       const result = await DocumentPicker.getDocumentAsync({
@@ -85,7 +86,8 @@ const Page = () => {
               wallet: 1,
               amount: formData.amount,
               note: formData.note,
-              name: formData.name
+              name: formData.name,
+              date: formData.date
             },
           ])
           .select("id")
@@ -106,6 +108,16 @@ const Page = () => {
           id = await insertExpenseRow(transaction);
           // insertContact(id, "expense", contactContent);
         });
+
+        Alert.alert(null, "Transaction recorded", [
+          {
+            text: "OK",
+            onPress: () => {
+              // Perform any additional actions, e.g., navigating to another screen
+              console.log("Transaction successfully recorded");
+            },
+          },
+        ]);
 
       } catch (error) {
         console.error("Error recording transaction: ", error.message);
